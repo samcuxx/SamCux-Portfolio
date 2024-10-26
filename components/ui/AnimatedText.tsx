@@ -6,10 +6,19 @@ import "./RubberBand.css";
 interface AnimatedTextProps {
   text: string;
   className?: string;
+  initialClass?: string;
+  animationDelay?: number;
+  color?: string;
 }
 
-const AnimatedText: React.FC<AnimatedTextProps> = ({ text, className }) => {
-  const [letterClass, setLetterClass] = useState("text-animate-fast");
+const AnimatedText: React.FC<AnimatedTextProps> = ({
+  text,
+  className,
+  initialClass,
+}) => {
+  const [letterClass, setLetterClass] = useState(
+    initialClass || "text-animate-fast"
+  );
   const strArray = text.split("");
 
   useEffect(() => {

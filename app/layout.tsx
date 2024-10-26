@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { ThemeProvider } from "next-themes";
 import { Nova_Mono } from "next/font/google";
+import CursorEffect from "@/components/ui/CursorEffect";
 
 const nova = Nova_Mono({
   subsets: ["latin"],
@@ -26,6 +27,7 @@ export default function RootLayout({
       >
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           {children}
+          <CursorEffect />
         </ThemeProvider>
       </body>
     </html>

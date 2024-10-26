@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import React, { useState, useRef, useEffect } from "react";
 
 interface MagneticLinkProps {
@@ -28,10 +29,10 @@ const MagneticLink: React.FC<MagneticLinkProps> = ({
       const deltaY = mouseY - centerY;
 
       const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
-      const maxDistance = Math.max(width, height); // Increased from maxDistance / 2
+      const maxDistance = Math.max(width, height);
 
       if (distance < maxDistance) {
-        const factor = 0.5; // Increased from 0.2 to make the effect stronger
+        const factor = 0.3;
         setPosition({
           x: deltaX * factor,
           y: deltaY * factor,
@@ -54,7 +55,7 @@ const MagneticLink: React.FC<MagneticLinkProps> = ({
   }, []);
 
   return (
-    <a
+    <Link
       ref={ref}
       href={href}
       target="_blank"
@@ -66,7 +67,7 @@ const MagneticLink: React.FC<MagneticLinkProps> = ({
       onMouseLeave={handleMouseLeave}
     >
       {children}
-    </a>
+    </Link>
   );
 };
 

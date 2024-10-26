@@ -76,10 +76,10 @@ body {
     @apply bg-background text-foreground;
   }
 }
-
 .cover-home1::after {
   max-width: 70vw;
-  height: 800px;
+  max-height: 100vh;
+  height: 100vh;
   width: 500px;
   content: "";
   z-index: -1;
@@ -91,7 +91,8 @@ body {
 
 .home1::before {
   max-width: 70vw;
-  height: 100%;
+  max-height: 100vh;
+  height: 100vh;
   width: 500px;
   content: "";
   z-index: -1;
@@ -99,7 +100,7 @@ body {
   background-size: contain;
   position: absolute;
   right: 0px;
-  top: auto;
+  top: 0;
 }
 
 @keyframes wave {
@@ -132,4 +133,42 @@ body {
 .wave-emoji {
   animation: wave 2.5s infinite;
   transform-origin: 70% 70%;
+}
+
+.cursor-dot,
+.cursor-border {
+  pointer-events: none;
+  position: fixed;
+  border-radius: 50%;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+  transition: width 0.2s, height 0.2s;
+}
+
+.cursor-dot {
+  width: 8px;
+  height: 8px;
+  background-color: #ffe400;
+}
+
+.cursor-border {
+  width: 40px;
+  height: 40px;
+  border: 2px solid rgba(255, 228, 0, 0.5);
+  transition: all 0.08s ease-out;
+}
+
+.cursor-border.active {
+  width: 60px;
+  height: 60px;
+  background-color: rgba(255, 228, 0, 0.1);
+}
+
+body {
+  cursor: none;
+}
+
+a,
+button {
+  cursor: none;
 }

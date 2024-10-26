@@ -9,7 +9,6 @@
   min-width: 10px;
   display: inline-block;
   animation-fill-mode: both;
-  cursor: pointer;
   transition: all 0.3s ease-in-out;
   animation-name: squeeze;
   animation-duration: 1.2s;
