@@ -1,0 +1,73 @@
+.text-animate-fast {
+  display: inline-block;
+  opacity: 0;
+  animation: bounceIn 0.7s cubic-bezier(0.68, -0.55, 0.27, 1.55) forwards;
+  min-width: 10px;
+}
+
+.text-animate-fast-hover {
+  min-width: 10px;
+  display: inline-block;
+  animation-fill-mode: both;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  animation-name: squeeze;
+  animation-duration: 1.2s;
+  animation-direction: alternate;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: 1;
+}
+
+.text-animate-fast-hover:hover {
+  color: #ffe400;
+  text-shadow: 2px 2px #0bd1d1;
+  animation: rubberBand 1.2s ease-in-out;
+}
+
+@keyframes squeeze {
+  0% {
+    transform: scale3d(1, 1, 1);
+  }
+  30% {
+    transform: scale3d(1.25, 0.75, 1);
+  }
+  40% {
+    transform: scale3d(0.75, 1.25, 1);
+  }
+  50% {
+    transform: scale3d(1.15, 0.85, 1);
+  }
+  65% {
+    transform: scale3d(0.95, 1.05, 1);
+  }
+  75% {
+    transform: scale3d(1.05, 0.95, 1);
+  }
+  100% {
+    transform: scale3d(1, 1, 1);
+  }
+}
+
+@keyframes rubberBand {
+  0% {
+    transform: scale3d(1, 1, 1);
+  }
+  30% {
+    transform: scale3d(1.25, 0.75, 1);
+  }
+  40% {
+    transform: scale3d(0.75, 1.25, 1);
+  }
+  50% {
+    transform: scale3d(1.15, 0.85, 1);
+  }
+  65% {
+    transform: scale3d(0.95, 1.05, 1);
+  }
+  75% {
+    transform: scale3d(1.05, 0.95, 1);
+  }
+  100% {
+    transform: scale3d(1, 1, 1);
+  }
+}
