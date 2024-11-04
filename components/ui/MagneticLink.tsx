@@ -5,12 +5,14 @@ import React, { useState, useRef, useEffect } from "react";
 
 interface MagneticLinkProps {
   href: string;
+  target?: string;
   children: React.ReactNode;
   className?: string;
 }
 
 const MagneticLink: React.FC<MagneticLinkProps> = ({
   href,
+  target,
   children,
   className,
 }) => {
@@ -58,7 +60,7 @@ const MagneticLink: React.FC<MagneticLinkProps> = ({
     <Link
       ref={ref}
       href={href}
-      target="_blank"
+      target={target}
       rel="noopener noreferrer"
       className={`inline-block transition-transform duration-200 ease-out ${className}`}
       style={{

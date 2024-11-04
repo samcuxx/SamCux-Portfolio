@@ -21,7 +21,7 @@ export function Navbar() {
         </div>
         <nav className="hidden md:flex space-x-10">
           <MagneticLink
-            href="#about"
+            href="about"
             className="text-gray-600 dark:text-[#66768f] hover:text-gray-800 dark:hover:text-[#ffe400] transition-colors"
           >
             About
