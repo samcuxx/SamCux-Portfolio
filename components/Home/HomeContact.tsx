@@ -1,5 +1,5 @@
 import React from "react";
-import { ArrowRight, Mail } from "lucide-react";
+import { ArrowRight, Mail} from "lucide-react";
 import MagneticLink from "../ui/MagneticLink";
 import AnimatedText from "../ui/AnimatedText";
 import { DynaPuff } from "next/font/google";
@@ -7,6 +7,7 @@ import { DynaPuff } from "next/font/google";
 const dynaPuff = DynaPuff({ subsets: ["latin"] });
 
 export function HomeContact() {
+
 
   return (
     <div className="max-w-6xl mx-auto px-6 py-24">
@@ -17,7 +18,7 @@ export function HomeContact() {
           initialClass="text-animate-fast"
         />
         <p className="text-gray-600 dark:text-[#66768f] leading-relaxed max-w-2xl mx-auto text-lg">
-          Have a project in mind or want to collaborate? I&apos;d love to hear from you.
+          Have a project in mind or want to collaborate? I'd love to hear from you.
         </p>
       </div>
 

@@ -1,104 +1,107 @@
 "use client";
 import Link from "next/link";
 import Image from "next/image";
-import { useState } from "react";
-import { RxHamburgerMenu } from "react-icons/rx";
-import {
-  HiBeaker,
-  HiBookmarkAlt,
-  HiCamera,
-  HiOutlineX,
-  HiUser,
-} from "react-icons/hi";
+import { useState, useEffect } from "react";
 import Logo from "@/public/logo.png";
 
 export default function MobileMenu() {
-  const [navShow, setNavShow] = useState(false);
-  const data = [
+  const [isOpen, setIsOpen] = useState(false);
+
+  const menuItems = [
     {
       title: "About",
       href: "/about",
-      icon: HiUser,
     },
     {
       title: "Projects",
       href: "/projects",
-      icon: HiBeaker,
     },
     {
       title: "Contact",
       href: "/contact",
-      icon: HiBookmarkAlt,
     },
-    // {
-    //   title: "Blog",
-    //   href: "/blog",
-    //   icon: HiBookmarkAlt,
-    // },
     {
       title: "Photos",
       href: "/photos",
-      icon: HiCamera,
     },
   ];
 
-  const onToggleNav = () => {
-    setNavShow((status) => {
-      if (status) {
-        document.body.style.overflow = "auto";
-      } else {
-        document.body.style.overflow = "hidden";
-      }
-      return !status;
-    });
-  };
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "auto";
+    }
+  }, [isOpen]);
 
   return (
     <>
       <button
         aria-label="Toggle Menu"
-        onClick={onToggleNav}
-        className="md:hidden dark:bg-primary-bg bg-secondary-bg border dark:border-sa-dark-foregroung border-zinc-200 rounded-md p-2"
+        onClick={() => setIsOpen(!isOpen)}
+        className="md:hidden relative z-50 w-8 h-8 flex flex-col justify-center items-center gap-1.5"
       >
-        <RxHamburgerMenu className="text-xl" />
+        <span
+          className={`w-6 h-0.5 bg-current transition-all duration-300 ${
+            isOpen ? "rotate-45 translate-y-2" : ""
+          }`}
+        />
+        <span
+          className={`w-6 h-0.5 bg-current transition-all duration-300 ${
+            isOpen ? "opacity-0" : ""
+          }`}
+        />
+        <span
+          className={`w-6 h-0.5 bg-current transition-all duration-300 ${
+            isOpen ? "-rotate-45 -translate-y-2" : ""
+          }`}
+        />
       </button>
+
       <div
-        className={`md:hidden fixed left-0 top-0 z-10 h-full w-full transform duration-[600ms] ease-[cubic-bezier(0.7,0,0,1)] dark:bg-sa-dark-bg bg-sa-light-bg2 ${
-          navShow ? "translate-x-0 rounded-none" : "translate-x-full"
+        className={`fixed inset-0 bg-white dark:bg-[#0B1121] md:hidden transition-transform duration-500 ease-in-out z-40 ${
+          isOpen ? "translate-x-0" : "translate-x-full"
         }`}
       >
-        <div className="flex items-center justify-between mt-6 px-8">
-          <Link href="/" onClick={onToggleNav}>
-            <Image src={Logo} width={35} height={35} alt="logo" />
-          </Link>
-
-          <button
-            aria-label="Toggle Menu"
-            onClick={onToggleNav}
-            className={`md:hidden dark:bg-primary-bg bg-secondary-bg border dark:border-zinc-800 border-zinc-200 rounded-full p-2 duration-500 ${
-              !navShow ? "-rotate-[360deg]" : null
-            }`}
-          >
-            <HiOutlineX className="text-xl" />
-          </button>
-        </div>
-        <nav className="flex flex-col mt-6">
-          {data.map((link) => (
-            <Link
-              key={link.title}
-              href={link.href}
-              className="flex items-center gap-x-2 font-incognito font-semibold text-lg dark:shadow-line-dark shadow-line-light p-6 group"
-              onClick={onToggleNav}
-            >
-              <link.icon
-                className="text-zinc-500 group-hover:dark:text-white group-hover:text-zinc-800 duration-300"
-                aria-hidden="true"
-              />
-              {link.title}
+        <div className="h-full flex flex-col">
+          <div className="flex items-center justify-between p-6 border-b dark:border-gray-800">
+            <Link href="/" onClick={() => setIsOpen(false)} className="z-50">
+              <Image src={Logo} width={35} height={35} alt="logo" priority />
             </Link>
-          ))}
-        </nav>
+          </div>
+
+          <nav className="flex-1 overflow-y-auto py-8 z-50">
+            <div className="px-6 space-y-2">
+              {menuItems.map((item) => (
+                <Link
+                  key={item.title}
+                  href={item.href}
+                  onClick={() => setIsOpen(false)}
+                  className="block py-4 px-4 text-lg font-medium rounded-lg transition-colors
+                    hover:bg-gray-100 dark:hover:bg-gray-800/50
+                    text-gray-800 dark:text-gray-200 z-50"
+                >
+                  {item.title}
+                </Link>
+              ))}
+            </div>
+          </nav>
+
+          <div className="p-6 border-t dark:border-gray-800 z-50">
+            <p className="text-sm text-gray-500 dark:text-gray-400 text-center">
+              © {new Date().getFullYear()} SamCux
+            </p>
+          </div>
+        </div>
       </div>
+
+      {/* Backdrop overlay */}
+      {isOpen && (
+        <div
+          className="fixed inset-0 bg-black/20 backdrop-blur-sm z-30 md:hidden"
+          onClick={() => setIsOpen(false)}
+        />
+      )}
     </>
   );
 }
