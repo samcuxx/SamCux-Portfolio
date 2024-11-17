@@ -1,9 +1,15 @@
-import React from "react";
-import Hero from "@/components/shared/Hero";
-export default function page() {
+import { SocialLinks } from "@/components/global/SocialLinks";
+import { HeroContent } from "@/components/Home/HeroContent";
+import { ScrollMessage } from "@/components/global/ScrollMessage";
+import BgGlow from "@/components/ui/BgGlow";
+
+export default function Home() {
   return (
-    <div>
-      <Hero />
+    <div className="flex flex-col items-center justify-center h-screen w-full  font-inter relative">
+      <BgGlow />
+      <HeroContent />
+      <SocialLinks />
+      <ScrollMessage />
     </div>
   );
 }

@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import "./RubberBand.css";
+import "@/styles/AnimatedText.css";
 
 interface AnimatedTextProps {
   text: string;
