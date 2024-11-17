@@ -18,7 +18,7 @@ export function HomeContact() {
           initialClass="text-animate-fast"
         />
         <p className="text-gray-600 dark:text-[#66768f] leading-relaxed max-w-2xl mx-auto text-lg">
-          Have a project in mind or want to collaborate? I'd love to hear from you.
+          Have a project in mind or want to collaborate? I&apos;d love to hear from you.
         </p>
       </div>
 

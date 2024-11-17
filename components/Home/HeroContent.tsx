@@ -32,7 +32,7 @@ export function HeroContent() {
 
         <p className="max-w-2xl mx-auto text-xl text-gray-600 dark:text-[#66768f] leading-relaxed animate-fadeIn">
           Crafting exceptional digital experiences through innovative code and
-          creative design. Let's build something amazing together.
+          creative design. Let&apos;s build something amazing together.
         </p>
 
         <div className="pt-12 animate-bounce">
