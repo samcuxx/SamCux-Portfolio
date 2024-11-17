@@ -8,7 +8,7 @@ import { ProjectsFilterProvider } from "@/contexts/ProjectsFilterContext";
 
 export function ProjectsContent() {
   return (
-    <div className="max-w-4xl mx-auto px-6 mb-20">
+    <div className="max-w-6xl mx-auto px-6 mb-20">
       <ProjectsHeader />
       <div className="space-y-16">
         <ProjectsIntro />

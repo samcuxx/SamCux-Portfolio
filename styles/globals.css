@@ -71,3 +71,59 @@ a,
 button {
   cursor: none;
 }
+
+
+@media (max-width: 767px) {
+  body {
+    cursor: auto;
+  }
+
+  a,
+  button {
+    cursor: pointer;
+  }
+}
+
+/* Custom scrollbar styles */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(15, 23, 42, 0.1); /* sa-dark-bg with opacity */
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 215, 0, 0.5); /* sa-dark-primary with opacity */
+  border-radius: 10px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(14, 165, 234, 0.7); /* sa-blue with opacity */
+  background-clip: content-box;
+}
+
+/* Firefox scrollbar styles */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 215, 0, 0.5) rgba(15, 23, 42, 0.1); /* sa-dark-primary and sa-dark-bg with opacity */
+}
+
+/* Light mode scrollbar */
+@media (prefers-color-scheme: light) {
+  ::-webkit-scrollbar-track {
+    background: rgba(248, 248, 248, 0.1); /* sa-light-bg with opacity */
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background: rgba(255, 215, 0, 0.5); /* sa-light-primary with opacity */
+  }
+  
+  * {
+    scrollbar-color: rgba(255, 215, 0, 0.5) rgba(248, 248, 248, 0.1); /* sa-light-primary and sa-light-bg with opacity */
+  }
+}
+

@@ -14,7 +14,7 @@ export function ProjectsIntro() {
 
       <div className="flex justify-center gap-4 pt-4">
         <MagneticLink
-          href="https://github.com/yourusername"
+          href="https://github.com/samcuxx"
           className="inline-flex items-center gap-2 px-6 py-3 bg-[#ffe400] dark:bg-[#ffe400] 
             text-[#101010] rounded-full font-semibold hover:scale-105 transition-transform"
         >

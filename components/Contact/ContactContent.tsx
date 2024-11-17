@@ -5,7 +5,7 @@ import { ContactInfo } from "./ContactInfo";
 
 export function ContactContent() {
   return (
-    <div className="max-w-4xl mx-auto px-6 mb-20">
+    <div className="max-w-6xl mx-auto px-6 mb-20">
       <ContactHeader />
       <div className="grid md:grid-cols-2 gap-12 items-start">
         <div className="space-y-8 animate-slideInLeft">

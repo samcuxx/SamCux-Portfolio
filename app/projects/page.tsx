@@ -1,6 +1,5 @@
 import { ProjectsContent } from "@/components/Projects/ProjectsContent";
 import BgGlow from "@/components/ui/BgGlow";
-import { SocialLinks } from "@/components/global/SocialLinks";
 import { ScrollProgress } from "@/components/ui/ScrollProgress";
 
 export default function Projects() {
@@ -9,7 +8,6 @@ export default function Projects() {
       <ScrollProgress />
       <BgGlow />
       <ProjectsContent />
-      <SocialLinks />
     </div>
   );
 }

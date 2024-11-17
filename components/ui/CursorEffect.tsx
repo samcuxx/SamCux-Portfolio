@@ -1,12 +1,31 @@
 "use client";
 
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 const CursorEffect: React.FC = () => {
   const cursorDotRef = useRef<HTMLDivElement>(null);
   const cursorBorderRef = useRef<HTMLDivElement>(null);
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
+    // Check if window is defined (client-side)
+    if (typeof window !== 'undefined') {
+      // Initial check
+      setIsMobile(window.innerWidth < 768);
+
+      // Add resize listener
+      const handleResize = () => {
+        setIsMobile(window.innerWidth < 768);
+      };
+
+      window.addEventListener('resize', handleResize);
+      return () => window.removeEventListener('resize', handleResize);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (isMobile) return; // Don't add event listeners if on mobile
+
     const onMouseMove = (e: MouseEvent) => {
       requestAnimationFrame(() => {
         const { clientX, clientY } = e;
@@ -42,7 +61,9 @@ const CursorEffect: React.FC = () => {
         el.removeEventListener("mouseleave", onMouseLeave);
       });
     };
-  }, []);
+  }, [isMobile]); // Add isMobile to dependency array
+
+  if (isMobile) return null; // Don't render cursor elements on mobile
 
   return (
     <>

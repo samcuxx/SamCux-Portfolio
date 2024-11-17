@@ -1,6 +1,5 @@
 import { AboutContent } from "@/components/About/AboutContent";
 import BgGlow from "@/components/ui/BgGlow";
-import { SocialLinks } from "@/components/global/SocialLinks";
 import { ScrollProgress } from "@/components/ui/ScrollProgress";
 
 export default function About() {
@@ -9,7 +8,6 @@ export default function About() {
       <ScrollProgress />
       <BgGlow />
       <AboutContent />
-      <SocialLinks />
     </div>
   );
 }

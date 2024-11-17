@@ -48,20 +48,20 @@ export default {
           '0%': { transform: 'translateY(20px)', opacity: '0' },
           '100%': { transform: 'translateY(0)', opacity: '1' },
         },
-        blob: {
-          '0%': {
-            transform: 'translate(0px, 0px) scale(1)',
-          },
-          '33%': {
-            transform: 'translate(30px, -50px) scale(1.1)',
-          },
-          '66%': {
-            transform: 'translate(-20px, 20px) scale(0.9)',
-          },
-          '100%': {
-            transform: 'translate(0px, 0px) scale(1)',
-          },
+        wave: {
+          '0%': { transform: 'rotate(0.0deg)' },
+          '10%': { transform: 'rotate(14deg)' },
+          '20%': { transform: 'rotate(-8deg)' },
+          '30%': { transform: 'rotate(14deg)' },
+          '40%': { transform: 'rotate(-4deg)' },
+          '50%': { transform: 'rotate(10.0deg)' },
+          '60%': { transform: 'rotate(0.0deg)' },
+          '100%': { transform: 'rotate(0.0deg)' },
         },
+        float: {
+          '0%, 100%': { transform: 'translateY(0)' },
+          '50%': { transform: 'translateY(-20px)' },
+        }
       },
       animation: {
         fadeIn: 'fadeIn 0.5s ease-out',
@@ -69,6 +69,8 @@ export default {
         slideInRight: 'slideInRight 0.5s ease-out',
         slideInUp: 'slideInUp 0.5s ease-out',
         blob: 'blob 7s infinite',
+        wave: 'wave 2.5s ease-in-out infinite',
+        float: 'float 6s ease-in-out infinite',
       },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',

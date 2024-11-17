@@ -1,6 +1,5 @@
 import { ContactContent } from "@/components/Contact/ContactContent";
 import BgGlow from "@/components/ui/BgGlow";
-import { SocialLinks } from "@/components/global/SocialLinks";
 import { ScrollProgress } from "@/components/ui/ScrollProgress";
 
 export default function Contact() {
@@ -9,7 +8,6 @@ export default function Contact() {
       <ScrollProgress />
       <BgGlow />
       <ContactContent />
-      <SocialLinks />
     </div>
   );
 }

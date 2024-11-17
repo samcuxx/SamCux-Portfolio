@@ -1,3 +1,5 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
 import Logo from "@/public/logo.png";
@@ -5,8 +7,21 @@ import Theme from "./Theme";
 import UnmountStudio from "./Unmount";
 import MobileMenu from "./MobileMenu";
 import MagneticLink from "../ui/MagneticLink";
+import { useEffect, useState } from "react";
 
 export default function Navbar() {
+  const [hasScrolled, setHasScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollTop = window.scrollY;
+      setHasScrolled(scrollTop > 0);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   const data = [
     {
       title: "About",
@@ -32,7 +47,7 @@ export default function Navbar() {
 
   return (
     <UnmountStudio>
-      <header className="text-sm py-6 z-30 md:mb-28 mb-10 fixed top-0 left-0 w-full px-8">
+      <header className={`text-sm py-6 z-30 md:mb-28 mb-10 fixed top-0 left-0 w-full px-8 transition-all duration-300 ${hasScrolled ? 'backdrop-blur-md bg-sa-light-bg/30 dark:bg-sa-dark-bg/30' : ''}`}>
         <div className="mx-auto flex items-center justify-between">
           <Link href="/">
             <Image src={Logo} width={35} height={35} alt="logo" />

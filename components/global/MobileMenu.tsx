@@ -58,12 +58,12 @@ export default function MobileMenu() {
       <button
         aria-label="Toggle Menu"
         onClick={onToggleNav}
-        className="md:hidden dark:bg-primary-bg bg-secondary-bg border dark:border-zinc-800 border-zinc-200 rounded-md p-2"
+        className="md:hidden dark:bg-primary-bg bg-secondary-bg border dark:border-sa-dark-foregroung border-zinc-200 rounded-md p-2"
       >
         <RxHamburgerMenu className="text-xl" />
       </button>
       <div
-        className={`md:hidden fixed left-0 top-0 z-10 h-full w-full transform duration-[600ms] ease-[cubic-bezier(0.7,0,0,1)] dark:bg-zinc-900 bg-white ${
+        className={`md:hidden fixed left-0 top-0 z-10 h-full w-full transform duration-[600ms] ease-[cubic-bezier(0.7,0,0,1)] dark:bg-sa-dark-bg bg-sa-light-bg2 ${
           navShow ? "translate-x-0 rounded-none" : "translate-x-full"
         }`}
       >

@@ -5,6 +5,7 @@ import { ThemeProvider } from "@/components/global/Provider";
 import { Inter } from "next/font/google";
 import CursorEffect from "@/components/ui/CursorEffect";
 import { Toaster } from 'sonner';
+import { Footer } from "@/components/global/Footer";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
 
@@ -25,6 +26,7 @@ export default function RootLayout({
           <Navbar />
           <div>{children}</div>
           <CursorEffect />
+          <Footer />
         </ThemeProvider>
         <Toaster richColors position="top-right" />
       </body>
