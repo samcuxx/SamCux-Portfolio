@@ -24,7 +24,7 @@ export default function RootLayout({
       <body className="antialiased bg-sa-light-bg text-sa-light-accent dark:bg-sa-dark-bg dark:text-sa-dark-text-main">
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <Navbar />
-          <div>{children}</div>
+     {children}
           <CursorEffect />
           <Footer />
         </ThemeProvider>

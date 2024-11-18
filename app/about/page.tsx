@@ -4,7 +4,7 @@ import { ScrollProgress } from "@/components/ui/ScrollProgress";
 
 export default function About() {
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen w-full font-inter relative pt-24">
+    <div className="flex flex-col items-center justify-center w-full font-inter relative pt-16">
       <ScrollProgress />
       <BgGlow />
       <AboutContent />
