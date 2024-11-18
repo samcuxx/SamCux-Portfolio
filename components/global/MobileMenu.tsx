@@ -3,46 +3,53 @@ import React from 'react';
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 import navItems from '@/components/data/NavItem';
+import { Home, User, Code, Mail } from "lucide-react";
+import Theme from "./Theme";
 
 interface MobileMenuProps {
   isOpen: boolean;
   onClose: () => void;
 }
 
+const navIcons = {
+  "/": <Home className="w-5 h-5" />,
+  "/about": <User className="w-5 h-5" />,
+  "/projects": <Code className="w-5 h-5" />,
+  "/contact": <Mail className="w-5 h-5" />,
+};
+
 export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
   const pathname = usePathname();
 
   return (
     <div
-      className={`fixed inset-x-0 top-16 z-40 transform transition-transform duration-300 ease-in-out md:hidden
-        ${isOpen ? 'translate-y-0 opacity-100' : '-translate-y-full opacity-0'}`}
+      className={`fixed bottom-24 left-1/2 -translate-x-1/2 z-40 transform transition-all duration-300 
+        ease-bounce md:hidden ${isOpen ? 'translate-y-0 opacity-100 scale-100' : 'translate-y-16 opacity-0 scale-95'}`}
     >
-      <div className="bg-white/80 dark:bg-[#131C31]/80 backdrop-blur-md shadow-lg border-t 
-        border-gray-100 dark:border-[#222F43]">
-        <div className="max-w-6xl mx-auto px-6 py-4">
-          <nav className="flex flex-col space-y-4">
-            {navItems.map((item) => (
-              <Link
-                key={item.id}
-                href={item.path}
-                onClick={onClose}
-                className={`relative py-2 px-4 rounded-lg transition-all duration-300 
-                  ${pathname === item.path
-                    ? "bg-[#ffe400] bg-opacity-10 text-[#ffe400]"
-                    : "text-[#101010] dark:text-[#94A9C9] hover:bg-[#ffe400] hover:bg-opacity-10"
-                  }`}
-              >
-                <span className="relative z-10">{item.title}</span>
-                {pathname === item.path && (
-                  <span 
-                    className="absolute inset-0 rounded-lg bg-[#ffe400] bg-opacity-10 
-                      transition-all duration-300"
-                  />
-                )}
-              </Link>
-            ))}
-          </nav>
-        </div>
+      <div className="bg-white/80 dark:bg-[#131C31]/80 backdrop-blur-md shadow-lg rounded-full py-2 px-6">
+        <nav className="flex items-center gap-6">
+          {navItems.map((item) => (
+            <Link
+              key={item.id}
+              href={item.path}
+              onClick={onClose}
+              className={`relative group p-2 transition-all duration-300 hover:scale-110`}
+            >
+              <div className={`relative transition-colors ${
+                pathname === item.path
+                  ? "text-[#ffe400]"
+                  : "text-[#101010] dark:text-[#94A9C9] hover:text-[#ffe400] dark:hover:text-[#ffe400]"
+              }`}>
+                {navIcons[item.path as keyof typeof navIcons]}
+                <span className="absolute -bottom-4 left-1/2 -translate-x-1/2 text-xs opacity-0 
+                  group-hover:opacity-100 transition-opacity whitespace-nowrap">
+                  {item.title}
+                </span>
+              </div>
+            </Link>
+          ))}
+          <Theme />
+        </nav>
       </div>
     </div>
   );

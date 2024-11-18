@@ -34,7 +34,7 @@ export function ProjectsFilter() {
           {totalProjects} projects
         </span>
       </div>
-      <div className="flex justify-between items-center gap-4 py-2">
+      <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-4 py-2">
         {/* Filters */}
         <div className="flex flex-wrap gap-3">
           {filters.map((filter, index) => (
@@ -53,7 +53,7 @@ export function ProjectsFilter() {
         </div>
 
         {/* Search Bar */}
-        <div className="relative w-72">
+        <div className="relative w-full md:w-72">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
           <input
             type="text"
