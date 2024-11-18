@@ -1,7 +1,5 @@
 "use client";
-import React, { useState } from "react";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
+import React, { useState } from "react";import { usePathname } from "next/navigation";
 import { Menu, X, Home, User, Code, Mail } from "lucide-react";
 import navItems from "@/components/data/NavItem";
 import Theme from "./Theme";
