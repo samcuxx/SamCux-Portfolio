@@ -40,7 +40,7 @@ A modern, responsive portfolio website built with Next.js 14, TypeScript, and Fr
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/yourusername/portfolio.git
+   git clone https://github.com/samcuxx/portfolio.git
    ```
 
 2. **Install dependencies**

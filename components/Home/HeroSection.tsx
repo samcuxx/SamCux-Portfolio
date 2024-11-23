@@ -200,12 +200,7 @@ export function HeroSection() {
           {" "}through clean code and thoughtful solutions.
         </motion.p>
 
-        <motion.p
-          variants={itemVariants}
-          className="text-[#101010] dark:text-[#94A9C9] text-base sm:text-lg md:text-xl max-w-2xl mx-auto"
-        >
-          I&apos;m a Full Stack Developer with a passion for creating beautiful, functional, and user-centered digital experiences.
-        </motion.p>
+       
 
         <motion.div 
           variants={itemVariants}
