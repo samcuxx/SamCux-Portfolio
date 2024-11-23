@@ -1,8 +1,54 @@
 "use client";
 
 import React, { useState } from "react";
-import { Send, Loader2 } from "lucide-react";
+import { Send, Loader2, Sparkles } from "lucide-react";
 import { toast } from "sonner";
+import { motion, HTMLMotionProps } from "framer-motion";
+
+const formVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1,
+      delayChildren: 0.2
+    }
+  }
+};
+
+const inputVariants = {
+  hidden: { 
+    opacity: 0, 
+    y: 20,
+    scale: 0.95
+  },
+  visible: { 
+    opacity: 1, 
+    y: 0,
+    scale: 1,
+    transition: {
+      type: "spring",
+      stiffness: 400,
+      damping: 20
+    }
+  }
+};
+
+const sparkleVariants = {
+  hidden: { scale: 0, opacity: 0 },
+  visible: {
+    scale: [0, 1.2, 0],
+    opacity: [0, 1, 0],
+    transition: {
+      duration: 2,
+      repeat: Infinity,
+      repeatDelay: 3
+    }
+  }
+};
+
+const MotionForm = motion.form;
+const MotionDiv = motion.div;
 
 export function ContactForm() {
   const [formData, setFormData] = useState({
@@ -30,9 +76,8 @@ export function ContactForm() {
           email: formData.email,
           subject: formData.subject,
           message: formData.message,
-          from_name: "Portfolio Contact Form", // Optional
-          botcheck: false, // Optional: Spam prevention
-          
+          from_name: "Portfolio Contact Form",
+          botcheck: false,
         }),
       });
 
@@ -40,7 +85,6 @@ export function ContactForm() {
       
       if (result.success) {
         toast.success("Thank you for your message! I'll get back to you soon.");
-        // Reset form
         setFormData({
           name: "",
           email: "",
@@ -68,131 +112,182 @@ export function ContactForm() {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-6">
-      {/* Spam Prevention - Hidden Input */}
+    <MotionForm 
+      onSubmit={handleSubmit} 
+      className="space-y-6"
+      variants={formVariants}
+      initial="hidden"
+      animate="visible"
+    >
       <input type="checkbox" name="botcheck" className="hidden" style={{ display: 'none' }} />
 
       <div className="grid md:grid-cols-2 gap-6">
-        <div className="space-y-2">
+        <MotionDiv 
+          className="space-y-2"
+          variants={inputVariants}
+        >
           <label 
             htmlFor="name"
             className="text-sm font-medium text-gray-600 dark:text-[#66768f]"
           >
             Name
           </label>
-          <input
-            id="name"
-            type="text"
-            name="name"
-            value={formData.name}
-            onChange={handleChange}
-            required
-            minLength={2}
-            maxLength={50}
-            pattern="^[A-Za-z\s'-]+$"
-            title="Please enter a valid name"
-            disabled={loading}
-            className="w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-[#222F43] 
-              bg-white dark:bg-[#131C31] text-gray-800 dark:text-[#94A9C9] 
-              focus:border-[#ffe400] dark:focus:border-[#ffe400] outline-none
-              transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
-          />
-        </div>
-        <div className="space-y-2">
+          <MotionDiv
+            whileHover={{ scale: 1.01 }}
+            whileTap={{ scale: 0.99 }}
+          >
+            <input
+              id="name"
+              type="text"
+              name="name"
+              value={formData.name}
+              onChange={handleChange}
+              required
+              minLength={2}
+              maxLength={50}
+              pattern="^[A-Za-z\s'-]+$"
+              title="Please enter a valid name"
+              disabled={loading}
+              className="w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-[#222F43] 
+                bg-white dark:bg-[#131C31] text-gray-800 dark:text-[#94A9C9] 
+                focus:border-[#ffe400] dark:focus:border-[#ffe400] outline-none
+                transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+            />
+          </MotionDiv>
+        </MotionDiv>
+
+        <MotionDiv 
+          className="space-y-2"
+          variants={inputVariants}
+        >
           <label 
             htmlFor="email"
             className="text-sm font-medium text-gray-600 dark:text-[#66768f]"
           >
             Email
           </label>
-          <input
-            id="email"
-            type="email"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-            required
-            pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
-            disabled={loading}
-            className="w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-[#222F43] 
-              bg-white dark:bg-[#131C31] text-gray-800 dark:text-[#94A9C9] 
-              focus:border-[#ffe400] dark:focus:border-[#ffe400] outline-none
-              transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
-          />
-        </div>
+          <MotionDiv
+            whileHover={{ scale: 1.01 }}
+            whileTap={{ scale: 0.99 }}
+          >
+            <input
+              id="email"
+              type="email"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
+              required
+              pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+              disabled={loading}
+              className="w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-[#222F43] 
+                bg-white dark:bg-[#131C31] text-gray-800 dark:text-[#94A9C9] 
+                focus:border-[#ffe400] dark:focus:border-[#ffe400] outline-none
+                transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+            />
+          </MotionDiv>
+        </MotionDiv>
       </div>
 
-      <div className="space-y-2">
+      <MotionDiv 
+        className="space-y-2"
+        variants={inputVariants}
+      >
         <label 
           htmlFor="subject"
           className="text-sm font-medium text-gray-600 dark:text-[#66768f]"
         >
           Subject
         </label>
-        <input
-          id="subject"
-          type="text"
-          name="subject"
-          value={formData.subject}
-          onChange={handleChange}
-          required
-          minLength={5}
-          maxLength={100}
-          disabled={loading}
-          className="w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-[#222F43] 
-            bg-white dark:bg-[#131C31] text-gray-800 dark:text-[#94A9C9] 
-            focus:border-[#ffe400] dark:focus:border-[#ffe400] outline-none
-            transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
-        />
-      </div>
+        <MotionDiv
+          whileHover={{ scale: 1.01 }}
+          whileTap={{ scale: 0.99 }}
+        >
+          <input
+            id="subject"
+            type="text"
+            name="subject"
+            value={formData.subject}
+            onChange={handleChange}
+            required
+            minLength={5}
+            maxLength={100}
+            disabled={loading}
+            className="w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-[#222F43] 
+              bg-white dark:bg-[#131C31] text-gray-800 dark:text-[#94A9C9] 
+              focus:border-[#ffe400] dark:focus:border-[#ffe400] outline-none
+              transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+          />
+        </MotionDiv>
+      </MotionDiv>
 
-      <div className="space-y-2">
+      <MotionDiv 
+        className="space-y-2"
+        variants={inputVariants}
+      >
         <label 
           htmlFor="message"
           className="text-sm font-medium text-gray-600 dark:text-[#66768f]"
         >
           Message
         </label>
-        <textarea
-          id="message"
-          name="message"
-          value={formData.message}
-          onChange={handleChange}
-          required
-          minLength={10}
-          maxLength={1000}
-          rows={6}
-          disabled={loading}
-          className="w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-[#222F43] 
-            bg-white dark:bg-[#131C31] text-gray-800 dark:text-[#94A9C9] 
-            focus:border-[#ffe400] dark:focus:border-[#ffe400] outline-none
-            transition-all duration-300 resize-none disabled:opacity-50 disabled:cursor-not-allowed"
-        />
+        <MotionDiv
+          whileHover={{ scale: 1.01 }}
+          whileTap={{ scale: 0.99 }}
+        >
+          <textarea
+            id="message"
+            name="message"
+            value={formData.message}
+            onChange={handleChange}
+            required
+            minLength={10}
+            maxLength={1000}
+            rows={6}
+            disabled={loading}
+            className="w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-[#222F43] 
+              bg-white dark:bg-[#131C31] text-gray-800 dark:text-[#94A9C9] 
+              focus:border-[#ffe400] dark:focus:border-[#ffe400] outline-none
+              transition-all duration-300 resize-none disabled:opacity-50 disabled:cursor-not-allowed"
+          />
+        </MotionDiv>
         <div className="text-xs text-gray-500 dark:text-[#66768f] text-right">
           {formData.message.length}/1000
         </div>
-      </div>
+      </MotionDiv>
 
-      <button
-        type="submit"
-        disabled={loading}
-        className="inline-flex items-center gap-2 px-6 py-3 bg-[#ffe400] 
-          text-[#101010] rounded-full font-semibold hover:scale-105 
-          transition-transform duration-300 disabled:opacity-50 
-          disabled:cursor-not-allowed disabled:hover:scale-100"
+      <MotionDiv
+        variants={inputVariants}
+        whileHover={{ scale: 1.02 }}
+        whileTap={{ scale: 0.98 }}
+        className="relative"
       >
-        {loading ? (
-          <>
-            Sending...
-            <Loader2 className="w-4 h-4 animate-spin" />
-          </>
-        ) : (
-          <>
-            Send Message
-            <Send className="w-4 h-4" />
-          </>
-        )}
-      </button>
-    </form>
+        <MotionDiv
+          className="absolute -top-1 -right-1"
+          variants={sparkleVariants}
+        >
+          <Sparkles className="w-4 h-4 text-[#ffe400]" />
+        </MotionDiv>
+        <button
+          type="submit"
+          disabled={loading}
+          className="inline-flex items-center gap-2 px-6 py-3 bg-[#ffe400] 
+            text-[#101010] rounded-full font-semibold hover:scale-105 
+            transition-transform duration-300 disabled:opacity-50 
+            disabled:cursor-not-allowed disabled:hover:scale-100"
+        >
+          {loading ? (
+            <>
+              Sending...
+              <Loader2 className="w-4 h-4 animate-spin" />
+            </>
+          ) : (
+            <>
+              Send Message
+              <Send className="w-4 h-4" />
+            </>
+          )}
+        </button>
+      </MotionDiv>
+    </MotionForm>
   );
-} 
+}

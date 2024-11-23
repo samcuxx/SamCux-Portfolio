@@ -1,5 +1,6 @@
 "use client";
 
+import { motion } from "framer-motion";
 import Link from "next/link";
 import React, { useState, useRef, useEffect } from "react";
 
@@ -57,19 +58,23 @@ const MagneticLink: React.FC<MagneticLinkProps> = ({
   }, []);
 
   return (
-    <Link
+    <motion.a
       ref={ref}
       href={href}
       target={target}
       rel="noopener noreferrer"
       className={`inline-block transition-transform duration-200 ease-out ${className}`}
       style={{
-        transform: `translate(${position.x}px, ${position.y}px)`,
+        x: position.x,
+        y: position.y,
       }}
       onMouseLeave={handleMouseLeave}
+      initial={{ x: 0, y: 0 }}
+      animate={{ x: position.x, y: position.y }}
+      transition={{ duration: 0.5, ease: "easeOut" }}
     >
       {children}
-    </Link>
+    </motion.a>
   );
 };
 

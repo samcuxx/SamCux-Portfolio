@@ -1,10 +1,12 @@
 "use client";
-import React, { useState } from "react";import { usePathname } from "next/navigation";
-import { Menu, X, Home, User, Code, Mail } from "lucide-react";
+import React, { useState, useEffect } from "react";
+import { usePathname } from "next/navigation";
+import { Menu, X, Home, User, Code, Mail, Sparkles } from "lucide-react";
 import navItems from "@/components/data/NavItem";
 import Theme from "./Theme";
 import MobileMenu from "./MobileMenu";
 import MagneticLink from "../ui/MagneticLink";
+import { motion, AnimatePresence, useScroll, useTransform, useSpring } from "framer-motion";
 
 const navIcons = {
   "/": <Home className="w-5 h-5" />,
@@ -15,56 +17,262 @@ const navIcons = {
 
 export default function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
   const pathname = usePathname();
+
+  const { scrollY } = useScroll();
+  const navY = useSpring(
+    useTransform(scrollY, [0, 100], [0, -20]),
+    { stiffness: 300, damping: 30 }
+  );
+
+  const navOpacity = useSpring(
+    useTransform(scrollY, [0, 100], [1, 0.95]),
+    { stiffness: 300, damping: 30 }
+  );
+
+  const navScale = useSpring(
+    useTransform(scrollY, [0, 100], [1, 0.98]),
+    { stiffness: 300, damping: 30 }
+  );
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 50);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  const navVariants = {
+    hidden: { y: -20, opacity: 0, scale: 0.9 },
+    visible: { 
+      y: 0, 
+      opacity: 1,
+      scale: 1,
+      transition: {
+        type: "spring",
+        stiffness: 300,
+        damping: 20,
+        staggerChildren: 0.1,
+        when: "beforeChildren"
+      }
+    }
+  };
+
+  const itemVariants = {
+    hidden: { y: -10, opacity: 0, scale: 0.9 },
+    visible: { 
+      y: 0, 
+      opacity: 1,
+      scale: 1,
+      transition: {
+        type: "spring",
+        stiffness: 300,
+        damping: 20
+      }
+    }
+  };
+
+  const sparkleVariants = {
+    hidden: { scale: 0, opacity: 0 },
+    visible: {
+      scale: [0, 1.2, 0],
+      opacity: [0, 1, 0],
+      transition: {
+        duration: 2,
+        repeat: Infinity,
+        repeatDelay: 3
+      }
+    }
+  };
+
+  const activeIndicatorVariants = {
+    hidden: { 
+      scale: 0,
+      opacity: 0
+    },
+    visible: {
+      scale: 1,
+      opacity: 1,
+      transition: {
+        type: "spring",
+        stiffness: 500,
+        damping: 25
+      }
+    }
+  };
 
   return (
     <>
       {/* Desktop Navigation */}
-      <nav className="fixed top-6 left-1/2 -translate-x-1/2 z-50 bg-white/80 dark:bg-[#131C31]/80 
-        backdrop-blur-md shadow-lg rounded-full py-2 px-6 transition-all duration-300 hidden md:block">
-        <div className="mx-auto">
+      <motion.nav 
+        className={`fixed top-6 left-0 right-0 mx-auto w-fit z-50 bg-white/80 dark:bg-[#131C31]/80 
+          backdrop-blur-md shadow-lg rounded-full py-2 px-6 transition-all duration-300 hidden md:block
+          ${isScrolled ? 'shadow-xl shadow-black/5 dark:shadow-white/5' : ''}`}
+        variants={navVariants}
+        initial="hidden"
+        animate="visible"
+        style={{ 
+          y: navY,
+          opacity: navOpacity,
+          scale: navScale
+        }}
+      >
+        <motion.div 
+          className="absolute inset-0 bg-gradient-to-r from-[#ffe400]/10 to-transparent rounded-full"
+          animate={{
+            opacity: [0, 0.5, 0],
+            transition: {
+              duration: 3,
+              repeat: Infinity,
+              repeatType: "reverse"
+            }
+          }}
+        />
+
+        <div className="mx-auto relative">
           <div className="flex items-center justify-center gap-8">
             {navItems.map((item) => (
-              <MagneticLink
+              <motion.div
                 key={item.id}
-                href={item.path}
-                className={`relative font-medium transition-colors group ${
-                  pathname === item.path
-                    ? "text-[#ffe400] dark:text-[#ffe400]"
-                    : "text-[#101010] dark:text-[#94A9C9] hover:text-[#ffe400] dark:hover:text-[#ffe400]"
-                }`}
+                variants={itemVariants}
+                className="relative"
               >
-                <div className="relative">
-                  {navIcons[item.path as keyof typeof navIcons]}
-                  <span className="absolute -bottom-4 left-1/2 -translate-x-1/2 text-xs opacity-0 
-                    group-hover:opacity-100 transition-opacity whitespace-nowrap">
-                    {item.title}
-                  </span>
-                </div>
-              </MagneticLink>
+                {pathname === item.path && (
+                  <motion.div
+                    layoutId="activeNavBackground"
+                    className="absolute inset-0 bg-[#ffe400]/10 rounded-full"
+                    variants={activeIndicatorVariants}
+                    transition={{
+                      type: "spring",
+                      stiffness: 500,
+                      damping: 30
+                    }}
+                  />
+                )}
+                <MagneticLink
+                  href={item.path}
+                  className={`relative font-medium transition-colors group ${
+                    pathname === item.path
+                      ? "text-[#ffe400] dark:text-[#ffe400]"
+                      : "text-[#101010] dark:text-[#94A9C9] hover:text-[#ffe400] dark:hover:text-[#ffe400]"
+                  }`}
+                >
+                  <motion.div 
+                    className="relative p-2"
+                    whileHover={{ 
+                      scale: 1.1,
+                      transition: {
+                        type: "spring",
+                        stiffness: 400,
+                        damping: 17
+                      }
+                    }}
+                    whileTap={{ scale: 0.95 }}
+                  >
+                    {pathname === item.path && (
+                      <motion.div
+                        className="absolute -top-1 -right-1"
+                        variants={sparkleVariants}
+                        animate="visible"
+                      >
+                        <Sparkles className="w-3 h-3 text-[#ffe400]" />
+                      </motion.div>
+                    )}
+                    {navIcons[item.path as keyof typeof navIcons]}
+                    <motion.span 
+                      className="absolute -bottom-4 left-1/2 -translate-x-1/2 text-xs
+                        whitespace-nowrap bg-white/80 dark:bg-[#131C31]/80 px-2 py-1 
+                        rounded-full backdrop-blur-sm"
+                      initial={{ opacity: 0, y: -5, scale: 0.9 }}
+                      whileHover={{ 
+                        opacity: 1, 
+                        y: 0, 
+                        scale: 1,
+                        transition: {
+                          type: "spring",
+                          stiffness: 500,
+                          damping: 25
+                        }
+                      }}
+                    >
+                      {item.title}
+                    </motion.span>
+                  </motion.div>
+                </MagneticLink>
+              </motion.div>
             ))}
-            <Theme />
+            <motion.div variants={itemVariants}>
+              <Theme />
+            </motion.div>
           </div>
         </div>
-      </nav>
+      </motion.nav>
 
       {/* Mobile Menu Button */}
-      <button
+      <motion.button
+        initial={{ opacity: 0, scale: 0.9 }}
+        animate={{ 
+          opacity: 1, 
+          scale: 1,
+          transition: {
+            type: "spring",
+            stiffness: 400,
+            damping: 25
+          }
+        }}
+        className={`fixed bottom-6 left-0 right-0 mx-auto w-fit z-50 p-3 bg-white/80 
+          dark:bg-[#131C31]/80 backdrop-blur-md shadow-lg rounded-full md:hidden
+          ${isScrolled ? 'shadow-xl shadow-black/5 dark:shadow-white/5' : ''}`}
         onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-        className={`fixed bottom-6 right-6 z-50 p-3 rounded-full bg-white/80 dark:bg-[#131C31]/80 
-          backdrop-blur-md shadow-lg md:hidden transition-all duration-300 ease-bounce
-          ${isMobileMenuOpen ? 'rotate-180 scale-110' : 'rotate-0 scale-100'}`}
-        aria-label="Toggle Menu"
+        whileHover={{ 
+          scale: 1.05,
+          transition: {
+            type: "spring",
+            stiffness: 400,
+            damping: 17
+          }
+        }}
+        whileTap={{ scale: 0.95 }}
       >
-        {isMobileMenuOpen ? (
-          <X className="w-6 h-6 text-[#ffe400]" />
-        ) : (
-          <Menu className="w-6 h-6 text-[#101010] dark:text-[#94A9C9]" />
-        )}
-      </button>
+        <motion.div
+          animate={{ 
+            rotate: isMobileMenuOpen ? 180 : 0,
+            scale: isMobileMenuOpen ? 1.1 : 1
+          }}
+          transition={{ 
+            type: "spring", 
+            stiffness: 300, 
+            damping: 20
+          }}
+        >
+          <motion.div
+            animate={{
+              scale: [1, 1.1, 1],
+              transition: {
+                duration: 2,
+                repeat: Infinity,
+                repeatType: "reverse"
+              }
+            }}
+          >
+            {isMobileMenuOpen ? (
+              <X className="w-6 h-6 text-[#101010] dark:text-[#94A9C9]" />
+            ) : (
+              <Menu className="w-6 h-6 text-[#101010] dark:text-[#94A9C9]" />
+            )}
+          </motion.div>
+        </motion.div>
+      </motion.button>
 
       {/* Mobile Menu */}
-      <MobileMenu isOpen={isMobileMenuOpen} onClose={() => setIsMobileMenuOpen(false)} />
+      <AnimatePresence mode="wait">
+        {isMobileMenuOpen && (
+          <MobileMenu isOpen={isMobileMenuOpen} onClose={() => setIsMobileMenuOpen(false)} />
+        )}
+      </AnimatePresence>
     </>
   );
 }
