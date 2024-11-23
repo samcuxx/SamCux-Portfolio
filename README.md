@@ -2,7 +2,8 @@
 
 A modern, responsive portfolio website built with Next.js 14, TypeScript, and Framer Motion. Features smooth animations, dark mode support, and an intuitive user interface.
 
-![Portfolio Preview](public/og.jpg)
+![Portfolio Preview](public/og1.png)
+![Portfolio Preview](public/og2.png)
 
 ## 🚀 Features
 
