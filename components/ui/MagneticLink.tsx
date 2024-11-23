@@ -1,14 +1,14 @@
 "use client";
 
 import { motion } from "framer-motion";
-import Link from "next/link";
 import React, { useState, useRef, useEffect } from "react";
 
 interface MagneticLinkProps {
   href: string;
   target?: string;
-  children: React.ReactNode;
+  children?: React.ReactNode;
   className?: string;
+  onClick?: () => void;
 }
 
 const MagneticLink: React.FC<MagneticLinkProps> = ({
@@ -16,6 +16,7 @@ const MagneticLink: React.FC<MagneticLinkProps> = ({
   target,
   children,
   className,
+  onClick,
 }) => {
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const ref = useRef<HTMLAnchorElement>(null);
@@ -69,6 +70,7 @@ const MagneticLink: React.FC<MagneticLinkProps> = ({
         y: position.y,
       }}
       onMouseLeave={handleMouseLeave}
+      onClick={onClick}
       initial={{ x: 0, y: 0 }}
       animate={{ x: position.x, y: position.y }}
       transition={{ duration: 0.5, ease: "easeOut" }}

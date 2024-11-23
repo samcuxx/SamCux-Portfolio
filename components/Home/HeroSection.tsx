@@ -200,6 +200,13 @@ export function HeroSection() {
           {" "}through clean code and thoughtful solutions.
         </motion.p>
 
+        <motion.p
+          variants={itemVariants}
+          className="text-[#101010] dark:text-[#94A9C9] text-base sm:text-lg md:text-xl max-w-2xl mx-auto"
+        >
+          I&apos;m a Full Stack Developer with a passion for creating beautiful, functional, and user-centered digital experiences.
+        </motion.p>
+
         <motion.div 
           variants={itemVariants}
           className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4"
@@ -218,7 +225,7 @@ export function HeroSection() {
               className="inline-flex items-center gap-2 px-8 py-4 bg-[#ffe400] 
                 text-[#101010] rounded-full font-semibold group"
             >
-              Let's Talk 
+              Let&apos;s Talk 
               <motion.div
                 animate={{ x: [0, 5, 0] }}
                 transition={{

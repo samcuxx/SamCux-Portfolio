@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import { Send, Loader2, Sparkles } from "lucide-react";
 import { toast } from "sonner";
-import { motion, HTMLMotionProps } from "framer-motion";
+import { motion } from "framer-motion";
 
 const formVariants = {
   hidden: { opacity: 0 },

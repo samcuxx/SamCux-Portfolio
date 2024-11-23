@@ -104,7 +104,7 @@ export function ProjectsGrid() {
         animate="visible"
       >
         <AnimatePresence mode="wait">
-          {filteredProjects.map((project, index) => (
+          {filteredProjects.map((project) => (
             <motion.div
               key={project.title}
               variants={projectVariants}
@@ -189,9 +189,9 @@ export function ProjectsGrid() {
                   className="flex flex-wrap gap-1.5"
                   variants={containerVariants}
                 >
-                  {project.tags.slice(0, 3).map((tag: string, i: number) => (
+                  {project.tags.slice(0, 3).map((tag: string) => (
                     <motion.span
-                      key={i}
+                      key={tag}
                       variants={tagVariants}
                       className="px-2 py-1 bg-[#ffe400] bg-opacity-10 text-[#101010] 
                         dark:text-[#94A9C9] rounded-lg text-xs font-medium"
