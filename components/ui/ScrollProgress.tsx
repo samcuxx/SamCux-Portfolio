@@ -4,7 +4,7 @@ import { motion, useSpring, useScroll } from "framer-motion";
 
 export function ScrollProgress() {
   const { scrollYProgress } = useScroll();
-  const scaleX = useSpring(scrollYProgress, {
+  const scaleY = useSpring(scrollYProgress, {
     stiffness: 100,
     damping: 30,
     restDelta: 0.001,
@@ -12,14 +12,14 @@ export function ScrollProgress() {
 
   return (
     <motion.div
-      className="fixed top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-gray-200/50 to-gray-300/50 dark:from-[#131C31]/50 dark:to-[#1a2539]/50 backdrop-blur-sm z-50"
+      className="fixed top-0 right-0 bottom-0 w-[0.15rem] bg-gradient-to-b from-gray-100/10 to-gray-200/10 dark:from-[#131C31]/10 dark:to-[#1a2539]/10 backdrop-blur-sm z-50"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
     >
       <motion.div
-        className="h-full bg-gradient-to-r from-[#000000] via-[#70610d] to-[#ffcc00] origin-[0%]"
-        style={{ scaleX }}
+        className="h-full w-full bg-gradient-to-b from-gray-600 via-gray-700 to-gray-800 dark:from-[#ffe60000] dark:via-[#ffe60023] dark:to-[#FFE400] origin-top"
+        style={{ scaleY }}
         transition={{ type: "spring" }}
       />
     </motion.div>
