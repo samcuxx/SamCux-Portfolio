@@ -63,9 +63,9 @@
   background-color: rgba(255, 228, 0, 0.1);
 }
 
-body {
+/* body {
   cursor: none;
-}
+} */
 
 a,
 button {
@@ -86,7 +86,7 @@ button {
 
 /* Custom scrollbar styles */
 ::-webkit-scrollbar {
-  width: 10px;
+  width: 8px;
 }
 
 ::-webkit-scrollbar-track {
@@ -95,6 +95,7 @@ button {
 }
 
 ::-webkit-scrollbar-thumb {
+  width: 5px;
   background: rgba(255, 215, 0, 0.5); /* sa-dark-primary with opacity */
   border-radius: 10px;
   border: 2px solid transparent;
@@ -108,7 +109,7 @@ button {
 
 /* Firefox scrollbar styles */
 * {
-  scrollbar-width: thin;
+  scrollbar-width: none;
   scrollbar-color: rgba(255, 215, 0, 0.5) rgba(15, 23, 42, 0.1); /* sa-dark-primary and sa-dark-bg with opacity */
 }
 

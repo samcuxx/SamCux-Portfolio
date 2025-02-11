@@ -143,7 +143,7 @@ export default function Navbar() {
                 {pathname === item.path && (
                   <motion.div
                     layoutId="activeNavBackground"
-                    className="absolute inset-0 bg-[#ffe400]/10 rounded-full"
+                    className="absolute inset-0 rounded-full"
                     variants={activeIndicatorVariants}
                     transition={{
                       type: "spring",
