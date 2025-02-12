@@ -2,12 +2,19 @@ import type { Metadata } from "next";
 import "@/styles/globals.css";
 import Navbar from "@/components/global/Navbar";
 import { ThemeProvider } from "@/components/global/Provider";
-import { Inter } from "next/font/google";
+import { Inter, DynaPuff } from "next/font/google";
 import CursorEffect from "@/components/ui/CursorEffect";
 import { Toaster } from 'sonner';
 import { Footer } from "@/components/global/Footer";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
+
+const dynaPuff = DynaPuff({
+  subsets: ["latin"],
+  variable: "--font-dynapuff",
+  display: "swap",
+  preload: true,
+});
 
 export const metadata: Metadata = {
   title: "SamCux",
@@ -20,7 +27,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning className={inter.variable}>
+    <html lang="en" suppressHydrationWarning className={`${inter.variable} ${dynaPuff.variable}`}>
       <body className="antialiased bg-sa-light-bg text-sa-light-accent dark:bg-sa-dark-bg dark:text-sa-dark-text-main">
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <Navbar />

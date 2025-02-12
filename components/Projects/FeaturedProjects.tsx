@@ -1,20 +1,20 @@
 import React from "react";
 import { Star, ExternalLink, Github } from "lucide-react";
-import { DynaPuff } from "next/font/google";
 import Image from "next/image";
 import MagneticLink from "../ui/MagneticLink";
 import { projects } from "@/data/projects";
 
-const dynaPuff = DynaPuff({ subsets: ["latin"] });
 
 export function FeaturedProjects() {
-  const featuredProjects = projects.filter(project => project.featured);
+  const featuredProjects = projects.filter((project) => project.featured);
 
   return (
     <div className="space-y-8">
       <div className="flex items-center gap-2 mb-8">
         <Star className="w-6 h-6 text-[#ffe400]" />
-        <h3 className={`${dynaPuff.className} text-2xl font-semibold text-[#101010] dark:text-[#94A9C9]`}>
+        <h3
+          className={`font-dynapuff text-2xl font-semibold text-[#101010] dark:text-[#94A9C9]`}
+        >
           Featured Projects
         </h3>
       </div>
@@ -39,8 +39,10 @@ export function FeaturedProjects() {
                   height={400}
                   className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-300"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 
-                  transition-opacity duration-300 flex items-end justify-start p-6">
+                <div
+                  className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 
+                  transition-opacity duration-300 flex items-end justify-start p-6"
+                >
                   <div className="flex gap-3">
                     <MagneticLink
                       href={project.liveUrl}
@@ -84,4 +86,4 @@ export function FeaturedProjects() {
       </div>
     </div>
   );
-} 
+}

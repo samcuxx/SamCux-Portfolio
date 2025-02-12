@@ -1,9 +1,7 @@
 import React from "react";
 import Image from "next/image";
 import { Camera } from "lucide-react";
-import { DynaPuff } from "next/font/google";
 
-const dynaPuff = DynaPuff({ subsets: ["latin"] });
 
 // Sample photo data - replace with your actual photos
 const photos = [
@@ -50,7 +48,9 @@ export function PhotosGrid() {
     <div className="space-y-8">
       <div className="flex items-center gap-2 mb-8">
         <Camera className="w-6 h-6 text-[#ffe400]" />
-        <h3 className={`${dynaPuff.className} text-2xl font-semibold text-[#101010] dark:text-[#94A9C9]`}>
+        <h3
+          className={`font-dynapuff text-2xl font-semibold text-[#101010] dark:text-[#94A9C9]`}
+        >
           Recent Captures
         </h3>
       </div>
@@ -72,9 +72,11 @@ export function PhotosGrid() {
                 height={400}
                 className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-300"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent 
+              <div
+                className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent 
                 opacity-0 group-hover:opacity-100 transition-opacity duration-300 
-                flex items-end p-4">
+                flex items-end p-4"
+              >
                 <div className="text-white">
                   <h4 className="text-lg font-semibold mb-1">{photo.title}</h4>
                   <div className="flex items-center gap-2 text-sm opacity-80">
@@ -90,4 +92,4 @@ export function PhotosGrid() {
       </div>
     </div>
   );
-} 
+}

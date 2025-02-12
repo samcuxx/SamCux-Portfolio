@@ -63,9 +63,9 @@
   background-color: rgba(255, 228, 0, 0.1);
 }
 
-/* body {
-  cursor: none;
-} */
+body {
+  /* cursor: none; */
+}
 
 a,
 button {
@@ -86,7 +86,7 @@ button {
 
 /* Custom scrollbar styles */
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 10px;
 }
 
 ::-webkit-scrollbar-track {
@@ -95,7 +95,6 @@ button {
 }
 
 ::-webkit-scrollbar-thumb {
-  width: 5px;
   background: rgba(255, 215, 0, 0.5); /* sa-dark-primary with opacity */
   border-radius: 10px;
   border: 2px solid transparent;
