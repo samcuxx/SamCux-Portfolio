@@ -76,4 +76,18 @@ export default defineSchema({
     createdAt: v.number(),
     updatedAt: v.number(),
   }),
+  aboutMe: defineTable({
+    bio: v.string(),
+    additionalText: v.optional(v.string()),
+    location: v.string(),
+    resumeUrl: v.string(),
+    resumeFileName: v.optional(v.string()),
+    profileImageUrl: v.optional(v.string()),
+    yearsExperience: v.number(),
+    projectsCount: v.number(),
+    clientsCount: v.number(),
+    coffeeCount: v.string(), // Using string to allow "∞" value
+    createdAt: v.number(),
+    updatedAt: v.number(),
+  }),
 }); 

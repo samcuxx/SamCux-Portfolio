@@ -1,13 +1,68 @@
+"use client";
+
 import React from "react";
-import { Trophy, Code, Users, Coffee } from "lucide-react";
+import { Trophy, Code, Users, Coffee, Loader2 } from "lucide-react";
+import { useQuery } from "convex/react";
+import { api } from "@/convex/_generated/api";
 
 export function AboutStats() {
-  const stats = [
+  // Fetch about me data from the database
+  const aboutMeData = useQuery(api.aboutMe.get);
+  
+  // Default stats in case data is not available
+  const defaultStats = [
     { icon: <Trophy className="w-5 h-5" />, value: "5+", label: "Years Experience" },
     { icon: <Code className="w-5 h-5" />, value: "50+", label: "Projects" },
     { icon: <Users className="w-5 h-5" />, value: "20+", label: "Clients" },
     { icon: <Coffee className="w-5 h-5" />, value: "∞", label: "Coffee Cups" },
   ];
+  
+  // Create stats array from database data if available
+  const stats = aboutMeData ? [
+    { 
+      icon: <Trophy className="w-5 h-5" />, 
+      value: `${aboutMeData.yearsExperience}+`, 
+      label: "Years Experience" 
+    },
+    { 
+      icon: <Code className="w-5 h-5" />, 
+      value: `${aboutMeData.projectsCount}+`, 
+      label: "Projects" 
+    },
+    { 
+      icon: <Users className="w-5 h-5" />, 
+      value: `${aboutMeData.clientsCount}+`, 
+      label: "Clients" 
+    },
+    { 
+      icon: <Coffee className="w-5 h-5" />, 
+      value: aboutMeData.coffeeCount, 
+      label: "Coffee Cups" 
+    },
+  ] : defaultStats;
+  
+  // Loading state
+  if (aboutMeData === undefined) {
+    return (
+      <div className="grid grid-cols-2 gap-4">
+        {[...Array(4)].map((_, index) => (
+          <div
+            key={index}
+            className="p-4 bg-white dark:bg-[#131C31] rounded-xl border border-gray-100 
+              dark:border-[#222F43] animate-pulse"
+          >
+            <div className="flex items-center gap-3">
+              <div className="p-2 bg-gray-200 dark:bg-[#222F43] rounded-lg w-9 h-9"></div>
+              <div>
+                <div className="h-6 w-12 bg-gray-200 dark:bg-[#222F43] rounded-md mb-1"></div>
+                <div className="h-4 w-20 bg-gray-200 dark:bg-[#222F43] rounded-md"></div>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    );
+  }
 
   return (
     <div className="grid grid-cols-2 gap-4">

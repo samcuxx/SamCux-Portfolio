@@ -1,24 +1,59 @@
+"use client";
+
 import React from "react";
 import MagneticLink from "@/components/ui/MagneticLink";
-import { Download, ArrowRight } from "lucide-react";
+import { Download, ArrowRight, Loader2 } from "lucide-react";
+import { useQuery } from "convex/react";
+import { api } from "@/convex/_generated/api";
 
 export function AboutIntro() {
+  // Fetch about me data from the database
+  const aboutMeData = useQuery(api.aboutMe.get);
+  
+  // Default values in case data is not available
+  const defaultBio = "Hey there! I'm a passionate Software Engineer and Content Creator. I love building beautiful, responsive, and user-friendly web applications while sharing my journey and knowledge with others.";
+  const defaultAdditionalText = "When I'm not coding, you can find me creating content, exploring new technologies, or contributing to open-source projects. I believe in continuous learning and sharing knowledge with the developer community.";
+  const defaultLocation = "Your Location";
+  const defaultResumeUrl = "/resume.pdf";
+  
+  // Format bio by replacing [Your Location] with the actual location
+  const formatBio = (bio: string, location: string) => {
+    return bio.replace("[Your Location]", location);
+  };
+  
+  // Determine what to display based on data availability
+  const bioToDisplay = aboutMeData ? formatBio(aboutMeData.bio, aboutMeData.location) : defaultBio;
+  const additionalTextToDisplay = aboutMeData?.additionalText || defaultAdditionalText;
+  const resumeUrl = aboutMeData?.resumeUrl || defaultResumeUrl;
+  
+  // Loading state
+  if (aboutMeData === undefined) {
+    return (
+      <div className="space-y-6 animate-pulse">
+        <div className="relative">
+          <div className="h-20 bg-gray-200 dark:bg-[#222F43] rounded-md"></div>
+          <div className="absolute -left-4 top-0 w-1 h-full bg-[#ffe400] rounded-full"></div>
+        </div>
+        <div className="h-16 bg-gray-200 dark:bg-[#222F43] rounded-md"></div>
+        <div className="flex gap-4 pt-4">
+          <div className="h-12 w-32 bg-gray-200 dark:bg-[#222F43] rounded-full"></div>
+          <div className="h-12 w-32 bg-gray-200 dark:bg-[#222F43] rounded-full"></div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="space-y-6">
       <div className="relative">
         <p className="text-gray-600 dark:text-[#66768f] leading-relaxed">
-          Hey there! I&apos;m a passionate Software Engineer and Content Creator
-          based in [Your Location]. I love building beautiful, responsive,
-          and user-friendly web applications while sharing my journey and
-          knowledge with others.
+          {bioToDisplay}
         </p>
         <div className="absolute -left-4 top-0 w-1 h-full bg-[#ffe400] rounded-full"></div>
       </div>
 
       <p className="text-gray-600 dark:text-[#66768f] leading-relaxed">
-        When I&apos;m not coding, you can find me creating content, exploring new
-        technologies, or contributing to open-source projects. I believe in
-        continuous learning and sharing knowledge with the developer community.
+        {additionalTextToDisplay}
       </p>
 
       <div className="flex gap-4 pt-4">
@@ -31,7 +66,7 @@ export function AboutIntro() {
         </MagneticLink>
 
         <MagneticLink
-          href="/resume.pdf"
+          href={resumeUrl}
           className="inline-flex items-center gap-2 px-6 py-3 border-2 border-[#ffe400] 
           text-[#101010] dark:text-[#94A9C9] rounded-full font-semibold hover:scale-105 transition-transform"
         >

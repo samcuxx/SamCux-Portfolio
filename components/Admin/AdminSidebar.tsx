@@ -85,6 +85,11 @@ export default function AdminSidebar({ user }: AdminSidebarProps) {
       icon: <Link2 className="w-5 h-5" />,
     },
     {
+      name: "About Me",
+      href: "/admin/about-me",
+      icon: <User className="w-5 h-5" />,
+    },
+    {
       name: "Settings",
       href: "/admin/settings",
       icon: <Settings className="w-5 h-5" />,
