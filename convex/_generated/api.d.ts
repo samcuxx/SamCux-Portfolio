@@ -18,6 +18,7 @@ import type * as education from "../education.js";
 import type * as experience from "../experience.js";
 import type * as files from "../files.js";
 import type * as projects from "../projects.js";
+import type * as socials from "../socials.js";
 import type * as techStacks from "../techStacks.js";
 
 /**
@@ -34,6 +35,7 @@ declare const fullApi: ApiFromModules<{
   experience: typeof experience;
   files: typeof files;
   projects: typeof projects;
+  socials: typeof socials;
   techStacks: typeof techStacks;
 }>;
 export declare const api: FilterApi<

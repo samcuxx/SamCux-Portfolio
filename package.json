@@ -9,7 +9,8 @@
     "lint": "next lint",
     "seed:tech-stack": "node scripts/seed-tech-stack.js",
     "seed:education": "node scripts/seed-education.js",
-    "seed:experience": "node scripts/seed-experience.js"
+    "seed:experience": "node scripts/seed-experience.js",
+    "seed:social-links": "node scripts/seed-social-links.js"
   },
   "dependencies": {
     "clsx": "^2.1.1",

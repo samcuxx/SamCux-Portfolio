@@ -1,34 +1,52 @@
 "use client";
 import React from "react";
-import { Github, Youtube, Linkedin, Mail, ArrowUp } from "lucide-react";
+import { Github, Youtube, Linkedin, Mail, ArrowUp, Loader2, Link2 } from "lucide-react";
 import MagneticLink from "../ui/MagneticLink";
 import Link from "next/link";
-
+import { useQuery } from "convex/react";
+import { api } from "@/convex/_generated/api";
+import * as Icons from "lucide-react";
 
 
 export function Footer() {
-  const socialLinks = [
+  // Fetch social links from the database
+  const socialLinks = useQuery(api.socials.getForFooter);
+  
+  // Fallback social links in case database is empty or loading
+  const fallbackSocialLinks = [
     {
-      icon: <Github className="w-5 h-5" />,
-      href: "https://github.com/samcuxx",
-      label: "GitHub",
+      icon: "Github",
+      url: "https://github.com/samcuxx",
+      platform: "GitHub",
     },
     {
-      icon: <Youtube className="w-5 h-5" />,
-      href: "https://youtube.com/@samcux",
-      label: "YouTube",
+      icon: "Youtube",
+      url: "https://youtube.com/@samcux",
+      platform: "YouTube",
     },
     {
-      icon: <Linkedin className="w-5 h-5" />,
-      href: "https://linkedin.com/in/samcux",
-      label: "LinkedIn",
+      icon: "Linkedin",
+      url: "https://linkedin.com/in/samcux",
+      platform: "LinkedIn",
     },
     {
-      icon: <Mail className="w-5 h-5" />,
-      href: "mailto:samcuxx@gmail.com",
-      label: "Email",
+      icon: "Mail",
+      url: "mailto:samcuxx@gmail.com",
+      platform: "Email",
     },
   ];
+
+  // Render the icon for a social link
+  const renderSocialIcon = (iconName: string) => {
+    // @ts-ignore - Dynamically access icon from Lucide
+    const IconComponent = Icons[iconName];
+    return IconComponent ? <IconComponent className="w-5 h-5" /> : <Link2 className="w-5 h-5" />;
+  };
+
+  // Determine which links to display
+  const linksToDisplay = socialLinks && socialLinks.length > 0 
+    ? socialLinks 
+    : fallbackSocialLinks;
 
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -84,18 +102,30 @@ export function Footer() {
               Connect
             </h4>
             <div className="flex gap-3">
-              {socialLinks.map((link, index) => (
-                <MagneticLink
-                  key={index}
-                  href={link.href}
-                  className="p-2 rounded-lg bg-[#ffe400] bg-opacity-10 hover:bg-opacity-20
-                    text-[#101010] dark:text-[#ffe400] transition-all duration-300
-                    hover:scale-110"
-                  aria-label={link.label}
-                >
-                  {link.icon}
-                </MagneticLink>
-              ))}
+              {socialLinks === undefined ? (
+                // Loading state
+                <div className="p-2 rounded-lg bg-[#ffe400] bg-opacity-10">
+                  <Loader2 className="w-5 h-5 text-[#ffe400] animate-spin" />
+                </div>
+              ) : (
+                // Display social links
+                linksToDisplay.map((link, index) => (
+                  <MagneticLink
+                    key={index}
+                    href={link.url}
+                    className="p-2 rounded-lg bg-[#ffe400] bg-opacity-10 hover:bg-opacity-20
+                      text-[#101010] dark:text-[#ffe400] transition-all duration-300
+                      hover:scale-110"
+                    aria-label={link.platform}
+                  >
+                    {link.icon ? (
+                      renderSocialIcon(link.icon)
+                    ) : (
+                      <Link2 className="w-5 h-5" />
+                    )}
+                  </MagneticLink>
+                ))
+              )}
             </div>
           </div>
         </div>

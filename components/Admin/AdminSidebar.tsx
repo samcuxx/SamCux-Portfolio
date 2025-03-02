@@ -13,7 +13,8 @@ import {
   User,
   Code2,
   GraduationCap,
-  Briefcase
+  Briefcase,
+  Link2
 } from "lucide-react";
 import { useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
@@ -77,6 +78,11 @@ export default function AdminSidebar({ user }: AdminSidebarProps) {
       name: "Education",
       href: "/admin/education",
       icon: <GraduationCap className="w-5 h-5" />,
+    },
+    {
+      name: "Social Links",
+      href: "/admin/socials",
+      icon: <Link2 className="w-5 h-5" />,
     },
     {
       name: "Settings",

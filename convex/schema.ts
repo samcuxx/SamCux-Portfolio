@@ -65,4 +65,15 @@ export default defineSchema({
     createdAt: v.number(),
     updatedAt: v.number(),
   }),
+  socials: defineTable({
+    platform: v.string(),
+    url: v.string(),
+    icon: v.string(),
+    showInHero: v.boolean(),
+    showInFooter: v.boolean(),
+    isActive: v.optional(v.boolean()),
+    order: v.optional(v.number()),
+    createdAt: v.number(),
+    updatedAt: v.number(),
+  }),
 }); 

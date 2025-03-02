@@ -1,29 +1,49 @@
+"use client";
+
 import React from "react";
-import { ArrowRight, Github, Linkedin, Mail } from "lucide-react";
+import { ArrowRight, Github, Linkedin, Mail, Loader2, Link2 } from "lucide-react";
 import MagneticLink from "../ui/MagneticLink";
 import AnimatedText from "../ui/AnimatedText";
 import { TypewriterText } from "../ui/TypewriterText";
 import Link from "next/link";
-
+import { useQuery } from "convex/react";
+import { api } from "@/convex/_generated/api";
+import * as Icons from "lucide-react";
 
 export function HeroSection() {
-  const socialLinks = [
+  // Fetch social links from the database
+  const socialLinks = useQuery(api.socials.getForHero);
+  
+  // Fallback social links in case database is empty or loading
+  const fallbackSocialLinks = [
     {
-      icon: <Github className="w-5 h-5" />,
-      href: "https://github.com/samcuxx",
-      label: "GitHub",
+      icon: "Github",
+      url: "https://github.com/samcuxx",
+      platform: "GitHub",
     },
     {
-      icon: <Linkedin className="w-5 h-5" />,
-      href: "https://linkedin.com/in/samcux",
-      label: "LinkedIn",
+      icon: "Linkedin",
+      url: "https://linkedin.com/in/samcux",
+      platform: "LinkedIn",
     },
     {
-      icon: <Mail className="w-5 h-5" />,
-      href: "mailto:samcuxx@gmail.com",
-      label: "Email",
+      icon: "Mail",
+      url: "mailto:samcuxx@gmail.com",
+      platform: "Email",
     },
   ];
+
+  // Render the icon for a social link
+  const renderSocialIcon = (iconName: string) => {
+    // @ts-ignore - Dynamically access icon from Lucide
+    const IconComponent = Icons[iconName];
+    return IconComponent ? <IconComponent className="w-5 h-5" /> : <Link2 className="w-5 h-5" />;
+  };
+
+  // Determine which links to display
+  const linksToDisplay = socialLinks && socialLinks.length > 0 
+    ? socialLinks 
+    : fallbackSocialLinks;
 
   return (
     <div className="flex flex-col justify-center min-h-[calc(100vh-9rem)]">
@@ -88,22 +108,31 @@ export function HeroSection() {
           </Link>
 
           <div className="flex gap-3">
-            {socialLinks.map((link, index) => (
-              <MagneticLink
-                key={index}
-                href={link.href}
-                className="p-3 rounded-lg bg-white dark:bg-sa-dark-foregroung border 
-                  border-gray-200 dark:border-sa-dark-border hover:border-[#ffe400]
-                  dark:hover:border-[#ffe400] transition-all duration-300
-                  hover:scale-110 group"
-                aria-label={link.label}
-              >
-                {React.cloneElement(link.icon, {
-                  className:
-                    "w-5 h-5 text-gray-600 dark:text-sa-dark-text-main group-hover:text-[#ffe400]",
-                })}
-              </MagneticLink>
-            ))}
+            {socialLinks === undefined ? (
+              // Loading state
+              <div className="p-3 rounded-lg bg-white dark:bg-sa-dark-foregroung border border-gray-200 dark:border-sa-dark-border">
+                <Loader2 className="w-5 h-5 text-[#ffe400] animate-spin" />
+              </div>
+            ) : (
+              // Display social links
+              linksToDisplay.map((link, index) => (
+                <MagneticLink
+                  key={index}
+                  href={link.url}
+                  className="p-3 rounded-lg bg-white dark:bg-sa-dark-foregroung border 
+                    border-gray-200 dark:border-sa-dark-border hover:border-[#ffe400]
+                    dark:hover:border-[#ffe400] transition-all duration-300
+                    hover:scale-110 group"
+                  aria-label={link.platform}
+                >
+                  {link.icon ? (
+                    renderSocialIcon(link.icon)
+                  ) : (
+                    <Link2 className="w-5 h-5 text-gray-600 dark:text-sa-dark-text-main group-hover:text-[#ffe400]" />
+                  )}
+                </MagneticLink>
+              ))
+            )}
           </div>
         </div>
       </div>
