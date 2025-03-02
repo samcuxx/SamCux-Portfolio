@@ -27,4 +27,19 @@ export default defineSchema({
     isAdmin: v.boolean(),
     createdAt: v.number(),
   }),
+  techStacks: defineTable({
+    name: v.string(),
+    icon: v.string(),
+    category: v.optional(v.union(
+      v.literal("Frontend"),
+      v.literal("Backend"),
+      v.literal("Database"),
+      v.literal("DevOps"),
+      v.literal("Mobile"),
+      v.literal("Other")
+    )),
+    order: v.optional(v.number()),
+    createdAt: v.number(),
+    updatedAt: v.number(),
+  }),
 }); 

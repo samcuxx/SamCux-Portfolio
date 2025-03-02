@@ -10,7 +10,8 @@ import {
   LogOut, 
   Menu, 
   X,
-  User
+  User,
+  Code2
 } from "lucide-react";
 import { useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
@@ -59,6 +60,11 @@ export default function AdminSidebar({ user }: AdminSidebarProps) {
       name: "Projects",
       href: "/admin/projects",
       icon: <FolderKanban className="w-5 h-5" />,
+    },
+    {
+      name: "Tech Stack",
+      href: "/admin/tech-stack",
+      icon: <Code2 className="w-5 h-5" />,
     },
     {
       name: "Settings",
