@@ -1,49 +1,39 @@
+"use client";
 import React from "react";
 import Image from "next/image";
 import { Camera } from "lucide-react";
-
-
-// Sample photo data - replace with your actual photos
-const photos = [
-  {
-    url: "https://images.unsplash.com/photo-1494173853739-c21f58b16055?q=80&w=1965&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    title: "Nature's Beauty",
-    location: "Forest Trail",
-    date: "2024",
-  },
-  {
-    url: "https://images.unsplash.com/photo-1414690165279-49ab0a9a7e66?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    title: "Urban Exploration",
-    location: "Downtown",
-    date: "2024",
-  },
-  {
-    url: "https://images.unsplash.com/photo-1510074468346-504b4d8a8630?q=80&w=398&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    title: "Modern Architecture",
-    location: "City Center",
-    date: "2024",
-  },
-  {
-    url: "https://images.unsplash.com/photo-1461704946971-9e5d8b7938f0?w=200&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDh8fHxlbnwwfHx8fHw%3D",
-    title: "Self Portrait",
-    location: "Studio",
-    date: "2024",
-  },
-  {
-    url: "https://images.unsplash.com/photo-1463620910506-d0458143143e?w=200&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDE2fHx8ZW58MHx8fHx8",
-    title: "Travel Memories",
-    location: "Adventure",
-    date: "2024",
-  },
-  {
-    url: "https://images.unsplash.com/photo-1414690165279-49ab0a9a7e66?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    title: "Street Photography",
-    location: "Urban Life",
-    date: "2024",
-  },
-];
+import { useQuery } from "convex/react";
+import { api } from "@/convex/_generated/api";
+import { getConvexImageUrl } from "@/lib/utils";
 
 export function PhotosGrid() {
+  // Fetch photos from Convex database
+  const photos = useQuery(api.photos.getAll) || [];
+  
+  // Loading state
+  const [imagesLoaded, setImagesLoaded] = React.useState<Record<string, boolean>>({});
+  
+  const handleImageLoaded = (id: string) => {
+    setImagesLoaded(prev => ({ ...prev, [id]: true }));
+  };
+
+  // Sort photos: featured first, then by order if available, then by createdAt
+  const sortedPhotos = React.useMemo(() => {
+    return [...photos].sort((a, b) => {
+      // Featured photos come first
+      if (a.featured && !b.featured) return -1;
+      if (!a.featured && b.featured) return 1;
+      
+      // Then sort by order if available
+      if (a.order !== undefined && b.order !== undefined) {
+        return a.order - b.order;
+      }
+      
+      // Finally sort by creation date (newest first)
+      return b.createdAt - a.createdAt;
+    });
+  }, [photos]);
+
   return (
     <div className="space-y-8">
       <div className="flex items-center gap-2 mb-8">
@@ -55,41 +45,76 @@ export function PhotosGrid() {
         </h3>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {photos.map((photo, index) => (
-          <div
-            key={index}
-            className="group relative bg-white dark:bg-[#131C31] rounded-xl overflow-hidden
-              border border-gray-100 dark:border-[#222F43] hover:border-[#ffe400] 
-              dark:hover:border-[#ffe400] transition-all duration-300 animate-slideInUp"
-            style={{ animationDelay: `${index * 0.1}s` }}
-          >
-            <div className="relative aspect-square overflow-hidden">
-              <Image
-                src={photo.url}
-                alt={photo.title}
-                width={400}
-                height={400}
-                className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-300"
-              />
+      {sortedPhotos.length === 0 ? (
+        <div className="text-center py-12">
+          <p className="text-gray-500 dark:text-[#66768f]">No photos available yet.</p>
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {sortedPhotos.map((photo, index) => {
+            // Get image URL using our utility function
+            const imageUrl = getConvexImageUrl(photo.imageUrl);
+            const isImageLoaded = imagesLoaded[photo._id] || false;
+            
+            return (
               <div
-                className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent 
-                opacity-0 group-hover:opacity-100 transition-opacity duration-300 
-                flex items-end p-4"
+                key={photo._id}
+                className={`group relative bg-white dark:bg-[#131C31] rounded-xl overflow-hidden
+                  border ${photo.featured ? 'border-[#ffe400]' : 'border-gray-100 dark:border-[#222F43]'} hover:border-[#ffe400] 
+                  dark:hover:border-[#ffe400] transition-all duration-300 animate-slideInUp`}
+                style={{ animationDelay: `${index * 0.1}s` }}
               >
-                <div className="text-white">
-                  <h4 className="text-lg font-semibold mb-1">{photo.title}</h4>
-                  <div className="flex items-center gap-2 text-sm opacity-80">
-                    <span>{photo.location}</span>
-                    <span>•</span>
-                    <span>{photo.date}</span>
+                {photo.featured && (
+                  <div className="absolute top-2 right-2 z-10 bg-[#ffe400] text-[#101010] text-xs font-medium px-2 py-1 rounded-full">
+                    Featured
+                  </div>
+                )}
+                <div className="relative aspect-square overflow-hidden">
+                  {/* Skeleton loader */}
+                  {!isImageLoaded && (
+                    <div className="absolute inset-0">
+                      <div className="w-full h-full bg-gray-200 dark:bg-[#1E293B]">
+                        <div className="h-full w-full bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200 dark:from-[#1E293B] dark:via-[#2A3A50] dark:to-[#1E293B] bg-[length:400%_100%] animate-shimmer" />
+                      </div>
+                    </div>
+                  )}
+                  
+                  {imageUrl && (
+                    <img
+                      src={imageUrl}
+                      alt={photo.title}
+                      width={400}
+                      height={400}
+                      className={`object-cover w-full h-full group-hover:scale-105 transition-transform duration-300 ${isImageLoaded ? 'opacity-100' : 'opacity-0'}`}
+                      onLoad={() => handleImageLoaded(photo._id)}
+                      onError={(e) => {
+                        console.log("Image failed to load, using fallback");
+                        e.currentTarget.src = "/placeholder-image.jpg";
+                        e.currentTarget.onerror = null;
+                        handleImageLoaded(photo._id);
+                      }}
+                    />
+                  )}
+                  <div
+                    className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent 
+                    opacity-0 group-hover:opacity-100 transition-opacity duration-300 
+                    flex items-end p-4"
+                  >
+                    <div className="text-white">
+                      <h4 className="text-lg font-semibold mb-1">{photo.title}</h4>
+                      <div className="flex items-center gap-2 text-sm opacity-80">
+                        <span>{photo.location}</span>
+                        <span>•</span>
+                        <span>{photo.date}</span>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          </div>
-        ))}
-      </div>
+            );
+          })}
+        </div>
+      )}
     </div>
   );
 }

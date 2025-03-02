@@ -66,6 +66,10 @@ export default {
           "0%": { transform: "scale(0.9)", opacity: "0" },
           "100%": { transform: "scale(1)", opacity: "1" },
         },
+        shimmer: {
+          "0%": { backgroundPosition: "200% 0" },
+          "100%": { backgroundPosition: "0 0" },
+        },
       },
       animation: {
         fadeIn: "fadeIn 0.5s ease-out",
@@ -76,6 +80,7 @@ export default {
         wave: "wave 2.5s ease-in-out infinite",
         float: "float 6s ease-in-out infinite",
         scaleIn: "scaleIn 0.3s ease-out",
+        shimmer: "shimmer 2s infinite linear",
       },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",

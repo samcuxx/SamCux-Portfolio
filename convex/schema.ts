@@ -19,6 +19,18 @@ export default defineSchema({
     createdAt: v.number(),
     updatedAt: v.number(),
   }),
+  photos: defineTable({
+    title: v.string(),
+    location: v.string(),
+    date: v.string(),
+    imageUrl: v.string(),
+    storageId: v.optional(v.string()),
+    fileName: v.optional(v.string()),
+    featured: v.optional(v.boolean()),
+    order: v.optional(v.number()),
+    createdAt: v.number(),
+    updatedAt: v.number(),
+  }),
   users: defineTable({
     name: v.string(),
     email: v.string(),

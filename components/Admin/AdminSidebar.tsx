@@ -15,7 +15,8 @@ import {
   GraduationCap,
   Briefcase,
   Link2,
-  Mail
+  Mail,
+  Camera
 } from "lucide-react";
 import { useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
@@ -64,6 +65,11 @@ export default function AdminSidebar({ user }: AdminSidebarProps) {
       name: "Projects",
       href: "/admin/projects",
       icon: <FolderKanban className="w-5 h-5" />,
+    },
+    {
+      name: "Photos",
+      href: "/admin/photos",
+      icon: <Camera className="w-5 h-5" />,
     },
     {
       name: "Tech Stack",

@@ -10,22 +10,17 @@ export function cn(...inputs: ClassValue[]) {
  * @param imageUrl The image URL or storage ID
  * @returns A properly formatted URL
  */
-export function getConvexImageUrl(imageUrl: string | null | undefined): string {
-  if (!imageUrl) {
-    // Return placeholder silently
-    return "/placeholder-image.jpg";
-  }
+export function getConvexImageUrl(imageUrl: string) {
+  if (!imageUrl) return "/placeholder-image.jpg";
   
-  // If it's already a full URL, return it as is
-  if (imageUrl.startsWith("http://") || imageUrl.startsWith("https://") || imageUrl.startsWith("/")) {
+  // If it's already a full URL, return it
+  if (imageUrl.includes("://")) {
     return imageUrl;
   }
   
-  // If it's a storage ID, convert it to a full URL
-  // Make sure to use the correct Convex URL from environment variables
-  const convexUrl = process.env.NEXT_PUBLIC_CONVEX_URL || "https://beaming-sardine-213.convex.cloud";
-  const fullUrl = `${convexUrl}/api/storage/${imageUrl}`;
-  return fullUrl;
+  // For Convex storage IDs, construct a URL to our API endpoint
+  // This endpoint will fetch the image from Convex storage
+  return `/api/image?id=${encodeURIComponent(imageUrl)}`;
 }
 
 /**
@@ -55,4 +50,13 @@ export function getOptimizedImageUrl(imageUrl: string | null | undefined, _optio
   // For external URLs, we could implement a proxy service for optimization
   // For now, we'll just return the URL as is
   return imageUrl;
+}
+
+export function formatDate(dateString: string) {
+  const date = new Date(dateString);
+  return new Intl.DateTimeFormat("en-US", {
+    month: "long",
+    day: "numeric",
+    year: "numeric",
+  }).format(date);
 } 
