@@ -1,6 +1,7 @@
 "use client"
-import React, { createContext, useState, useMemo } from 'react';
-import { projects } from '@/data/projects';
+import React, { createContext, useState, useMemo, useEffect } from 'react';
+import { useQuery } from 'convex/react';
+import { api } from '@/convex/_generated/api';
 
 const ITEMS_PER_PAGE = 9;
 
@@ -15,6 +16,8 @@ type ProjectsFilterContextType = {
   filters: string[];
   filteredProjects: any[];
   totalProjects: number;
+  isLoading: boolean;
+  error: string | null;
 };
 
 export const ProjectsFilterContext = createContext<ProjectsFilterContextType | null>(null);
@@ -23,21 +26,58 @@ export function ProjectsFilterProvider({ children }: { children: React.ReactNode
   const [activeFilter, setActiveFilter] = useState("All");
   const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
+  const [error, setError] = useState<string | null>(null);
+  const [localProjects, setLocalProjects] = useState<any[]>([]);
+  const [localFeaturedProjects, setLocalFeaturedProjects] = useState<any[]>([]);
+
+  // Fetch projects from Convex
+  const allProjects = useQuery(api.projects.getAll);
+  const featuredProjects = useQuery(api.projects.getFeatured);
+  const isLoading = allProjects === undefined || featuredProjects === undefined;
+
+  // Update local state when Convex data changes
+  useEffect(() => {
+    if (allProjects) {
+      setLocalProjects(allProjects);
+      setError(null);
+    }
+  }, [allProjects]);
+
+  useEffect(() => {
+    if (featuredProjects) {
+      setLocalFeaturedProjects(featuredProjects);
+      setError(null);
+    }
+  }, [featuredProjects]);
+
+  // Handle potential errors
+  useEffect(() => {
+    if (allProjects === undefined && featuredProjects === undefined) {
+      // Still loading, no error yet
+      return;
+    }
+    
+    if (allProjects === null || featuredProjects === null) {
+      setError("Failed to load projects. Please try again later.");
+    }
+  }, [allProjects, featuredProjects]);
 
   const filters = ["All", "Web", "Mobile", "UI/UX", "Other"];
   
   const filteredProjects = useMemo(() => {
-    return projects
+    if (isLoading) return [];
+    
+    return localProjects
       .filter(project => {
         const matchesFilter = activeFilter === "All" ? true : project.category === activeFilter;
         const matchesSearch = searchQuery.toLowerCase().trim() === "" ? true :
           project.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
           project.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          project.tags.some(tag => tag.toLowerCase().includes(searchQuery.toLowerCase()));
+          project.tags.some((tag: string) => tag.toLowerCase().includes(searchQuery.toLowerCase()));
         
         return matchesFilter && matchesSearch && !project.featured;
       });
-  }, [activeFilter, searchQuery]);
+  }, [activeFilter, searchQuery, localProjects, isLoading]);
 
   const totalPages = Math.ceil(filteredProjects.length / ITEMS_PER_PAGE);
   
@@ -49,7 +89,7 @@ export function ProjectsFilterProvider({ children }: { children: React.ReactNode
   }, [filteredProjects, currentPage]);
 
   // Reset to first page when filter or search changes
-  useMemo(() => {
+  useEffect(() => {
     setCurrentPage(1);
   }, [activeFilter, searchQuery]);
 
@@ -68,7 +108,9 @@ export function ProjectsFilterProvider({ children }: { children: React.ReactNode
     handlePageChange,
     filters,
     filteredProjects: paginatedProjects,
-    totalProjects: filteredProjects.length
+    totalProjects: filteredProjects.length,
+    isLoading,
+    error
   };
 
   return (
