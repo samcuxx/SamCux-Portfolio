@@ -29,6 +29,10 @@ export function AboutTechStack() {
 
   // Loading state
   const isLoading = techStackData === undefined;
+  
+  // Determine the number of skeleton items to show
+  // When loading, we don't know the exact count yet, so use the fallback count
+  const skeletonCount = fallbackSkills.length;
 
   return (
     <div className="pt-6">
@@ -41,8 +45,8 @@ export function AboutTechStack() {
       
       <div className="grid grid-cols-2 gap-3">
         {isLoading ? (
-          // Show skeleton loaders while data is loading
-          Array.from({ length: 8 }).map((_, index) => (
+          // Show skeleton loaders while data is loading - match the fallback count
+          Array.from({ length: skeletonCount }).map((_, index) => (
             <div key={index} className="relative animate-slideInRight" style={{ animationDelay: `${index * 0.1}s` }}>
               <div className="absolute inset-0 bg-[#ffe400] rounded-xl rotate-1 opacity-20"></div>
               <div className="relative p-4 bg-white dark:bg-[#131C31] rounded-xl border border-gray-100 dark:border-[#222F43]">

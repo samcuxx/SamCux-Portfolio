@@ -11,7 +11,9 @@ import {
   Menu, 
   X,
   User,
-  Code2
+  Code2,
+  GraduationCap,
+  Briefcase
 } from "lucide-react";
 import { useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
@@ -65,6 +67,16 @@ export default function AdminSidebar({ user }: AdminSidebarProps) {
       name: "Tech Stack",
       href: "/admin/tech-stack",
       icon: <Code2 className="w-5 h-5" />,
+    },
+    {
+      name: "Experience",
+      href: "/admin/experience",
+      icon: <Briefcase className="w-5 h-5" />,
+    },
+    {
+      name: "Education",
+      href: "/admin/education",
+      icon: <GraduationCap className="w-5 h-5" />,
     },
     {
       name: "Settings",

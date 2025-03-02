@@ -14,6 +14,8 @@ import type {
   FunctionReference,
 } from "convex/server";
 import type * as auth from "../auth.js";
+import type * as education from "../education.js";
+import type * as experience from "../experience.js";
 import type * as files from "../files.js";
 import type * as projects from "../projects.js";
 import type * as techStacks from "../techStacks.js";
@@ -28,6 +30,8 @@ import type * as techStacks from "../techStacks.js";
  */
 declare const fullApi: ApiFromModules<{
   auth: typeof auth;
+  education: typeof education;
+  experience: typeof experience;
   files: typeof files;
   projects: typeof projects;
   techStacks: typeof techStacks;

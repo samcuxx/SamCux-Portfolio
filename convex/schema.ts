@@ -42,4 +42,27 @@ export default defineSchema({
     createdAt: v.number(),
     updatedAt: v.number(),
   }),
+  education: defineTable({
+    type: v.union(
+      v.literal("education"),
+      v.literal("certification")
+    ),
+    title: v.string(),
+    institution: v.string(),
+    year: v.string(),
+    icon: v.string(),
+    order: v.optional(v.number()),
+    createdAt: v.number(),
+    updatedAt: v.number(),
+  }),
+  experience: defineTable({
+    year: v.string(),
+    title: v.string(),
+    company: v.string(),
+    description: v.string(),
+    achievements: v.array(v.string()),
+    order: v.optional(v.number()),
+    createdAt: v.number(),
+    updatedAt: v.number(),
+  }),
 }); 

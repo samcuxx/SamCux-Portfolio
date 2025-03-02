@@ -1,7 +1,7 @@
 import React from "react";
 import { AboutHeader } from "./AboutHeader";
 import { AboutIntro } from "./AboutIntro";
-import { AboutExperience } from "./AboutExperience";
+import AboutExperience from "./AboutExperience";
 import { AboutTechStack } from "./AboutTechStack";
 import { AboutImage } from "./AboutImage";
 import { AboutStats } from "./AboutStats";
