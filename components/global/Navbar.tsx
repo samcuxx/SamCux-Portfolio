@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";import { usePathname } from "next/navigation";
-import { Menu, X, Home, User, Code, Mail } from "lucide-react";
+import { Menu, X, Home, User, Code, Mail, Camera } from "lucide-react";
 import navItems from "@/components/data/NavItem";
 import Theme from "./Theme";
 import MobileMenu from "./MobileMenu";
@@ -11,6 +11,7 @@ const navIcons = {
   "/about": <User className="w-5 h-5" />,
   "/projects": <Code className="w-5 h-5" />,
   "/contact": <Mail className="w-5 h-5" />,
+  "/photos": <Camera className="w-5 h-5" />,
 };
 
 export default function Navbar() {

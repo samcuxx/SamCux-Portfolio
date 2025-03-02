@@ -24,6 +24,11 @@ const navItems: NavItem[] = [
     id: 4,
     title: "Contact",
     path: "/contact"
+  },
+  {
+    id: 5,
+    title: "Photos",
+    path: "/photos"
   }
 ];
 

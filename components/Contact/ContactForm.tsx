@@ -3,8 +3,11 @@
 import React, { useState } from "react";
 import { Send, Loader2 } from "lucide-react";
 import { toast } from "sonner";
+import { useQuery } from "convex/react";
+import { api } from "@/convex/_generated/api";
 
 export function ContactForm() {
+  const contactData = useQuery(api.contact.get);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -15,6 +18,12 @@ export function ContactForm() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    if (!contactData) {
+      toast.error("Contact form configuration is not available");
+      return;
+    }
+    
     setLoading(true);
 
     try {
@@ -25,14 +34,14 @@ export function ContactForm() {
           Accept: "application/json",
         },
         body: JSON.stringify({
-          access_key: process.env.NEXT_PUBLIC_WEB3FORMS_KEY,
+          access_key: contactData.formApiKey,
           name: formData.name,
           email: formData.email,
           subject: formData.subject,
           message: formData.message,
           from_name: "Portfolio Contact Form", // Optional
           botcheck: false, // Optional: Spam prevention
-          
+          to_email: contactData.submissionEmail, // Send to the email configured in the admin panel
         }),
       });
 
@@ -66,6 +75,40 @@ export function ContactForm() {
       [e.target.name]: e.target.value,
     });
   };
+
+  // If contact data is not loaded yet, show skeleton UI
+  if (!contactData) {
+    return (
+      <div className="space-y-6">
+        {/* Skeleton for the name and email fields */}
+        <div className="grid md:grid-cols-2 gap-6">
+          <div className="space-y-2">
+            <div className="h-4 w-16 bg-gray-200 dark:bg-[#222F43] rounded animate-pulse"></div>
+            <div className="h-12 w-full bg-gray-200 dark:bg-[#222F43] rounded-xl animate-pulse"></div>
+          </div>
+          <div className="space-y-2">
+            <div className="h-4 w-16 bg-gray-200 dark:bg-[#222F43] rounded animate-pulse"></div>
+            <div className="h-12 w-full bg-gray-200 dark:bg-[#222F43] rounded-xl animate-pulse"></div>
+          </div>
+        </div>
+        
+        {/* Skeleton for the subject field */}
+        <div className="space-y-2">
+          <div className="h-4 w-20 bg-gray-200 dark:bg-[#222F43] rounded animate-pulse"></div>
+          <div className="h-12 w-full bg-gray-200 dark:bg-[#222F43] rounded-xl animate-pulse"></div>
+        </div>
+        
+        {/* Skeleton for the message field */}
+        <div className="space-y-2">
+          <div className="h-4 w-24 bg-gray-200 dark:bg-[#222F43] rounded animate-pulse"></div>
+          <div className="h-40 w-full bg-gray-200 dark:bg-[#222F43] rounded-xl animate-pulse"></div>
+        </div>
+        
+        {/* Skeleton for the submit button */}
+        <div className="h-12 w-40 bg-gray-200 dark:bg-[#222F43] rounded-full animate-pulse"></div>
+      </div>
+    );
+  }
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">

@@ -90,4 +90,14 @@ export default defineSchema({
     createdAt: v.number(),
     updatedAt: v.number(),
   }),
+  contact: defineTable({
+    email: v.string(),
+    phone: v.string(),
+    location: v.string(),
+    officeHours: v.string(),
+    formApiKey: v.string(), // For Web3Forms API key
+    submissionEmail: v.string(), // Email where form submissions are sent
+    createdAt: v.number(),
+    updatedAt: v.number(),
+  }),
 }); 

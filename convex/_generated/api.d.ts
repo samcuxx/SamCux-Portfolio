@@ -15,6 +15,7 @@ import type {
 } from "convex/server";
 import type * as aboutMe from "../aboutMe.js";
 import type * as auth from "../auth.js";
+import type * as contact from "../contact.js";
 import type * as education from "../education.js";
 import type * as experience from "../experience.js";
 import type * as files from "../files.js";
@@ -33,6 +34,7 @@ import type * as techStacks from "../techStacks.js";
 declare const fullApi: ApiFromModules<{
   aboutMe: typeof aboutMe;
   auth: typeof auth;
+  contact: typeof contact;
   education: typeof education;
   experience: typeof experience;
   files: typeof files;
