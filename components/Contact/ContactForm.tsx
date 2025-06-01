@@ -18,12 +18,12 @@ export function ContactForm() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!contactData) {
       toast.error("Contact form configuration is not available");
       return;
     }
-    
+
     setLoading(true);
 
     try {
@@ -39,14 +39,17 @@ export function ContactForm() {
           email: formData.email,
           subject: formData.subject,
           message: formData.message,
-          from_name: "Portfolio Contact Form", // Optional
-          botcheck: false, // Optional: Spam prevention
-          to_email: contactData.submissionEmail, // Send to the email configured in the admin panel
+          from_name: "Portfolio Contact Form",
+          to: contactData.submissionEmail, // Correct field name for Web3Forms
+          botcheck: false,
         }),
       });
 
       const result = await response.json();
-      
+
+      console.log("Web3Forms response:", result); // Debug logging
+      console.log("Email sent to:", contactData.submissionEmail); // Debug email recipient
+
       if (result.success) {
         toast.success("Thank you for your message! I'll get back to you soon.");
         // Reset form
@@ -57,6 +60,7 @@ export function ContactForm() {
           message: "",
         });
       } else {
+        console.error("Web3Forms error:", result);
         throw new Error(result.message || "Something went wrong!");
       }
     } catch (error) {
@@ -91,19 +95,19 @@ export function ContactForm() {
             <div className="h-12 w-full bg-gray-200 dark:bg-[#222F43] rounded-xl animate-pulse"></div>
           </div>
         </div>
-        
+
         {/* Skeleton for the subject field */}
         <div className="space-y-2">
           <div className="h-4 w-20 bg-gray-200 dark:bg-[#222F43] rounded animate-pulse"></div>
           <div className="h-12 w-full bg-gray-200 dark:bg-[#222F43] rounded-xl animate-pulse"></div>
         </div>
-        
+
         {/* Skeleton for the message field */}
         <div className="space-y-2">
           <div className="h-4 w-24 bg-gray-200 dark:bg-[#222F43] rounded animate-pulse"></div>
           <div className="h-40 w-full bg-gray-200 dark:bg-[#222F43] rounded-xl animate-pulse"></div>
         </div>
-        
+
         {/* Skeleton for the submit button */}
         <div className="h-12 w-40 bg-gray-200 dark:bg-[#222F43] rounded-full animate-pulse"></div>
       </div>
@@ -113,11 +117,18 @@ export function ContactForm() {
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
       {/* Spam Prevention - Hidden Input */}
-      <input type="checkbox" name="botcheck" className="hidden" style={{ display: 'none' }} />
+      <input
+        type="checkbox"
+        name="botcheck"
+        className="hidden"
+        style={{ display: "none" }}
+        aria-hidden="true"
+        tabIndex={-1}
+      />
 
       <div className="grid md:grid-cols-2 gap-6">
         <div className="space-y-2">
-          <label 
+          <label
             htmlFor="name"
             className="text-sm font-medium text-gray-600 dark:text-[#66768f]"
           >
@@ -132,7 +143,7 @@ export function ContactForm() {
             required
             minLength={2}
             maxLength={50}
-            pattern="^[A-Za-z\s'-]+$"
+            pattern="^[A-Za-z\s'\-]+$"
             title="Please enter a valid name"
             disabled={loading}
             className="w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-[#222F43] 
@@ -142,7 +153,7 @@ export function ContactForm() {
           />
         </div>
         <div className="space-y-2">
-          <label 
+          <label
             htmlFor="email"
             className="text-sm font-medium text-gray-600 dark:text-[#66768f]"
           >
@@ -155,7 +166,7 @@ export function ContactForm() {
             value={formData.email}
             onChange={handleChange}
             required
-            pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+            pattern="[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$"
             disabled={loading}
             className="w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-[#222F43] 
               bg-white dark:bg-[#131C31] text-gray-800 dark:text-[#94A9C9] 
@@ -166,7 +177,7 @@ export function ContactForm() {
       </div>
 
       <div className="space-y-2">
-        <label 
+        <label
           htmlFor="subject"
           className="text-sm font-medium text-gray-600 dark:text-[#66768f]"
         >
@@ -190,7 +201,7 @@ export function ContactForm() {
       </div>
 
       <div className="space-y-2">
-        <label 
+        <label
           htmlFor="message"
           className="text-sm font-medium text-gray-600 dark:text-[#66768f]"
         >
@@ -238,4 +249,4 @@ export function ContactForm() {
       </button>
     </form>
   );
-} 
+}

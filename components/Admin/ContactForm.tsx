@@ -236,7 +236,15 @@ export default function ContactForm({
             </button>
           </div>
           <p className="mt-1 text-xs text-gray-500 dark:text-[#66768f]">
-            Get your API key from <a href="https://web3forms.com/" target="_blank" rel="noopener noreferrer" className="text-[#ffe400] hover:underline">Web3Forms</a>
+            Get your API key from{" "}
+            <a
+              href="https://web3forms.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-[#ffe400] hover:underline"
+            >
+              Web3Forms
+            </a>
           </p>
         </div>
       </div>
@@ -259,4 +267,4 @@ export default function ContactForm({
       </div>
     </form>
   );
-} 
+}
