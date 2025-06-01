@@ -64,8 +64,8 @@ export function Footer() {
               SamCux
             </h3>
             <p className="text-gray-600 dark:text-[#66768f] text-sm">
-              Software Engineer & Content Creator, passionate about building
-              beautiful web experiences.
+              Full-Stack Engineer & Content Creator, passionate about crafting
+              sleek web, desktop, and mobile applications.
             </p>
           </div>
 

@@ -75,9 +75,7 @@ export function HeroSection() {
             cursorStyle="bar"
             phrases={[
               "Software Engineer",
-              "Full Stack Developer",
-              "UI/UX Enthusiast",
-              "Content Creator",
+              "Content Creator"
             ]}
             className="text-2xl md:text-3xl font-semibold bg-gradient-to-r from-sa-blue  to-sa-dark-primary bg-clip-text text-transparent"
           />
@@ -86,10 +84,10 @@ export function HeroSection() {
           className="text-gray-600 dark:text-[#66768f] text-lg max-w-2xl mx-auto animate-slideInUp"
           style={{ animationDelay: "0.4s" }}
         >
-          Full-stack developer focused on building{" "}
-          <span className="text-[#ffe400]">high-quality web applications</span>.
-          I help businesses and individuals turn their ideas into{" "}
-          <span className="text-[#ffe400]">successful digital products</span>{" "}
+          Full-stack developer building{" "}
+          <span className="text-[#ffe400]">high-quality applications across web, desktop, and mobile</span>.
+          I help businesses and individuals transform ideas into{" "}
+          <span className="text-[#ffe400]">polished digital products</span>{" "}
           through clean code and thoughtful solutions.
         </p>
 
