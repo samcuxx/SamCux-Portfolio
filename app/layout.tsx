@@ -39,7 +39,7 @@ export const metadata: Metadata = {
    "Windows customization","Windows 11","Windows 10","Windows","Technology","samcux windows","customization","tips","tricks","tutorials"
   ],
   alternates: {
-    canonical: "https://samcux.tech",
+    canonical: "https://www.samcux.tech/",
   },
   publisher: "SamCux",
   creator: "SamCux",
