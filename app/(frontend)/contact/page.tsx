@@ -3,6 +3,10 @@ import BgGlow from "@/components/ui/BgGlow";
 import { ScrollProgress } from "@/components/ui/ScrollProgress";
 import type { Metadata } from "next";
 
+// Add static rendering config
+export const dynamic = 'force-static';
+export const revalidate = 3600; // Revalidate every hour
+
 export const metadata: Metadata = {
   title: "Contact | SamCux - Software Engineer & Content Creator",
   description: "Get in touch with SamCux for collaborations, projects, or inquiries. Let's connect and create something amazing together.",

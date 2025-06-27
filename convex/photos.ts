@@ -18,13 +18,26 @@ export const getAll = query({
 
 // Get a single photo by ID
 export const getById = query({
-  args: { id: v.id("photos") },
-  handler: async (ctx, args) => {
+  args: { id: v.string() },
+  handler: async (ctx, args): Promise<any | null> => {
     try {
-      const photo = await ctx.db.get(args.id);
-      return photo;
+      const id = args.id as Id<"photos">;
+      const photo = await ctx.db.get(id);
+      
+      if (!photo) {
+        return null;
+      }
+      
+      // Get the storage URL for the photo
+      const storageId = photo.storageId;
+      const url = await ctx.storage.getUrl(storageId);
+      
+      return {
+        ...photo,
+        url,
+      };
     } catch (error) {
-      console.error(`Error fetching photo with ID ${args.id}:`, error);
+      // If the ID is not valid, return null
       return null;
     }
   },
@@ -184,5 +197,15 @@ export const remove = mutation({
       console.error("Error deleting photo:", error);
       throw new Error(error.message || "Failed to delete photo");
     }
+  },
+});
+
+// Function to get all photos for static params generation
+export const getAllForStaticParams = query({
+  handler: async (ctx): Promise<{id: string}[]> => {
+    const photos = await ctx.db.query("photos").collect();
+    return photos.map(photo => ({
+      id: photo._id.toString(),
+    }));
   },
 }); 

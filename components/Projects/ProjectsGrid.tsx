@@ -9,6 +9,7 @@ import { getOptimizedImageUrl } from "@/lib/utils";
 import { useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { ProjectCardSkeleton } from "./ProjectCardSkeleton";
+import { ProjectModal } from "./ProjectModal";
 
 // Define the Project interface
 interface Project {
@@ -24,7 +25,13 @@ interface Project {
 }
 
 // Create a component for project card to handle image loading
-const ProjectCard = React.memo(function ProjectCard({ project }: { project: Project }) {
+const ProjectCard = React.memo(function ProjectCard({ 
+  project, 
+  onClick 
+}: { 
+  project: Project;
+  onClick: (project: Project) => void;
+}) {
   const [imageLoaded, setImageLoaded] = useState(false);
   const [imageError, setImageError] = useState(false);
   
@@ -50,8 +57,9 @@ const ProjectCard = React.memo(function ProjectCard({ project }: { project: Proj
       className="group relative bg-white dark:bg-[#131C31] rounded-xl overflow-hidden
         border border-gray-100 dark:border-[#222F43] hover:border-[#ffe400] 
         dark:hover:border-[#ffe400] transition-all duration-300 animate-slideInUp
-        shadow-sm hover:shadow-md flex flex-col h-full"
+        shadow-sm hover:shadow-md flex flex-col h-full cursor-pointer"
       style={{ animationDelay: `${0.1}s` }}
+      onClick={() => onClick(project)}
     >
       <div className="relative overflow-hidden" style={{ minHeight: '200px' }}>
         {hasValidImage ? (
@@ -88,7 +96,7 @@ const ProjectCard = React.memo(function ProjectCard({ project }: { project: Proj
         
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 
           transition-opacity duration-300 flex items-end justify-start p-4 z-20">
-          <div className="flex gap-2">
+          <div className="flex gap-2" onClick={(e) => e.stopPropagation()}>
             <MagneticLink
               href={project.liveUrl}
               className="p-2 bg-[#ffe400] rounded-lg hover:scale-110 transition-transform"
@@ -142,6 +150,21 @@ export function ProjectsGrid() {
     isLoading,
     error
   } = useProjectsFilter();
+  
+  // State for modal
+  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  
+  // Handle click on project
+  const handleProjectClick = (project: Project) => {
+    setSelectedProject(project);
+    setIsModalOpen(true);
+  };
+  
+  // Handle modal close
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
 
   // Memoize the projects to prevent unnecessary re-renders
   const memoizedProjects = React.useMemo(() => {
@@ -181,7 +204,11 @@ export function ProjectsGrid() {
     <>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {memoizedProjects.map((project) => (
-          <ProjectCard key={project._id} project={project} />
+          <ProjectCard 
+            key={project._id} 
+            project={project} 
+            onClick={handleProjectClick}
+          />
         ))}
       </div>
       
@@ -189,6 +216,12 @@ export function ProjectsGrid() {
         currentPage={currentPage}
         totalPages={totalPages}
         onPageChange={handlePageChange}
+      />
+      
+      <ProjectModal 
+        project={selectedProject}
+        isOpen={isModalOpen}
+        onClose={handleCloseModal}
       />
     </>
   );

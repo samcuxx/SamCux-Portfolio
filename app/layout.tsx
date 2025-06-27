@@ -6,6 +6,10 @@ import CursorEffect from "@/components/ui/CursorEffect";
 import { Toaster } from 'sonner';
 import ConvexClientProvider from "@/components/global/ConvexClientProvider";
 
+// Force static rendering at the root level for better performance
+export const dynamic = 'force-static';
+export const revalidate = 86400; // Revalidate once per day
+
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
 
 const dynaPuff = DynaPuff({

@@ -7,6 +7,7 @@ import { useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { getOptimizedImageUrl } from "@/lib/utils";
 import { FeaturedProjectCardSkeleton } from "./ProjectCardSkeleton";
+import { ProjectModal } from "./ProjectModal";
 
 // Define the Project interface
 interface Project {
@@ -22,7 +23,13 @@ interface Project {
 }
 
 // Create a component for featured project card to handle image loading
-function FeaturedProjectCard({ project }: { project: Project }) {
+function FeaturedProjectCard({ 
+  project,
+  onClick
+}: { 
+  project: Project;
+  onClick: (project: Project) => void;
+}) {
   const [imageLoaded, setImageLoaded] = useState(false);
   const [imageError, setImageError] = useState(false);
   
@@ -48,8 +55,9 @@ function FeaturedProjectCard({ project }: { project: Project }) {
       className="group relative bg-white dark:bg-[#131C31] rounded-2xl overflow-hidden
         border border-gray-100 dark:border-[#222F43] hover:border-[#ffe400] 
         dark:hover:border-[#ffe400] transition-all duration-300 animate-slideInUp
-        shadow-sm hover:shadow-md"
+        shadow-sm hover:shadow-md cursor-pointer"
       style={{ animationDelay: `${0.1}s` }}
+      onClick={() => onClick(project)}
     >
       <div className="grid md:grid-cols-2 gap-6">
         {/* Image Section - Fixed height to maintain consistent sizing */}
@@ -90,7 +98,7 @@ function FeaturedProjectCard({ project }: { project: Project }) {
             className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 
             transition-opacity duration-300 flex items-end justify-start p-6 z-20"
           >
-            <div className="flex gap-3">
+            <div className="flex gap-3" onClick={(e) => e.stopPropagation()}>
               <MagneticLink
                 href={project.liveUrl}
                 className="p-2 bg-[#ffe400] rounded-lg hover:scale-110 transition-transform"
@@ -135,6 +143,21 @@ function FeaturedProjectCard({ project }: { project: Project }) {
 export function FeaturedProjects() {
   const [localProjects, setLocalProjects] = useState<Project[]>([]);
   const [error, setError] = useState<string | null>(null);
+  
+  // State for modal
+  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  
+  // Handle click on project
+  const handleProjectClick = (project: Project) => {
+    setSelectedProject(project);
+    setIsModalOpen(true);
+  };
+  
+  // Handle modal close
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
   
   const featuredProjects = useQuery(api.projects.getFeatured);
   
@@ -198,9 +221,19 @@ export function FeaturedProjects() {
 
       <div className="grid grid-cols-1 gap-8">
         {memoizedProjects.map((project) => (
-          <FeaturedProjectCard key={project._id} project={project} />
+          <FeaturedProjectCard 
+            key={project._id} 
+            project={project} 
+            onClick={handleProjectClick} 
+          />
         ))}
       </div>
+      
+      <ProjectModal 
+        project={selectedProject}
+        isOpen={isModalOpen}
+        onClose={handleCloseModal}
+      />
     </div>
   );
 }

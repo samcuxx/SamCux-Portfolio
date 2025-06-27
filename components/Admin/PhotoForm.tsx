@@ -8,7 +8,6 @@ import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { getGitHubUserFromCookies } from "@/lib/convex-client";
 import { getConvexImageUrl } from "@/lib/utils";
-import Image from "next/image";
 
 type PhotoFormProps = {
   mode: "create" | "edit";
@@ -223,6 +222,7 @@ export default function PhotoForm({ mode, initialData }: PhotoFormProps) {
                   setImageFile(null);
                 }}
                 className="absolute top-1 right-1 p-1 bg-red-500 text-white rounded-full hover:bg-red-600"
+                aria-label="Remove image"
               >
                 <X className="w-3 h-3" />
               </button>

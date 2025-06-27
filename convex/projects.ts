@@ -133,4 +133,38 @@ export const search = query({
       );
     });
   },
+});
+
+// Function to get all projects for static params generation
+export const getAllForStaticParams = query({
+  handler: async (ctx): Promise<{slug: string}[]> => {
+    const projects = await ctx.db.query("projects").collect();
+    return projects.map(project => ({
+      slug: project._id.toString(), // Using ID as slug for now - you can add a proper slug field later
+    }));
+  },
+});
+
+// Function to get project by slug
+export const getBySlug = query({
+  args: { slug: v.string() },
+  handler: async (ctx, args): Promise<any | null> => {
+    // Currently using ID as slug - update this if you add a dedicated slug field
+    try {
+      const id = args.slug as Id<"projects">;
+      const project = await ctx.db.get(id);
+      
+      if (!project) {
+        return null;
+      }
+      
+      return {
+        ...project,
+        slug: project._id.toString(),
+      };
+    } catch (error) {
+      // If the slug is not a valid ID, return null
+      return null;
+    }
+  },
 }); 

@@ -5,7 +5,6 @@ import { useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { Id } from "@/convex/_generated/dataModel";
 import { Loader2, Save, Upload, X, Image as ImageIcon, FileText } from "lucide-react";
-import Image from "next/image";
 
 interface AboutMeFormProps {
   initialData?: {
@@ -226,16 +225,16 @@ export default function AboutMeForm({
             <div className="relative w-32 h-32 bg-gray-100 dark:bg-[#222F43] rounded-lg overflow-hidden flex items-center justify-center border border-gray-300 dark:border-[#222F43]">
               {profileImageUrl ? (
                 <>
-                  <Image
+                  <img
                     src={profileImageUrl}
                     alt="Profile"
-                    fill
-                    className="object-cover"
+                    className="absolute inset-0 w-full h-full object-cover"
                   />
                   <button
                     type="button"
                     onClick={() => setProfileImageUrl("")}
                     className="absolute top-1 right-1 p-1 bg-red-500 text-white rounded-full"
+                    aria-label="Remove profile image"
                   >
                     <X className="w-3 h-3" />
                   </button>

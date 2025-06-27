@@ -7,7 +7,6 @@ import { Loader2, Plus, Pencil, Trash2, Camera } from "lucide-react";
 import Link from "next/link";
 import { toast } from "sonner";
 import { getConvexImageUrl } from "@/lib/utils";
-import Image from "next/image";
 import { Id } from "@/convex/_generated/dataModel";
 
 export default function PhotosAdminPage() {
@@ -133,6 +132,7 @@ export default function PhotosAdminPage() {
                         onClick={() => handleDelete(photo._id)}
                         disabled={isDeleting === photo._id}
                         className="p-2 bg-white text-red-500 rounded-full hover:bg-red-500 hover:text-white disabled:opacity-50 disabled:cursor-not-allowed"
+                        aria-label="Delete photo"
                       >
                         {isDeleting === photo._id ? (
                           <Loader2 className="w-4 h-4 animate-spin" />
