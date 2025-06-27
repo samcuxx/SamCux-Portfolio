@@ -28,7 +28,7 @@ export default function FrontendLayout({
       <Navbar />
       <main className="min-h-[calc(100vh-64px)] pt-16">
         <Suspense fallback={<LoadingFallback />}>
-          {children}
+      {children}
         </Suspense>
       </main>
       <Footer />

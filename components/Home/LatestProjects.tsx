@@ -99,62 +99,62 @@ export function LatestProjects() {
           return (
             <div
               key={project._id}
-              className="group relative animate-slideInUp bg-white dark:bg-[#131C31] 
-                rounded-xl overflow-hidden border border-gray-100 dark:border-[#222F43] 
+            className="group relative animate-slideInUp bg-white dark:bg-[#131C31] 
+              rounded-xl overflow-hidden border border-gray-100 dark:border-[#222F43] 
                 hover:border-[#ffe400] dark:hover:border-[#ffe400] transition-all duration-300
                 cursor-pointer"
-              style={{ animationDelay: `${index * 0.1}s` }}
+            style={{ animationDelay: `${index * 0.1}s` }}
               onClick={() => handleProjectClick(project)}
-            >
-              <div className="relative h-48 overflow-hidden">
+          >
+            <div className="relative h-48 overflow-hidden">
                 <img
                   src={displayImageUrl || "/placeholder-image.jpg"}
-                  alt={project.title}
+                alt={project.title}
                   className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
                   onError={(e) => {
                     e.currentTarget.src = "/placeholder-image.jpg";
                   }}
-                />
-              </div>
+              />
+            </div>
 
-              <div className="p-6">
-                <h3 className="text-xl font-semibold mb-2 text-[#101010] dark:text-[#94A9C9]">
-                  {project.title}
-                </h3>
+            <div className="p-6">
+              <h3 className="text-xl font-semibold mb-2 text-[#101010] dark:text-[#94A9C9]">
+                {project.title}
+              </h3>
                 <p className="text-gray-600 dark:text-[#66768f] mb-4 line-clamp-2">
-                  {project.description}
-                </p>
+                {project.description}
+              </p>
 
-                <div className="flex flex-wrap gap-2 mb-4">
+              <div className="flex flex-wrap gap-2 mb-4">
                   {project.tags.slice(0, 3).map((tag, i) => (
-                    <span
-                      key={i}
-                      className="px-3 py-1 bg-[#ffe400] bg-opacity-10 text-[#101010] 
-                        dark:text-[#94A9C9] rounded-lg text-sm font-medium"
-                    >
-                      {tag}
-                    </span>
-                  ))}
-                </div>
+                  <span
+                    key={i}
+                    className="px-3 py-1 bg-[#ffe400] bg-opacity-10 text-[#101010] 
+                      dark:text-[#94A9C9] rounded-lg text-sm font-medium"
+                  >
+                    {tag}
+                  </span>
+                ))}
+              </div>
 
                 <div className="flex gap-4" onClick={(e) => e.stopPropagation()}>
-                  <MagneticLink
-                    href={project.githubUrl}
-                    className="p-2 rounded-lg hover:bg-[#ffe400] hover:bg-opacity-10 
-                      text-[#101010] dark:text-[#94A9C9] transition-all duration-300"
-                  >
-                    <Github className="w-5 h-5" />
-                  </MagneticLink>
-                  <MagneticLink
-                    href={project.liveUrl}
-                    className="p-2 rounded-lg hover:bg-[#ffe400] hover:bg-opacity-10 
-                      text-[#101010] dark:text-[#94A9C9] transition-all duration-300"
-                  >
-                    <ExternalLink className="w-5 h-5" />
-                  </MagneticLink>
-                </div>
+                <MagneticLink
+                  href={project.githubUrl}
+                  className="p-2 rounded-lg hover:bg-[#ffe400] hover:bg-opacity-10 
+                    text-[#101010] dark:text-[#94A9C9] transition-all duration-300"
+                >
+                  <Github className="w-5 h-5" />
+                </MagneticLink>
+                <MagneticLink
+                  href={project.liveUrl}
+                  className="p-2 rounded-lg hover:bg-[#ffe400] hover:bg-opacity-10 
+                    text-[#101010] dark:text-[#94A9C9] transition-all duration-300"
+                >
+                  <ExternalLink className="w-5 h-5" />
+                </MagneticLink>
               </div>
             </div>
+          </div>
           );
         })}
       </div>

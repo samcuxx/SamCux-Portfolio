@@ -133,7 +133,7 @@ export const search = query({
       );
     });
   },
-});
+}); 
 
 // Function to get all projects for static params generation
 export const getAllForStaticParams = query({

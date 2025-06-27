@@ -24,6 +24,7 @@ export const metadata: Metadata = {
   title: "SamCux | Software Engineer & Content Creator",
   description: "Passionate Computer Science and Content Creator who tries to help other people to Personalize your digital space.",
   metadataBase: new URL("https://samcux.tech"),
+  manifest: "/manifest.json",
   openGraph: {
     title: "SamCux",
     description: "Passionate Computer Science and Content Creator who tries to help other people to Personalize your digital space.",
