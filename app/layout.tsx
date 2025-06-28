@@ -3,11 +3,11 @@ import "@/styles/globals.css";
 import { ThemeProvider } from "@/components/global/Provider";
 import { Inter, DynaPuff } from "next/font/google";
 import CursorEffect from "@/components/ui/CursorEffect";
-import { Toaster } from 'sonner';
+import { Toaster } from "sonner";
 import ConvexClientProvider from "@/components/global/ConvexClientProvider";
 
 // Force static rendering at the root level for better performance
-export const dynamic = 'force-static';
+export const dynamic = "force-static";
 export const revalidate = 86400; // Revalidate once per day
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
@@ -21,13 +21,15 @@ const dynaPuff = DynaPuff({
 
 // Metadata needs to be exported from a server component
 export const metadata: Metadata = {
-  title: "SamCux | Software Engineer & Content Creator",
-  description: "Passionate Computer Science and Content Creator who tries to help other people to Personalize your digital space.",
+  title: "SamCux",
+  description:
+    "Passionate Computer Science and Content Creator who tries to help other people to Personalize your digital space.",
   metadataBase: new URL("https://samcux.tech"),
   manifest: "/manifest.json",
   openGraph: {
     title: "SamCux",
-    description: "Passionate Computer Science and Content Creator who tries to help other people to Personalize your digital space.",
+    description:
+      "Passionate Computer Science and Content Creator who tries to help other people to Personalize your digital space.",
     images: [
       {
         url: "/images/opengraph-image.png",
@@ -36,8 +38,27 @@ export const metadata: Metadata = {
       },
     ],
   },
-  keywords: ["SamCux","SamCux youtube", "SamCux Tech", "SamCux Projects", "SamCux developer", "SamCux Content", "SamCux Blog", "SamCux Portfolio", "SamCux Resume", "SamCux About", 
-   "Windows customization","Windows 11","Windows 10","Windows","Technology","samcux windows","customization","tips","tricks","tutorials"
+  keywords: [
+    "SamCux",
+    "SamCux youtube",
+    "SamCux Tech",
+    "SamCux Projects",
+    "SamCux developer",
+    "SamCux Content",
+    "SamCux Blog",
+    "SamCux Portfolio",
+    "SamCux Resume",
+    "SamCux About",
+    "Windows customization",
+    "Windows 11",
+    "Windows 10",
+    "Windows",
+    "Technology",
+    "samcux windows",
+    "customization",
+    "tips",
+    "tricks",
+    "tutorials",
   ],
   alternates: {
     canonical: "https://www.samcux.tech/",
@@ -51,7 +72,6 @@ export const metadata: Metadata = {
       index: true,
       follow: true,
     },
-
   },
   // other: {
   //   "google-site-verification": "IzcWMgn5Qjf-LCtA337KTGjivsf9bmod_1pZ-jxYQh8",
@@ -64,7 +84,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning className={`${inter.variable} ${dynaPuff.variable}`}>
+    <html
+      lang="en"
+      suppressHydrationWarning
+      className={`${inter.variable} ${dynaPuff.variable}`}
+    >
       <body className="antialiased bg-sa-light-bg text-sa-light-accent dark:bg-sa-dark-bg dark:text-sa-dark-text-main">
         <ConvexClientProvider>
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
