@@ -8,3 +8,7 @@ export function cn(...inputs: ClassValue[]) {
 export function getOptimizedImageUrl(storageId: string): string {
   return `/api/image?id=${storageId}`
 }
+
+export function getConvexImageUrl(storageId: string): string {
+  return `/api/image?id=${storageId}`
+}

@@ -49,13 +49,13 @@ export default function Navbar() {
                       aria-label={item.label}
                       className={cn(
                         buttonVariants({ variant: "ghost", size: "icon" }),
-                        "size-12 rounded-full",
+                        "size-9 rounded-full",
                         pathname === item.path
                           ? "text-[#ffe400] bg-[#ffe400]/10"
                           : "text-[#101010] dark:text-[#94A9C9] hover:text-[#ffe400] dark:hover:text-[#ffe400]"
                       )}
                     >
-                      <item.icon className="size-4" />
+                      <item.icon className="size-3.5" />
                     </Link>
                   </TooltipTrigger>
                   <TooltipContent>
@@ -65,12 +65,12 @@ export default function Navbar() {
               </DockIcon>
             ))}
             
-            <Separator orientation="vertical" className="h-full py-2" />
+            <Separator orientation="vertical" className="h-full py-1" />
             
             <DockIcon>
               <Tooltip>
                 <TooltipTrigger asChild>
-                  <div className="size-12 flex items-center justify-center">
+                  <div className="size-9 flex items-center justify-center">
                     <Theme />
                   </div>
                 </TooltipTrigger>
