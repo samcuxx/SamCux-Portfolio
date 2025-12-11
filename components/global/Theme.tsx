@@ -16,13 +16,13 @@ export default function Theme() {
 
   if (!hasMounted)
     return (
-      <span className="animate-pulse min-w-[28px] min-h-[28px] p-2 rounded-full dark:bg-sa-dark-foregroung bg-sa-light-foregroung border dark:border-sa-dark-foregroung border-sa-light-foregroung"></span>
+      <span className="animate-pulse size-3.5 rounded-full bg-gray-300 dark:bg-gray-600"></span>
     );
 
   return (
     <button
       onClick={toggleTheme}
-      className={`dark:bg-sa-dark-foregroung bg-sa-light-foregroung dark:text-sa-dark-text-low text-sa-light-accent border dark:border-sa-dark-foregroung border-sa-light-foregroung rounded-full p-2 duration-300 transition-transform group: ${
+      className={`text-[#101010] dark:text-[#94A9C9] hover:text-[#ffe400] dark:hover:text-[#ffe400] duration-300 transition-all ${
         currentTheme === "light" ? "-rotate-180" : "rotate-0"
       }`}
       aria-label="Toggle Theme"
