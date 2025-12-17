@@ -35,18 +35,14 @@ const ProjectCard = React.memo(function ProjectCard({
   const [imageLoaded, setImageLoaded] = useState(false);
   const [imageError, setImageError] = useState(false);
   
-  // Get the image URL directly from Convex if it's a storage ID
+  // Determine if the URL is a storage ID or a full URL
   const isStorageId = project.imageUrl && !project.imageUrl.includes("://") && !project.imageUrl.startsWith("/");
-  const imageUrl = useQuery(
-    api.files.getUrl, 
-    isStorageId ? { storageId: project.imageUrl } : "skip"
-  );
   
-  // Use the optimized image URL function
-  const displayImageUrl = getOptimizedImageUrl(
-    isStorageId && imageUrl ? imageUrl : project.imageUrl,
-    { width: 600, quality: 80 }
-  );
+  // Use the optimized image URL function directly with the storage ID if applicable
+  // If it's already a URL (external link), use it as is
+  const displayImageUrl = isStorageId 
+    ? getOptimizedImageUrl(project.imageUrl)
+    : project.imageUrl;
   
   // Check if we have a valid image URL
   const hasValidImage = Boolean(displayImageUrl) && displayImageUrl !== null;
