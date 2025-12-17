@@ -24,7 +24,7 @@ export const metadata: Metadata = {
   title: "SamCux",
   description:
     "Passionate Computer Science and Content Creator who tries to help other people to Personalize your digital space.",
-  metadataBase: new URL("https://samcux.tech"),
+  metadataBase: new URL("https://samcux.com"),
   manifest: "/manifest.json",
   openGraph: {
     title: "SamCux",
@@ -61,7 +61,7 @@ export const metadata: Metadata = {
     "tutorials",
   ],
   alternates: {
-    canonical: "https://www.samcux.tech/",
+    canonical: "https://www.samcux.com/",
   },
   publisher: "SamCux",
   creator: "SamCux",
