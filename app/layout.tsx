@@ -21,15 +21,15 @@ const dynaPuff = DynaPuff({
 
 // Metadata needs to be exported from a server component
 export const metadata: Metadata = {
-  title: "SamCux",
+  title: "SamCux - Software Engineer & Content Creator",
   description:
-    "Passionate Computer Science and Content Creator who tries to help other people to Personalize your digital space.",
+    "Software Engineer and Content Creator based in Ghana. Founder of SamCux Development Consult, building modern digital solutions for businesses and startups.",
   metadataBase: new URL("https://samcux.com"),
   manifest: "/manifest.json",
   openGraph: {
-    title: "SamCux",
+    title: "SamCux - Software Engineer & Content Creator",
     description:
-      "Passionate Computer Science and Content Creator who tries to help other people to Personalize your digital space.",
+      "Software Engineer and Content Creator based in Ghana. Founder of SamCux Development Consult, building modern digital solutions for businesses and startups.",
     images: [
       {
         url: "/images/opengraph-image.png",
@@ -40,25 +40,23 @@ export const metadata: Metadata = {
   },
   keywords: [
     "SamCux",
-    "SamCux youtube",
-    "SamCux Tech",
-    "SamCux Projects",
-    "SamCux developer",
-    "SamCux Content",
-    "SamCux Blog",
+    "Software Engineer",
+    "Software Development",
+    "Content Creator",
+    "Ghana",
+    "Samuel Amoah",
+    "SamCux Development Consult",
+    "Web Development",
+    "Digital Solutions",
+    "Software Consulting",
+    "Software Agency",
+    "Tech Ghana",
+    "React Developer",
+    "Next.js Developer",
+    "Full Stack Developer",
     "SamCux Portfolio",
-    "SamCux Resume",
-    "SamCux About",
-    "Windows customization",
-    "Windows 11",
-    "Windows 10",
-    "Windows",
-    "Technology",
-    "samcux windows",
-    "customization",
-    "tips",
-    "tricks",
-    "tutorials",
+    "SamCux Projects",
+    "Software Development Ghana",
   ],
   alternates: {
     canonical: "https://www.samcux.com/",

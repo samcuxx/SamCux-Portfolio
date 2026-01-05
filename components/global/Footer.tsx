@@ -64,8 +64,8 @@ export function Footer() {
               SamCux
             </h3>
             <p className="text-gray-600 dark:text-[#66768f] text-sm">
-              Full-Stack Engineer & Content Creator, passionate about crafting
-              sleek web, desktop, and mobile applications.
+              Software Engineer & Content Creator. Founder of SamCux Development Consult,
+              building modern digital solutions for businesses and startups in Ghana.
             </p>
           </div>
 
@@ -133,7 +133,7 @@ export function Footer() {
         {/* Bottom Section */}
         <div className="flex flex-col md:flex-row justify-between items-center pt-8 border-t border-gray-100 dark:border-[#222F43]">
           <p className="text-gray-600 dark:text-[#66768f] text-sm mb-4 md:mb-0">
-            © {new Date().getFullYear()} SamCux. All rights reserved.
+            © {new Date().getFullYear()} Samuel Amoah | SamCux Development Consult. All rights reserved.
           </p>
 
           <button

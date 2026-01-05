@@ -8,13 +8,13 @@ export const dynamic = "force-static";
 export const revalidate = 3600; // Revalidate every hour
 
 export const metadata: Metadata = {
-  title: "SamCux",
+  title: "SamCux - Software Engineer & Content Creator",
   description:
-    "Passionate Computer Science and Content Creator who helps others personalize their digital space. Discover my projects, skills, and content.",
+    "Software Engineer and Content Creator based in Ghana. Founder of SamCux Development Consult. Discover my projects, software solutions, and content.",
   openGraph: {
-    title: "SamCux",
+    title: "SamCux - Software Engineer & Content Creator",
     description:
-      "Passionate Computer Science and Content Creator who helps others personalize their digital space. Discover my projects, skills, and content.",
+      "Software Engineer and Content Creator based in Ghana. Founder of SamCux Development Consult. Discover my projects, software solutions, and content.",
     images: [
       {
         url: "/images/opengraph-image.png",

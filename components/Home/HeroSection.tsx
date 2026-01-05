@@ -84,11 +84,12 @@ export function HeroSection() {
           className="text-gray-600 dark:text-[#66768f] text-lg max-w-2xl mx-auto animate-slideInUp"
           style={{ animationDelay: "0.4s" }}
         >
-          Full-stack developer building{" "}
-          <span className="text-[#ffe400]">high-quality applications across web, desktop, and mobile</span>.
-          I help businesses and individuals transform ideas into{" "}
-          <span className="text-[#ffe400]">polished digital products</span>{" "}
-          through clean code and thoughtful solutions.
+          Founder of{" "}
+          <span className="text-[#ffe400]">SamCux Development Consult</span>.
+          Building modern digital solutions for businesses and startups in Ghana.
+          I help transform ideas into{" "}
+          <span className="text-[#ffe400]">polished software products</span>{" "}
+          through clean code and thoughtful engineering solutions.
         </p>
 
         <div

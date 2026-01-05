@@ -11,8 +11,8 @@ export function AboutIntro() {
   const aboutMeData = useQuery(api.aboutMe.get);
   
   // Default values in case data is not available
-  const defaultBio = "Hey there! I'm a passionate Software Engineer and Content Creator. I love building beautiful, responsive, and user-friendly web applications while sharing my journey and knowledge with others.";
-  const defaultAdditionalText = "When I'm not coding, you can find me creating content, exploring new technologies, or contributing to open-source projects. I believe in continuous learning and sharing knowledge with the developer community.";
+  const defaultBio = "I am a professional Software Engineer and Content Creator based in Ghana. I am also the Founder of SamCux Development Consult, a software development company focused on building modern digital solutions for businesses and startups.";
+  const defaultAdditionalText = "Through my work, I help businesses in Ghana leverage software solutions to grow and scale their operations. I create educational content through my YouTube channel and blog, sharing knowledge about software development, technology trends, and building digital solutions.";
   const defaultLocation = "Your Location";
   const defaultResumeUrl = "/resume.pdf";
   
