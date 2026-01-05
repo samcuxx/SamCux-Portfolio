@@ -64,8 +64,16 @@ export function Footer() {
               SamCux
             </h3>
             <p className="text-gray-600 dark:text-[#66768f] text-sm">
-              Software Engineer & Content Creator. Founder of SamCux Development Consult,
-              building modern digital solutions for businesses and startups in Ghana.
+              Software Engineer & Content Creator. Founder of{" "}
+              <Link 
+                href="https://services.samcux.com/" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="font-semibold text-[#101010] dark:text-[#94A9C9] hover:text-[#ffe400] underline decoration-2 underline-offset-2 hover:decoration-[#ffe400] transition-colors"
+              >
+                SamCux Development Consult
+              </Link>
+              , building modern digital solutions for businesses and startups in Ghana.
             </p>
           </div>
 
@@ -133,7 +141,16 @@ export function Footer() {
         {/* Bottom Section */}
         <div className="flex flex-col md:flex-row justify-between items-center pt-8 border-t border-gray-100 dark:border-[#222F43]">
           <p className="text-gray-600 dark:text-[#66768f] text-sm mb-4 md:mb-0">
-            © {new Date().getFullYear()} Samuel Amoah | SamCux Development Consult. All rights reserved.
+            © {new Date().getFullYear()} Samuel Amoah |{" "}
+            <Link 
+              href="https://services.samcux.com/" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="hover:text-[#ffe400] underline decoration-1 underline-offset-2 transition-colors"
+            >
+              SamCux Development Consult
+            </Link>
+            . All rights reserved.
           </p>
 
           <button

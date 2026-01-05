@@ -85,8 +85,15 @@ export function HeroSection() {
           style={{ animationDelay: "0.4s" }}
         >
           Founder of{" "}
-          <span className="text-[#ffe400]">SamCux Development Consult</span>.
-          Building modern digital solutions for businesses and startups in Ghana.
+          <Link 
+            href="https://services.samcux.com/" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="text-[#ffe400] hover:text-[#ffd700] underline decoration-2 underline-offset-2 hover:decoration-[#ffd700] transition-colors font-semibold"
+          >
+            SamCux Development Consult
+          </Link>
+          . Building modern digital solutions for businesses and startups in Ghana.
           I help transform ideas into{" "}
           <span className="text-[#ffe400]">polished software products</span>{" "}
           through clean code and thoughtful engineering solutions.

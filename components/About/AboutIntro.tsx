@@ -5,6 +5,7 @@ import MagneticLink from "@/components/ui/MagneticLink";
 import { Download, ArrowRight, Loader2 } from "lucide-react";
 import { useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
+import Link from "next/link";
 
 export function AboutIntro() {
   // Fetch about me data from the database
@@ -21,8 +22,31 @@ export function AboutIntro() {
     return bio.replace("[Your Location]", location);
   };
   
+  // Format bio with link to SamCux Development Consult
+  const formatBioWithLink = (bio: string) => {
+    const parts = bio.split("SamCux Development Consult");
+    if (parts.length === 2) {
+      return (
+        <>
+          {parts[0]}
+          <Link 
+            href="https://services.samcux.com/" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="font-semibold text-[#101010] dark:text-[#94A9C9] hover:text-[#ffe400] underline decoration-2 underline-offset-2 hover:decoration-[#ffe400] transition-colors"
+          >
+            SamCux Development Consult
+          </Link>
+          {parts[1]}
+        </>
+      );
+    }
+    return bio;
+  };
+  
   // Determine what to display based on data availability
   const bioToDisplay = aboutMeData ? formatBio(aboutMeData.bio, aboutMeData.location) : defaultBio;
+  const bioToRender = typeof bioToDisplay === 'string' ? formatBioWithLink(bioToDisplay) : bioToDisplay;
   const additionalTextToDisplay = aboutMeData?.additionalText || defaultAdditionalText;
   const resumeUrl = aboutMeData?.resumeUrl || defaultResumeUrl;
   
@@ -47,7 +71,7 @@ export function AboutIntro() {
     <div className="space-y-6">
       <div className="relative">
         <p className="text-gray-600 dark:text-[#66768f] leading-relaxed">
-          {bioToDisplay}
+          {bioToRender}
         </p>
         <div className="absolute -left-4 top-0 w-1 h-full bg-[#ffe400] rounded-full"></div>
       </div>
