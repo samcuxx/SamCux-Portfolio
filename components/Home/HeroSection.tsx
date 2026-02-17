@@ -4,7 +4,7 @@ import React from "react";
 import { ArrowRight, Github, Linkedin, Mail, Link2 } from "lucide-react";
 import MagneticLink from "../ui/MagneticLink";
 import AnimatedText from "../ui/AnimatedText";
-import { TypewriterText } from "../ui/TypewriterText";
+import { MorphingText } from "../ui/MorphingText";
 import Link from "next/link";
 
 const HERO_SOCIAL_LINKS = [
@@ -60,19 +60,12 @@ export function HeroSection() {
         >
           <AnimatedText
             text="SamCux"
-            className={`font-dynapuff text-5xl md:text-7xl font-bold text-[#101010] dark:text-[#94A9C9]`}
+            className={`font-dynapuff text-6xl md:text-8xl font-bold text-[#101010] dark:text-[#94A9C9]`}
             initialClass="text-animate-fast"
           />
-          <TypewriterText
-            typingSpeed={100}
-            deletingSpeed={50}
-            pauseDuration={2000}
-            cursorStyle="bar"
-            phrases={[
-              "Software Engineer",
-              "Content Creator"
-            ]}
-            className="text-2xl md:text-3xl font-semibold bg-gradient-to-r from-sa-blue  to-sa-dark-primary bg-clip-text text-transparent"
+          <MorphingText
+            texts={["Software Engineer", "Content Creator"]}
+            className="mt-1"
           />
         </div>
         <p
@@ -80,17 +73,19 @@ export function HeroSection() {
           style={{ animationDelay: "0.4s" }}
         >
           Founder of{" "}
-          <Link 
-            href="https://services.samcux.com/" 
-            target="_blank" 
+          <Link
+            href="https://services.samcux.com/"
+            target="_blank"
             rel="noopener noreferrer"
-            className="text-[#ffe400] hover:text-[#ffd700] underline decoration-2 underline-offset-2 hover:decoration-[#ffd700] transition-colors font-semibold"
+            className="font-semibold underline decoration-[#ffe400] decoration-2 underline-offset-4 hover:text-[#ffe400] transition-colors"
           >
             SamCux Development Consult
           </Link>
           . Building modern digital solutions for businesses and startups in Ghana.
           I help transform ideas into{" "}
-          <span className="text-[#ffe400]">polished software products</span>{" "}
+          <span className="font-semibold text-[#ffe400] bg-[#ffe40033] px-1 rounded-sm">
+            polished software products
+          </span>{" "}
           through clean code and thoughtful engineering solutions.
         </p>
 

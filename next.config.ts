@@ -7,6 +7,9 @@ const nextConfig: NextConfig = {
         pathname: "/api/image",
         search: "?id=*",
       },
+      {
+        pathname: "/uploads/**",
+      },
     ],
     remotePatterns: [
       {
