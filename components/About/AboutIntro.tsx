@@ -4,14 +4,18 @@ import React from "react";
 import MagneticLink from "@/components/ui/MagneticLink";
 import { Download, ArrowRight } from "lucide-react";
 import Link from "next/link";
+import { useQuery } from "convex/react";
+import { api } from "@/convex/_generated/api";
 
-const BIO =
+const DEFAULT_BIO =
   "I am a professional Software Engineer and Content Creator based in Ghana. I am also the Founder of SamCux Development Consult, a software development company focused on building modern digital solutions for businesses and startups.";
-
-const ADDITIONAL_TEXT =
+const DEFAULT_ADDITIONAL_TEXT =
   "Through my work, I help businesses in Ghana leverage software solutions to grow and scale their operations. I create educational content through my YouTube channel and blog, sharing knowledge about software development, technology trends, and building digital solutions.";
+const DEFAULT_RESUME_URL = "/resume.pdf";
 
-const RESUME_URL = "/resume.pdf";
+function formatBio(bio: string, location: string) {
+  return bio.replace("[Your Location]", location);
+}
 
 function formatBioWithLink(bio: string) {
   const parts = bio.split("SamCux Development Consult");
@@ -35,7 +39,37 @@ function formatBioWithLink(bio: string) {
 }
 
 export function AboutIntro() {
-  const bioToRender = formatBioWithLink(BIO);
+  const aboutMeData = useQuery(api.aboutMe.get);
+
+  const bioToDisplay = aboutMeData
+    ? formatBio(aboutMeData.bio, aboutMeData.location)
+    : DEFAULT_BIO;
+  const bioToRender =
+    typeof bioToDisplay === "string"
+      ? formatBioWithLink(bioToDisplay)
+      : bioToDisplay;
+  const additionalText =
+    aboutMeData?.additionalText ?? DEFAULT_ADDITIONAL_TEXT;
+  const resumeUrl = aboutMeData?.resumeUrl ?? DEFAULT_RESUME_URL;
+
+  if (aboutMeData === undefined) {
+    return (
+      <div className="space-y-6">
+        <div className="relative">
+          <div className="h-4 w-full bg-gray-200 dark:bg-[#222F43] rounded animate-pulse mb-3" />
+          <div className="h-4 w-full bg-gray-200 dark:bg-[#222F43] rounded animate-pulse mb-3" />
+          <div className="h-4 w-4/5 bg-gray-200 dark:bg-[#222F43] rounded animate-pulse" />
+          <div className="absolute -left-4 top-0 w-1 h-full bg-gray-200 dark:bg-[#222F43] rounded-full" />
+        </div>
+        <div className="h-4 w-full bg-gray-200 dark:bg-[#222F43] rounded animate-pulse mb-2" />
+        <div className="h-4 w-5/6 bg-gray-200 dark:bg-[#222F43] rounded animate-pulse" />
+        <div className="flex gap-4 pt-4">
+          <div className="h-12 w-32 rounded-full bg-gray-200 dark:bg-[#222F43] animate-pulse" />
+          <div className="h-12 w-28 rounded-full bg-gray-200 dark:bg-[#222F43] animate-pulse" />
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-6">
@@ -48,11 +82,9 @@ export function AboutIntro() {
           aria-hidden
         />
       </div>
-
       <p className="text-gray-600 dark:text-[#66768f] leading-relaxed">
-        {ADDITIONAL_TEXT}
+        {additionalText}
       </p>
-
       <div className="flex gap-4 pt-4">
         <MagneticLink
           href="/contact"
@@ -62,7 +94,7 @@ export function AboutIntro() {
           Get in Touch <ArrowRight className="w-4 h-4" />
         </MagneticLink>
         <MagneticLink
-          href={RESUME_URL}
+          href={resumeUrl}
           className="inline-flex items-center gap-2 px-6 py-3 border-2 border-[#ffe400] 
             text-[#101010] dark:text-[#94A9C9] rounded-full font-semibold hover:scale-105 transition-transform"
         >
