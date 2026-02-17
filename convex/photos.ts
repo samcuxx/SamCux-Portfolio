@@ -1,5 +1,6 @@
 import { mutation, query } from "./_generated/server";
 import { v } from "convex/values";
+import { paginationOptsValidator } from "convex/server";
 import { Id } from "./_generated/dataModel";
 import { api } from "./_generated/api";
 
@@ -19,19 +20,13 @@ export const getAll = query({
 // Get paginated photos
 export const getPage = query({
   args: {
-    cursor: v.optional(v.string()),
-    limit: v.optional(v.number()),
+    paginationOpts: paginationOptsValidator,
   },
   handler: async (ctx, args) => {
-    const limit = args.limit ?? 9;
-
     const pagination = await ctx.db
       .query("photos")
       .order("desc")
-      .paginate({
-        cursor: args.cursor ?? null,
-        numItems: limit,
-      });
+      .paginate(args.paginationOpts);
 
     return pagination;
   },

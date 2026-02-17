@@ -19,6 +19,9 @@ export function OptimizedImage(props: OptimizedImageProps) {
     }
   }
 
+  const isApiImage =
+    typeof resolvedSrc === "string" && resolvedSrc.startsWith("/api/image");
+
   const finalLoading =
     typeof loading !== "undefined"
       ? loading
@@ -31,6 +34,7 @@ export function OptimizedImage(props: OptimizedImageProps) {
       src={resolvedSrc}
       loading={finalLoading}
       priority={priority}
+      unoptimized={isApiImage}
       {...rest}
     />
   );
