@@ -1,52 +1,47 @@
 "use client";
 import React from "react";
-import { Github, Youtube, Linkedin, Mail, ArrowUp, Loader2, Link2 } from "lucide-react";
-import MagneticLink from "../ui/MagneticLink";
+import { Github, Youtube, Linkedin, Mail, ArrowUp, Link2 } from "lucide-react";
 import Link from "next/link";
-import { useQuery } from "convex/react";
-import { api } from "@/convex/_generated/api";
-import * as Icons from "lucide-react";
 
+const FOOTER_SOCIAL_LINKS = [
+  {
+    icon: "Github",
+    url: "https://github.com/samcuxx",
+    platform: "GitHub",
+  },
+  {
+    icon: "Youtube",
+    url: "https://youtube.com/@samcux",
+    platform: "YouTube",
+  },
+  {
+    icon: "Linkedin",
+    url: "https://linkedin.com/in/samcux",
+    platform: "LinkedIn",
+  },
+  {
+    icon: "Mail",
+    url: "mailto:samcuxx@gmail.com",
+    platform: "Email",
+  },
+] as const;
+
+const renderSocialIcon = (iconName: string) => {
+  switch (iconName) {
+    case "Github":
+      return <Github className="w-5 h-5" />;
+    case "Youtube":
+      return <Youtube className="w-5 h-5" />;
+    case "Linkedin":
+      return <Linkedin className="w-5 h-5" />;
+    case "Mail":
+      return <Mail className="w-5 h-5" />;
+    default:
+      return <Link2 className="w-5 h-5" />;
+  }
+};
 
 export function Footer() {
-  // Fetch social links from the database
-  const socialLinks = useQuery(api.socials.getForFooter);
-  
-  // Fallback social links in case database is empty or loading
-  const fallbackSocialLinks = [
-    {
-      icon: "Github",
-      url: "https://github.com/samcuxx",
-      platform: "GitHub",
-    },
-    {
-      icon: "Youtube",
-      url: "https://youtube.com/@samcux",
-      platform: "YouTube",
-    },
-    {
-      icon: "Linkedin",
-      url: "https://linkedin.com/in/samcux",
-      platform: "LinkedIn",
-    },
-    {
-      icon: "Mail",
-      url: "mailto:samcuxx@gmail.com",
-      platform: "Email",
-    },
-  ];
-
-  // Render the icon for a social link
-  const renderSocialIcon = (iconName: string) => {
-    // @ts-ignore - Dynamically access icon from Lucide
-    const IconComponent = Icons[iconName];
-    return IconComponent ? <IconComponent className="w-5 h-5" /> : <Link2 className="w-5 h-5" />;
-  };
-
-  // Determine which links to display
-  const linksToDisplay = socialLinks && socialLinks.length > 0 
-    ? socialLinks 
-    : fallbackSocialLinks;
 
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -110,30 +105,20 @@ export function Footer() {
               Connect
             </h4>
             <div className="flex gap-3">
-              {socialLinks === undefined ? (
-                // Loading state
-                <div className="p-2 rounded-lg bg-[#ffe400] bg-opacity-10">
-                  <Loader2 className="w-5 h-5 text-[#ffe400] animate-spin" />
-                </div>
-              ) : (
-                // Display social links
-                linksToDisplay.map((link, index) => (
-                  <MagneticLink
-                    key={index}
-                    href={link.url}
-                    className="p-2 rounded-lg bg-[#ffe400] bg-opacity-10 hover:bg-opacity-20
-                      text-[#101010] dark:text-[#ffe400] transition-all duration-300
-                      hover:scale-110"
-                    aria-label={link.platform}
-                  >
-                    {link.icon ? (
-                      renderSocialIcon(link.icon)
-                    ) : (
-                      <Link2 className="w-5 h-5" />
-                    )}
-                  </MagneticLink>
-                ))
-              )}
+              {FOOTER_SOCIAL_LINKS.map((link, index) => (
+                <Link
+                  key={index}
+                  href={link.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="p-2 rounded-lg bg-[#ffe400] bg-opacity-10 hover:bg-opacity-20
+                    text-[#101010] dark:text-[#ffe400] transition-all duration-300
+                    hover:scale-110"
+                  aria-label={link.platform}
+                >
+                  {renderSocialIcon(link.icon)}
+                </Link>
+              ))}
             </div>
           </div>
         </div>

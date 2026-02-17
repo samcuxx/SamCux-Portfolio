@@ -16,6 +16,27 @@ export const getAll = query({
   },
 });
 
+// Get paginated photos
+export const getPage = query({
+  args: {
+    cursor: v.optional(v.string()),
+    limit: v.optional(v.number()),
+  },
+  handler: async (ctx, args) => {
+    const limit = args.limit ?? 9;
+
+    const pagination = await ctx.db
+      .query("photos")
+      .order("desc")
+      .paginate({
+        cursor: args.cursor ?? null,
+        numItems: limit,
+      });
+
+    return pagination;
+  },
+});
+
 // Get a single photo by ID
 export const getById = query({
   args: { id: v.string() },
@@ -28,9 +49,9 @@ export const getById = query({
         return null;
       }
       
-      // Get the storage URL for the photo
+      // Get the storage URL for the photo when a storageId is present
       const storageId = photo.storageId;
-      const url = await ctx.storage.getUrl(storageId);
+      const url = storageId ? await ctx.storage.getUrl(storageId) : null;
       
       return {
         ...photo,

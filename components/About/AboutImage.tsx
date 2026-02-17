@@ -1,11 +1,11 @@
-"use client";
+ "use client";
 
 import React, { useState } from "react";
-import Image from "next/image";
 import ProfileImage from "@/public/images/profile.jpg";
 import { useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { Loader2 } from "lucide-react";
+import { OptimizedImage } from "@/components/ui/OptimizedImage";
 
 export function AboutImage() {
   // State to track image loading
@@ -36,21 +36,20 @@ export function AboutImage() {
       <div className="relative z-10 rounded-2xl overflow-hidden">
         {profileImageUrl ? (
           // For remote images from Convex or other external sources
-          <img
+          <OptimizedImage
             src={profileImageUrl}
             alt="Profile"
             width={500}
             height={600}
             className="w-full h-auto object-cover rounded-2xl transition-transform duration-300 group-hover:scale-105"
-            onLoad={() => setImageLoaded(true)}
-            onError={(e) => {
+            onLoadingComplete={() => setImageLoaded(true)}
+            onError={() => {
               console.error("Error loading profile image");
-              e.currentTarget.src = "/images/profile.jpg";
             }}
           />
         ) : (
           // For local images
-          <Image
+          <OptimizedImage
             src={ProfileImage}
             alt="Profile"
             width={500}

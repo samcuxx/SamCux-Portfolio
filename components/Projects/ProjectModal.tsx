@@ -1,10 +1,9 @@
-"use client";
+ "use client";
 
 import React, { useEffect, useRef } from "react";
 import { X, Github, ExternalLink } from "lucide-react";
 import { getOptimizedImageUrl } from "@/lib/utils";
-import { useQuery } from "convex/react";
-import { api } from "@/convex/_generated/api";
+import { OptimizedImage } from "@/components/ui/OptimizedImage";
 
 interface Project {
   _id: string;
@@ -56,14 +55,17 @@ export function ProjectModal({ project, isOpen, onClose }: ProjectModalProps) {
   }, [isOpen, onClose]);
 
   // Handle image URL for Convex storage
-  const isStorageId = project?.imageUrl && !project.imageUrl.includes("://") && !project.imageUrl.startsWith("/");
+  const isStorageId =
+    project?.imageUrl &&
+    !project.imageUrl.includes("://") &&
+    !project.imageUrl.startsWith("/");
 
   // Use the optimized image URL function directly with the storage ID if applicable
-  const displayImageUrl = project ? (
-    isStorageId
+  const displayImageUrl = project
+    ? isStorageId
       ? getOptimizedImageUrl(project.imageUrl)
       : project.imageUrl
-  ) : null;
+    : null;
 
   if (!isOpen || !project) return null;
 
@@ -92,13 +94,12 @@ export function ProjectModal({ project, isOpen, onClose }: ProjectModalProps) {
         <div className="overflow-y-auto">
           {/* Project Image */}
           <div className="relative aspect-video w-full">
-            <img
+            <OptimizedImage
               src={displayImageUrl || "/placeholder-image.jpg"}
               alt={project.title}
+              fill
+              sizes="100vw"
               className="w-full h-full object-cover"
-              onError={(e) => {
-                e.currentTarget.src = "/placeholder-image.jpg";
-              }}
             />
           </div>
 

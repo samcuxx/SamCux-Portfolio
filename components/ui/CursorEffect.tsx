@@ -8,62 +8,72 @@ const CursorEffect: React.FC = () => {
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
-    // Check if window is defined (client-side)
-    if (typeof window !== 'undefined') {
-      // Initial check
+    if (typeof window === "undefined") return;
+
+    const updateIsMobile = () => {
       setIsMobile(window.innerWidth < 768);
+    };
 
-      // Add resize listener
-      const handleResize = () => {
-        setIsMobile(window.innerWidth < 768);
-      };
-
-      window.addEventListener('resize', handleResize);
-      return () => window.removeEventListener('resize', handleResize);
-    }
+    updateIsMobile();
+    window.addEventListener("resize", updateIsMobile);
+    return () => window.removeEventListener("resize", updateIsMobile);
   }, []);
 
   useEffect(() => {
-    if (isMobile) return; // Don't add event listeners if on mobile
+    if (isMobile) return;
+
+    let frameId: number | null = null;
+    const latest = { x: 0, y: 0 };
 
     const onMouseMove = (e: MouseEvent) => {
-      requestAnimationFrame(() => {
-        const { clientX, clientY } = e;
-        if (cursorDotRef.current && cursorBorderRef.current) {
-          cursorDotRef.current.style.left = `${clientX}px`;
-          cursorDotRef.current.style.top = `${clientY}px`;
-          cursorBorderRef.current.style.left = `${clientX}px`;
-          cursorBorderRef.current.style.top = `${clientY}px`;
-        }
-      });
+      latest.x = e.clientX;
+      latest.y = e.clientY;
+
+      if (frameId == null) {
+        frameId = window.requestAnimationFrame(() => {
+          const { x, y } = latest;
+          if (cursorDotRef.current && cursorBorderRef.current) {
+            cursorDotRef.current.style.left = `${x}px`;
+            cursorDotRef.current.style.top = `${y}px`;
+            cursorBorderRef.current.style.left = `${x}px`;
+            cursorBorderRef.current.style.top = `${y}px`;
+          }
+          frameId = null;
+        });
+      }
     };
 
-    const onMouseEnter = () => {
-      if (cursorBorderRef.current)
+    const onPointerOver = (e: MouseEvent) => {
+      const target = e.target as HTMLElement | null;
+      if (!target || !cursorBorderRef.current) return;
+      if (target.closest("a,button,[data-cursor-interactive='true']")) {
         cursorBorderRef.current.classList.add("active");
+      }
     };
 
-    const onMouseLeave = () => {
-      if (cursorBorderRef.current)
+    const onPointerOut = (e: MouseEvent) => {
+      const target = e.target as HTMLElement | null;
+      if (!target || !cursorBorderRef.current) return;
+      if (target.closest("a,button,[data-cursor-interactive='true']")) {
         cursorBorderRef.current.classList.remove("active");
+      }
     };
 
     document.addEventListener("mousemove", onMouseMove);
-    document.querySelectorAll("a, button").forEach((el) => {
-      el.addEventListener("mouseenter", onMouseEnter);
-      el.addEventListener("mouseleave", onMouseLeave);
-    });
+    document.addEventListener("mouseover", onPointerOver);
+    document.addEventListener("mouseout", onPointerOut);
 
     return () => {
+      if (frameId != null) {
+        window.cancelAnimationFrame(frameId);
+      }
       document.removeEventListener("mousemove", onMouseMove);
-      document.querySelectorAll("a, button").forEach((el) => {
-        el.removeEventListener("mouseenter", onMouseEnter);
-        el.removeEventListener("mouseleave", onMouseLeave);
-      });
+      document.removeEventListener("mouseover", onPointerOver);
+      document.removeEventListener("mouseout", onPointerOut);
     };
-  }, [isMobile]); // Add isMobile to dependency array
+  }, [isMobile]);
 
-  if (isMobile) return null; // Don't render cursor elements on mobile
+  if (isMobile) return null;
 
   return (
     <>

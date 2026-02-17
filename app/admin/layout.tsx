@@ -7,7 +7,11 @@ import { api } from "@/convex/_generated/api";
 import { Loader2 } from "lucide-react";
 import AdminSidebar from "@/components/Admin/AdminSidebar";
 import { toast } from "sonner";
-import BgGlow from "@/components/ui/BgGlow";
+import dynamic from "next/dynamic";
+
+const BgGlow = dynamic(() => import("@/components/ui/BgGlow"), {
+  ssr: false,
+});
 
 export default function AdminLayout({
   children,

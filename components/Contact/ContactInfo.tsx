@@ -2,7 +2,6 @@
 
 import React from "react";
 import { Mail, MapPin, Phone, Clock } from "lucide-react";
-import MagneticLink from "../ui/MagneticLink";
 import { useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
 
@@ -91,13 +90,13 @@ export function ContactInfo() {
                     {detail.title}
                   </h4>
                   {detail.href ? (
-                    <MagneticLink
+                    <a
                       href={detail.href}
                       className="text-[#101010] dark:text-[#94A9C9] font-medium hover:text-[#ffe400] 
                         dark:hover:text-[#ffe400] transition-colors"
                     >
                       {detail.value}
-                    </MagneticLink>
+                    </a>
                   ) : (
                     <p className="text-[#101010] dark:text-[#94A9C9] font-medium">
                       {detail.value}

@@ -1,14 +1,22 @@
-"use client";
+ "use client";
 import React from "react";
 import { Camera } from "lucide-react";
-import { useQuery } from "convex/react";
+import { usePaginatedQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
-import { getConvexImageUrl } from "@/lib/utils";
+import { OptimizedImage } from "@/components/ui/OptimizedImage";
 
 export function PhotosGrid() {
-  // Fetch photos from Convex database
-  const photos = useQuery(api.photos.getAll) || [];
-  
+  const {
+    results: photos,
+    status,
+    loadMore,
+    isLoadingMore,
+  } = usePaginatedQuery(
+    api.photos.getPage,
+    {},
+    { initialNumItems: 9 }
+  );
+
   // Loading state
   const [imagesLoaded, setImagesLoaded] = React.useState<Record<string, boolean>>({});
   
@@ -16,19 +24,14 @@ export function PhotosGrid() {
     setImagesLoaded(prev => ({ ...prev, [id]: true }));
   };
 
-  // Sort photos: featured first, then by order if available, then by createdAt
   const sortedPhotos = React.useMemo(() => {
+    if (!photos) return [];
     return [...photos].sort((a, b) => {
-      // Featured photos come first
       if (a.featured && !b.featured) return -1;
       if (!a.featured && b.featured) return 1;
-      
-      // Then sort by order if available
       if (a.order !== undefined && b.order !== undefined) {
         return a.order - b.order;
       }
-      
-      // Finally sort by creation date (newest first)
       return b.createdAt - a.createdAt;
     });
   }, [photos]);
@@ -44,18 +47,26 @@ export function PhotosGrid() {
         </h3>
       </div>
 
-      {sortedPhotos.length === 0 ? (
+      {status === "LoadingFirstPage" ? (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {Array.from({ length: 6 }).map((_, index) => (
+            <div
+              key={index}
+              className="relative bg-white dark:bg-[#131C31] rounded-xl overflow-hidden border border-gray-100 dark:border-[#222F43] animate-pulse h-64"
+            />
+          ))}
+        </div>
+      ) : sortedPhotos.length === 0 ? (
         <div className="text-center py-12">
           <p className="text-gray-500 dark:text-[#66768f]">No photos available yet.</p>
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {sortedPhotos.map((photo, index) => {
-            // Get image URL using our utility function
-            const imageUrl = getConvexImageUrl(photo.imageUrl);
+        <>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {sortedPhotos.map((photo, index) => {
             const isImageLoaded = imagesLoaded[photo._id] || false;
-            
-            return (
+
+              return (
               <div
                 key={photo._id}
                 className={`group relative bg-white dark:bg-[#131C31] rounded-xl overflow-hidden
@@ -78,18 +89,18 @@ export function PhotosGrid() {
                     </div>
                   )}
                   
-                  {imageUrl && (
-                    <img
-                      src={imageUrl}
+                  {photo.imageUrl && (
+                    <OptimizedImage
+                      src={photo.imageUrl}
                       alt={photo.title}
-                      width={400}
-                      height={400}
-                      className={`object-cover w-full h-full group-hover:scale-105 transition-transform duration-300 ${isImageLoaded ? 'opacity-100' : 'opacity-0'}`}
-                      onLoad={() => handleImageLoaded(photo._id)}
-                      onError={(e) => {
+                      fill
+                      sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
+                      className={`object-cover w-full h-full group-hover:scale-105 transition-transform duration-300 ${
+                        isImageLoaded ? "opacity-100" : "opacity-0"
+                      }`}
+                      onLoadingComplete={() => handleImageLoaded(photo._id)}
+                      onError={() => {
                         console.log("Image failed to load, using fallback");
-                        e.currentTarget.src = "/placeholder-image.jpg";
-                        e.currentTarget.onerror = null;
                         handleImageLoaded(photo._id);
                       }}
                     />
@@ -113,6 +124,20 @@ export function PhotosGrid() {
             );
           })}
         </div>
+
+        {status === "CanLoadMore" && (
+          <div className="flex justify-center pt-8">
+            <button
+              type="button"
+              onClick={() => loadMore(9)}
+              disabled={isLoadingMore}
+              className="px-6 py-3 rounded-full bg-[#ffe400] text-[#101010] font-semibold hover:scale-105 transition-transform disabled:opacity-60"
+            >
+              {isLoadingMore ? "Loading..." : "Load more photos"}
+            </button>
+          </div>
+        )}
+      </>
       )}
     </div>
   );

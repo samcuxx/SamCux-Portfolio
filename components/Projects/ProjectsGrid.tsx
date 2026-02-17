@@ -1,4 +1,4 @@
-"use client";
+ "use client";
 
 import React, { useState } from "react";
 import { Github, ExternalLink, AlertCircle } from "lucide-react";
@@ -6,10 +6,9 @@ import MagneticLink from "../ui/MagneticLink";
 import { useProjectsFilter } from "@/hooks/useProjectsFilter";
 import { ProjectsPagination } from "./ProjectsPagination";
 import { getOptimizedImageUrl } from "@/lib/utils";
-import { useQuery } from "convex/react";
-import { api } from "@/convex/_generated/api";
 import { ProjectCardSkeleton } from "./ProjectCardSkeleton";
 import { ProjectModal } from "./ProjectModal";
+import { OptimizedImage } from "@/components/ui/OptimizedImage";
 
 // Define the Project interface
 interface Project {
@@ -57,31 +56,40 @@ const ProjectCard = React.memo(function ProjectCard({
       style={{ animationDelay: `${0.1}s` }}
       onClick={() => onClick(project)}
     >
-      <div className="relative overflow-hidden" style={{ minHeight: '200px' }}>
+      <div className="relative overflow-hidden" style={{ minHeight: "200px" }}>
         {hasValidImage ? (
           <>
             {/* Skeleton placeholder that maintains the space */}
-            <div className={`absolute inset-0 bg-gray-200 dark:bg-[#222F43] animate-pulse rounded-t-xl transition-opacity duration-500 ${
-              imageLoaded || imageError ? 'opacity-0' : 'opacity-100'
-            }`} />
-            
-            <img
-              src={displayImageUrl}
-              alt={project.title}
-              loading="lazy"
-              decoding="async"
-              className={`object-cover w-full h-full absolute inset-0 transition-opacity duration-500 ${
-                imageLoaded ? 'opacity-100' : 'opacity-0'
+            <div
+              className={`absolute inset-0 bg-gray-200 dark:bg-[#222F43] animate-pulse rounded-t-xl transition-opacity duration-500 ${
+                imageLoaded || imageError ? "opacity-0" : "opacity-100"
               }`}
-              onLoad={() => setImageLoaded(true)}
-              onError={(e) => {
-                setImageError(true);
-                e.currentTarget.src = "/placeholder-image.jpg";
-                e.currentTarget.onerror = null;
-                // Consider the image loaded once the fallback is set
-                setImageLoaded(true);
-              }}
             />
+            
+            {imageError ? (
+              <OptimizedImage
+                src="/placeholder-image.jpg"
+                alt={project.title}
+                fill
+                sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
+                className="object-cover w-full h-full absolute inset-0 transition-opacity duration-500 opacity-100"
+              />
+            ) : (
+              <OptimizedImage
+                src={displayImageUrl as string}
+                alt={project.title}
+                fill
+                sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
+                className={`object-cover w-full h-full absolute inset-0 transition-opacity duration-500 ${
+                  imageLoaded ? "opacity-100" : "opacity-0"
+                }`}
+                onLoadingComplete={() => setImageLoaded(true)}
+                onError={() => {
+                  setImageError(true);
+                  setImageLoaded(true);
+                }}
+              />
+            )}
           </>
         ) : (
           // No image placeholder
@@ -152,20 +160,15 @@ export function ProjectsGrid() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   
   // Handle click on project
-  const handleProjectClick = (project: Project) => {
+  const handleProjectClick = React.useCallback((project: Project) => {
     setSelectedProject(project);
     setIsModalOpen(true);
-  };
+  }, []);
   
   // Handle modal close
-  const handleCloseModal = () => {
+  const handleCloseModal = React.useCallback(() => {
     setIsModalOpen(false);
-  };
-
-  // Memoize the projects to prevent unnecessary re-renders
-  const memoizedProjects = React.useMemo(() => {
-    return filteredProjects;
-  }, [filteredProjects]);
+  }, []);
 
   if (isLoading) {
     return (
@@ -186,7 +189,7 @@ export function ProjectsGrid() {
     );
   }
 
-  if (memoizedProjects.length === 0) {
+  if (filteredProjects.length === 0) {
     return (
       <div className="text-center py-12">
         <p className="text-gray-500 dark:text-[#66768f]">
@@ -199,7 +202,7 @@ export function ProjectsGrid() {
   return (
     <>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {memoizedProjects.map((project) => (
+        {filteredProjects.map((project) => (
           <ProjectCard 
             key={project._id} 
             project={project} 

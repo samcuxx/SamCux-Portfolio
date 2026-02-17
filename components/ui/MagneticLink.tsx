@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef } from "react";
 
 interface MagneticLinkProps {
   href: string;
@@ -19,42 +19,34 @@ const MagneticLink: React.FC<MagneticLinkProps> = ({
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const ref = useRef<HTMLAnchorElement>(null);
 
-  const handleMouseMove = (e: MouseEvent) => {
-    if (ref.current) {
-      const { left, top, width, height } = ref.current.getBoundingClientRect();
-      const centerX = left + width / 2;
-      const centerY = top + height / 2;
-      const mouseX = e.clientX;
-      const mouseY = e.clientY;
+  const handleMouseMove = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    const link = ref.current;
+    if (!link) return;
 
-      const deltaX = mouseX - centerX;
-      const deltaY = mouseY - centerY;
+    const { left, top, width, height } = link.getBoundingClientRect();
+    const centerX = left + width / 2;
+    const centerY = top + height / 2;
+    const mouseX = e.clientX;
+    const mouseY = e.clientY;
 
-      const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
-      const maxDistance = Math.max(width, height);
+    const deltaX = mouseX - centerX;
+    const deltaY = mouseY - centerY;
+    const maxDistance = Math.max(width, height);
 
-      if (distance < maxDistance) {
-        const factor = 0.3;
-        setPosition({
-          x: deltaX * factor,
-          y: deltaY * factor,
-        });
-      } else {
-        setPosition({ x: 0, y: 0 });
-      }
+    if (Math.abs(deltaX) < maxDistance && Math.abs(deltaY) < maxDistance) {
+      const factor = 0.3;
+      setPosition({
+        x: deltaX * factor,
+        y: deltaY * factor,
+      });
+    } else {
+      setPosition({ x: 0, y: 0 });
     }
   };
 
   const handleMouseLeave = () => {
     setPosition({ x: 0, y: 0 });
   };
-
-  useEffect(() => {
-    document.addEventListener("mousemove", handleMouseMove);
-    return () => {
-      document.removeEventListener("mousemove", handleMouseMove);
-    };
-  }, []);
 
   return (
     <Link
@@ -66,6 +58,7 @@ const MagneticLink: React.FC<MagneticLinkProps> = ({
       style={{
         transform: `translate(${position.x}px, ${position.y}px)`,
       }}
+      onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
     >
       {children}

@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import "@/styles/globals.css";
 import { ThemeProvider } from "@/components/global/Provider";
 import { Inter, DynaPuff } from "next/font/google";
-import CursorEffect from "@/components/ui/CursorEffect";
 import { Toaster } from "sonner";
 import ConvexClientProvider from "@/components/global/ConvexClientProvider";
+import CursorEffect from "@/components/ui/CursorEffect";
 
 // Force static rendering at the root level for better performance
 export const dynamic = "force-static";
