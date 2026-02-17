@@ -7,7 +7,7 @@ export function ProjectsHeader() {
     <div className="text-center mb-12 animate-fadeIn">
       <AnimatedText
         text="My Projects"
-        className={`font-dynapuff text-4xl md:text-5xl font-bold mb-8 text-[#101010] dark:text-[#94A9C9]`}
+        className={`font-dynapuff text-5xl md:text-6xl font-bold mb-8 text-[#101010] dark:text-[#94A9C9] text-left md:text-center mx-auto`}
         initialClass="text-animate-fast"
       />
     </div>

@@ -6,7 +6,7 @@ export function PhotosIntro() {
   return (
     <div className="space-y-6 animate-slideInUp">
       <div className="relative">
-        <p className="text-gray-600 dark:text-[#66768f] leading-relaxed text-center max-w-2xl mx-auto">
+        <p className="text-gray-600 dark:text-[#66768f] leading-relaxed text-left md:text-center max-w-2xl mx-auto">
           A collection of moments captured through my lens. From urban landscapes to
           personal adventures, these photos tell stories of my journey and the world
           as I see it.
