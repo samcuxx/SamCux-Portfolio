@@ -28,12 +28,7 @@ const nextConfig: NextConfig = {
   },
   // Optimize static generation
   staticPageGenerationTimeout: 120, // Increase timeout for complex pages (in seconds)
-  
-  eslint: {
-    // Warning: This allows production builds to successfully complete even if
-    // your project has ESLint errors.
-    ignoreDuringBuilds: true,
-  },
+
   typescript: {
     // Warning: This allows production builds to successfully complete even if
     // your project has TypeScript errors.
