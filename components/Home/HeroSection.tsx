@@ -60,7 +60,7 @@ export function HeroSection() {
         >
           <AnimatedText
             text="SamCux"
-            className={`font-dynapuff text-6xl md:text-8xl font-bold text-[#101010] dark:text-[#94A9C9]`}
+            className={`font-dynapuff text-6xl md:text-7xl font-bold text-[#101010] dark:text-[#94A9C9]`}
             initialClass="text-animate-fast"
           />
           <MorphingText
