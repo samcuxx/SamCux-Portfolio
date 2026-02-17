@@ -7,13 +7,61 @@
     "mailtoUrl": "mailto:samcuxx@gmail.com"
   },
   "socials": [
-    { "id": "email", "icon": "mail", "url": "mailto:samcuxx@gmail.com", "label": "Email", "mode": "all" },
-    { "id": "website", "icon": "link", "url": "https://samcux.com", "label": "Website", "mode": "domain" },
-    { "id": "github", "icon": "github", "url": "https://github.com/samcuxx", "label": "GitHub", "mode": "handle" },
-    { "id": "x", "icon": "x", "url": "https://x.com/samcux", "label": "X", "mode": "twitter" },
-    { "id": "linkedin", "icon": "linkedin", "url": "https://linkedin.com/in/samcux", "label": "LinkedIn", "mode": "linkedin" },
-    { "id": "instagram", "icon": "instagram", "url": "https://instagram.com/samcux", "label": "Instagram", "mode": "instagram" },
-    { "id": "telegram", "icon": "telegram", "url": "https://t.me/samcux", "label": "Telegram", "mode": "telegram" },
-    { "id": "name", "icon": "user", "url": "/about", "label": "About", "mode": "local" }
+    {
+      "id": "email",
+      "icon": "mail",
+      "url": "mailto:samcuxx@gmail.com",
+      "label": "Email",
+      "mode": "all"
+    },
+    {
+      "id": "website",
+      "icon": "link",
+      "url": "https://samcux.com",
+      "label": "Website",
+      "mode": "domain"
+    },
+    {
+      "id": "github",
+      "icon": "github",
+      "url": "https://github.com/samcuxx",
+      "label": "GitHub",
+      "mode": "handle"
+    },
+    {
+      "id": "x",
+      "icon": "x",
+      "url": "https://x.com/samcux",
+      "label": "X",
+      "mode": "twitter"
+    },
+    {
+      "id": "linkedin",
+      "icon": "linkedin",
+      "url": "https://linkedin.com/in/samcux",
+      "label": "LinkedIn",
+      "mode": "linkedin"
+    },
+    {
+      "id": "instagram",
+      "icon": "instagram",
+      "url": "https://instagram.com/samcux",
+      "label": "Instagram",
+      "mode": "instagram"
+    },
+    {
+      "id": "telegram",
+      "icon": "telegram",
+      "url": "https://t.me/samcux",
+      "label": "Telegram",
+      "mode": "telegram"
+    },
+    {
+      "id": "name",
+      "icon": "user",
+      "url": "/about",
+      "label": "About",
+      "mode": "local"
+    }
   ]
 }
