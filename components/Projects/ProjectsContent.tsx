@@ -6,14 +6,18 @@ import { ProjectsGrid } from "./ProjectsGrid";
 import { ProjectsFilter } from "./ProjectsFilter";
 import { ProjectsFilterProvider } from "@/contexts/ProjectsFilterContext";
 
-export function ProjectsContent() {
+type ProjectsContentProps = {
+  initialProjects: any[];
+};
+
+export function ProjectsContent({ initialProjects }: ProjectsContentProps) {
   return (
     <div className="max-w-6xl mx-auto px-6 mb-20">
       <ProjectsHeader />
       <div className="space-y-16">
         <ProjectsIntro />
-        <FeaturedProjects />
-        <ProjectsFilterProvider>
+        <FeaturedProjects initialProjects={initialProjects} />
+        <ProjectsFilterProvider initialProjects={initialProjects}>
           <div className="space-y-8">
             <ProjectsFilter />
             <ProjectsGrid />

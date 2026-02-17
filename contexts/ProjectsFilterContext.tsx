@@ -1,7 +1,5 @@
 "use client"
 import React, { createContext, useState, useMemo, useEffect } from "react";
-import { useQuery } from "convex/react";
-import { api } from "@/convex/_generated/api";
 
 const ITEMS_PER_PAGE = 9;
 
@@ -16,36 +14,29 @@ type ProjectsFilterContextType = {
   filters: string[];
   filteredProjects: any[];
   totalProjects: number;
-  isLoading: boolean;
-  error: string | null;
 };
 
 export const ProjectsFilterContext = createContext<ProjectsFilterContextType | null>(null);
 
-export function ProjectsFilterProvider({ children }: { children: React.ReactNode }) {
+type ProjectsFilterProviderProps = {
+  children: React.ReactNode;
+  initialProjects: any[];
+};
+
+export function ProjectsFilterProvider({ 
+  children,
+  initialProjects = []
+}: ProjectsFilterProviderProps) {
   const [activeFilter, setActiveFilter] = useState("All");
   const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const [error, setError] = useState<string | null>(null);
-
-  // Fetch projects from Convex
-  const allProjects = useQuery(api.projects.getAll);
-  const isLoading = allProjects === undefined;
-
-  useEffect(() => {
-    if (allProjects === null) {
-      setError("Failed to load projects. Please try again later.");
-    } else {
-      setError(null);
-    }
-  }, [allProjects]);
 
   const filters = ["All", "Web", "Mobile", "UI/UX", "Other"];
   
   const filteredProjects = useMemo(() => {
-    if (isLoading || !allProjects) return [];
+    if (!initialProjects || initialProjects.length === 0) return [];
 
-    return (allProjects as any[]).filter((project) => {
+    return (initialProjects as any[]).filter((project) => {
         const matchesFilter = activeFilter === "All" ? true : project.category === activeFilter;
         const matchesSearch = searchQuery.toLowerCase().trim() === "" ? true :
           project.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -53,7 +44,7 @@ export function ProjectsFilterProvider({ children }: { children: React.ReactNode
           project.tags.some((tag: string) => tag.toLowerCase().includes(searchQuery.toLowerCase()));
         return matchesFilter && matchesSearch && !project.featured;
       });
-  }, [activeFilter, searchQuery, allProjects, isLoading]);
+  }, [activeFilter, searchQuery, initialProjects]);
 
   const totalPages = Math.ceil(filteredProjects.length / ITEMS_PER_PAGE);
   
@@ -86,8 +77,6 @@ export function ProjectsFilterProvider({ children }: { children: React.ReactNode
       filters,
       filteredProjects: paginatedProjects,
       totalProjects: filteredProjects.length,
-      isLoading,
-      error,
     }),
     [
       activeFilter,
@@ -96,8 +85,6 @@ export function ProjectsFilterProvider({ children }: { children: React.ReactNode
       totalPages,
       filters,
       paginatedProjects,
-      isLoading,
-      error,
     ]
   );
 

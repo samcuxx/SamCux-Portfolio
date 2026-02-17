@@ -1,24 +1,14 @@
-"use client";
-
 import React from "react";
 import ProfileImage from "@/public/images/profile.jpg";
 import Image from "next/image";
-import { useQuery } from "convex/react";
-import { api } from "@/convex/_generated/api";
 import { OptimizedImage } from "@/components/ui/OptimizedImage";
 
-export function AboutImage() {
-  const aboutMeData = useQuery(api.aboutMe.get);
-  const profileImageUrl = aboutMeData?.profileImageUrl;
+type AboutImageProps = {
+  aboutMeData: any;
+};
 
-  if (aboutMeData === undefined) {
-    return (
-      <div className="relative group">
-        <div className="relative z-10 rounded-2xl overflow-hidden bg-gray-200 dark:bg-[#222F43] aspect-[5/6] max-h-[500px] w-full animate-pulse" />
-        <div className="absolute inset-0 rounded-2xl transform rotate-3 bg-gray-200/20 dark:bg-[#222F43]/20" />
-      </div>
-    );
-  }
+export function AboutImage({ aboutMeData }: AboutImageProps) {
+  const profileImageUrl = aboutMeData?.profileImageUrl;
 
   return (
     <div className="relative group">

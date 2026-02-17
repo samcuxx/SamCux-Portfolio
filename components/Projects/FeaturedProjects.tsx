@@ -1,12 +1,9 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
-import { Star, ExternalLink, Github, AlertCircle } from "lucide-react";
+import React, { useState } from "react";
+import { Star, ExternalLink, Github } from "lucide-react";
 import MagneticLink from "../ui/MagneticLink";
-import { useQuery } from "convex/react";
-import { api } from "@/convex/_generated/api";
 import { getOptimizedImageUrl } from "@/lib/utils";
-import { FeaturedProjectCardSkeleton } from "./ProjectCardSkeleton";
 import { ProjectModal } from "./ProjectModal";
 import { OptimizedImage } from "@/components/ui/OptimizedImage";
 
@@ -146,9 +143,11 @@ function FeaturedProjectCard({
   );
 }
 
-export function FeaturedProjects() {
-  const [error, setError] = useState<string | null>(null);
+type FeaturedProjectsProps = {
+  initialProjects: Project[];
+};
 
+export function FeaturedProjects({ initialProjects }: FeaturedProjectsProps) {
   // State for modal
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -164,43 +163,10 @@ export function FeaturedProjects() {
     setIsModalOpen(false);
   }, []);
 
-  const featuredProjects = useQuery(api.projects.getFeatured) as Project[] | undefined | null;
-
-  useEffect(() => {
-    if (featuredProjects === null) {
-      setError("Failed to load featured projects. Please try again later.");
-    } else {
-      setError(null);
-    }
-  }, [featuredProjects]);
-
-  if (featuredProjects === undefined) {
-    return (
-      <div className="space-y-8">
-        <div className="flex items-center gap-2 mb-8">
-          <Star className="w-6 h-6 text-[#ffe400]" />
-          <h3 className="font-dynapuff text-2xl font-semibold text-[#101010] dark:text-[#94A9C9]">
-            Featured Projects
-          </h3>
-        </div>
-
-        <div className="grid grid-cols-1 gap-8">
-          {Array.from({ length: 2 }).map((_, index) => (
-            <FeaturedProjectCardSkeleton key={index} />
-          ))}
-        </div>
-      </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <div className="flex flex-col items-center justify-center py-12 text-center">
-        <AlertCircle className="w-8 h-8 text-red-500 mb-2" />
-        <p className="text-red-500">{error}</p>
-      </div>
-    );
-  }
+  // Filter featured projects from initial data
+  const featuredProjects = (initialProjects || []).filter(
+    (project) => project.featured === true
+  );
 
   if (!featuredProjects || featuredProjects.length === 0) {
     return null;
@@ -210,9 +176,7 @@ export function FeaturedProjects() {
     <div className="space-y-8">
       <div className="flex items-center gap-2 mb-8">
         <Star className="w-6 h-6 text-[#ffe400]" />
-        <h3
-          className={`font-dynapuff text-2xl font-semibold text-[#101010] dark:text-[#94A9C9]`}
-        >
+        <h3 className="font-dynapuff text-2xl font-semibold text-[#101010] dark:text-[#94A9C9]">
           Featured Projects
         </h3>
       </div>

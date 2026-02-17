@@ -1,9 +1,5 @@
-"use client";
-
 import React from "react";
 import { Code2 } from "lucide-react";
-import { useQuery } from "convex/react";
-import { api } from "@/convex/_generated/api";
 
 const FALLBACK_SKILLS = [
   { name: "JavaScript", icon: "💛" },
@@ -16,38 +12,15 @@ const FALLBACK_SKILLS = [
   { name: "Git", icon: "📚" },
 ];
 
-export function AboutTechStack() {
-  const techStackData = useQuery(api.techStacks.getAll);
+type AboutTechStackProps = {
+  techStackData: any;
+};
+
+export function AboutTechStack({ techStackData }: AboutTechStackProps) {
   const skills =
     techStackData?.length
-      ? techStackData.map((t) => ({ name: t.name, icon: t.icon }))
+      ? techStackData.map((t: any) => ({ name: t.name, icon: t.icon }))
       : FALLBACK_SKILLS;
-
-  if (techStackData === undefined) {
-    return (
-      <div className="pt-6">
-        <div className="flex items-center gap-2 mb-6">
-          <Code2 className="w-6 h-6 text-[#ffe400]" />
-          <h3 className="font-dynapuff text-2xl font-semibold text-[#101010] dark:text-[#94A9C9]">
-            Tech Stack
-          </h3>
-        </div>
-        <div className="grid grid-cols-2 gap-3">
-          {FALLBACK_SKILLS.map((_, i) => (
-            <div
-              key={i}
-              className="p-4 bg-white dark:bg-[#131C31] rounded-xl border border-gray-100 dark:border-[#222F43]"
-            >
-              <div className="flex items-center gap-2">
-                <div className="w-6 h-6 rounded-full bg-gray-200 dark:bg-[#222F43] animate-pulse" />
-                <div className="h-5 w-20 bg-gray-200 dark:bg-[#222F43] rounded animate-pulse" />
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-    );
-  }
 
   return (
     <div className="pt-6">

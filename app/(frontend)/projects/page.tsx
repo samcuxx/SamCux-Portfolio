@@ -2,9 +2,9 @@ import { ProjectsContent } from "@/components/Projects/ProjectsContent";
 import BgGlow from "@/components/ui/BgGlow";
 import { ScrollProgress } from "@/components/ui/ScrollProgress";
 import type { Metadata } from "next";
+import { fetchProjectsData } from "@/lib/convex-server";
 
-// Add static rendering config
-export const dynamic = 'force-static';
+export const dynamic = "force-static";
 export const revalidate = 3600; // Revalidate every hour
 
 export const metadata: Metadata = {
@@ -23,12 +23,14 @@ export const metadata: Metadata = {
   },
 };
 
-export default function Projects() {
+export default async function Projects() {
+  const projectsData = await fetchProjectsData();
+
   return (
     <div className="w-full font-inter relative pt-7 md:pt-24">
       <ScrollProgress />
       <BgGlow />
-      <ProjectsContent />
+      <ProjectsContent initialProjects={projectsData || []} />
     </div>
   );
 }

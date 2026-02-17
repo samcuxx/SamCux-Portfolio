@@ -1,9 +1,5 @@
-"use client";
-
 import React from "react";
 import { GraduationCap, Award } from "lucide-react";
-import { useQuery } from "convex/react";
-import { api } from "@/convex/_generated/api";
 
 const FALLBACK_EDUCATION = [
   {
@@ -33,41 +29,13 @@ function renderIcon(iconName: string) {
   }
 }
 
-export function AboutEducation() {
-  const educationData = useQuery(api.education.getAll);
+type AboutEducationProps = {
+  educationData: any;
+};
+
+export function AboutEducation({ educationData }: AboutEducationProps) {
   const education =
     educationData?.length ? educationData : FALLBACK_EDUCATION;
-
-  if (educationData === undefined) {
-    return (
-      <div className="pt-8">
-        <div className="flex items-center gap-2 mb-6">
-          <GraduationCap className="w-6 h-6 text-[#ffe400]" />
-          <h3 className="font-dynapuff text-2xl font-semibold text-[#101010] dark:text-[#94A9C9]">
-            Education & Certifications
-          </h3>
-        </div>
-        <div className="space-y-4">
-          {[1, 2].map((i) => (
-            <div
-              key={i}
-              className="p-4 bg-white dark:bg-[#131C31] rounded-xl border border-gray-100 dark:border-[#222F43]"
-            >
-              <div className="flex items-center gap-2 mb-2">
-                <div className="p-2 rounded-lg w-8 h-8 bg-gray-200 dark:bg-[#222F43] animate-pulse" />
-                <div className="h-4 w-24 bg-gray-200 dark:bg-[#222F43] rounded animate-pulse" />
-              </div>
-              <div className="h-6 w-48 bg-gray-200 dark:bg-[#222F43] rounded mb-2 animate-pulse" />
-              <div className="flex justify-between items-center">
-                <div className="h-4 w-32 bg-gray-200 dark:bg-[#222F43] rounded animate-pulse" />
-                <div className="h-4 w-16 bg-gray-200 dark:bg-[#222F43] rounded animate-pulse" />
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-    );
-  }
 
   return (
     <div className="pt-8">
@@ -78,7 +46,7 @@ export function AboutEducation() {
         </h3>
       </div>
       <div className="space-y-4">
-        {education.map((item, index) => (
+        {education.map((item: any, index: number) => (
           <div
             key={index}
             className="group p-4 bg-white dark:bg-[#131C31] rounded-xl border border-gray-100 

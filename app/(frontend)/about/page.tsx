@@ -2,6 +2,15 @@ import { AboutContent } from "@/components/About/AboutContent";
 import BgGlow from "@/components/ui/BgGlow";
 import { ScrollProgress } from "@/components/ui/ScrollProgress";
 import type { Metadata } from "next";
+import {
+  fetchAboutMeData,
+  fetchExperienceData,
+  fetchEducationData,
+  fetchTechStackData,
+} from "@/lib/convex-server";
+
+export const dynamic = "force-static";
+export const revalidate = 3600; // Revalidate every hour
 
 export const metadata: Metadata = {
   title: "About Me | SamCux - Software Engineer & Content Creator",
@@ -19,12 +28,26 @@ export const metadata: Metadata = {
   },
 };
 
-export default function About() {
+export default async function About() {
+  // Fetch all data at build time
+  const [aboutMeData, experienceData, educationData, techStackData] =
+    await Promise.all([
+      fetchAboutMeData(),
+      fetchExperienceData(),
+      fetchEducationData(),
+      fetchTechStackData(),
+    ]);
+
   return (
     <div className=" font-inter relative pt-7 md:pt-24">
       <ScrollProgress />
       <BgGlow />
-      <AboutContent />
+      <AboutContent
+        aboutMeData={aboutMeData}
+        experienceData={experienceData}
+        educationData={educationData}
+        techStackData={techStackData}
+      />
     </div>
   );
 }

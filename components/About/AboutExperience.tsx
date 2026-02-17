@@ -1,7 +1,3 @@
-"use client";
-
-import { useQuery } from "convex/react";
-import { api } from "@/convex/_generated/api";
 import { Briefcase, Calendar, Building2 } from "lucide-react";
 
 const FALLBACK_EXPERIENCE = [
@@ -31,42 +27,15 @@ const FALLBACK_EXPERIENCE = [
   },
 ];
 
-export default function AboutExperience() {
-  const experienceItems = useQuery(api.experience.getAll);
-  const displayExperience =
-    experienceItems?.length ? experienceItems : FALLBACK_EXPERIENCE;
+type AboutExperienceProps = {
+  experienceData: any;
+};
 
-  if (experienceItems === undefined) {
-    return (
-      <div className="pt-8">
-        <div className="flex items-center gap-2 mb-6">
-          <Briefcase className="w-6 h-6 text-[#ffe400]" />
-          <h3 className="text-2xl font-semibold text-[#101010] dark:text-[#94A9C9]">
-            Experience
-          </h3>
-        </div>
-        <div className="space-y-6">
-          {[1, 2].map((i) => (
-            <div
-              key={i}
-              className="relative pl-6 border-l-2 border-gray-200 dark:border-[#222F43] p-6 rounded-xl"
-            >
-              <div className="absolute -left-[9px] top-8 w-4 h-4 rounded-full bg-gray-200 dark:bg-[#222F43]" />
-              <div className="h-4 w-24 bg-gray-200 dark:bg-[#222F43] rounded mb-2 animate-pulse" />
-              <div className="h-6 w-64 bg-gray-200 dark:bg-[#222F43] rounded mb-2 animate-pulse" />
-              <div className="h-4 w-48 bg-gray-200 dark:bg-[#222F43] rounded mb-3 animate-pulse" />
-              <div className="h-4 w-full bg-gray-200 dark:bg-[#222F43] rounded mb-4 animate-pulse" />
-              <div className="space-y-2">
-                <div className="h-3 w-full bg-gray-200 dark:bg-[#222F43] rounded animate-pulse" />
-                <div className="h-3 w-5/6 bg-gray-200 dark:bg-[#222F43] rounded animate-pulse" />
-                <div className="h-3 w-4/6 bg-gray-200 dark:bg-[#222F43] rounded animate-pulse" />
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-    );
-  }
+export default function AboutExperience({
+  experienceData,
+}: AboutExperienceProps) {
+  const displayExperience =
+    experienceData?.length ? experienceData : FALLBACK_EXPERIENCE;
 
   return (
     <div className="pt-8">

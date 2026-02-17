@@ -1,12 +1,11 @@
  "use client";
 
 import React, { useState } from "react";
-import { Github, ExternalLink, AlertCircle } from "lucide-react";
+import { Github, ExternalLink } from "lucide-react";
 import MagneticLink from "../ui/MagneticLink";
 import { useProjectsFilter } from "@/hooks/useProjectsFilter";
 import { ProjectsPagination } from "./ProjectsPagination";
 import { getOptimizedImageUrl } from "@/lib/utils";
-import { ProjectCardSkeleton } from "./ProjectCardSkeleton";
 import { ProjectModal } from "./ProjectModal";
 import { OptimizedImage } from "@/components/ui/OptimizedImage";
 
@@ -151,8 +150,6 @@ export function ProjectsGrid() {
     currentPage,
     totalPages,
     handlePageChange,
-    isLoading,
-    error
   } = useProjectsFilter();
   
   // State for modal
@@ -169,25 +166,6 @@ export function ProjectsGrid() {
   const handleCloseModal = React.useCallback(() => {
     setIsModalOpen(false);
   }, []);
-
-  if (isLoading) {
-    return (
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {Array.from({ length: 6 }).map((_, index) => (
-          <ProjectCardSkeleton key={index} />
-        ))}
-      </div>
-    );
-  }
-  
-  if (error) {
-    return (
-      <div className="flex flex-col items-center justify-center py-12 text-center">
-        <AlertCircle className="w-8 h-8 text-red-500 mb-2" />
-        <p className="text-red-500">{error}</p>
-      </div>
-    );
-  }
 
   if (filteredProjects.length === 0) {
     return (
