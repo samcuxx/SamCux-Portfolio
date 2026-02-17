@@ -35,7 +35,6 @@ export function AboutTechStack({ techStackData }: AboutTechStackProps) {
           <div
             key={index}
             className="group relative animate-slideInRight"
-            style={{ animationDelay: `${index * 0.1}s` }}
           >
             <div
               className="absolute inset-0 bg-[#ffe400] rounded-xl rotate-1 

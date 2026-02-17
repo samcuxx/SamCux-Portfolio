@@ -3,11 +3,12 @@
 import React, { useState } from "react";
 import { Send, Loader2 } from "lucide-react";
 import { toast } from "sonner";
-import { useQuery } from "convex/react";
-import { api } from "@/convex/_generated/api";
 
-export function ContactForm() {
-  const contactData = useQuery(api.contact.get);
+type ContactFormProps = {
+  contactData: any;
+};
+
+export function ContactForm({ contactData }: ContactFormProps) {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -47,9 +48,6 @@ export function ContactForm() {
 
       const result = await response.json();
 
-      console.log("Web3Forms response:", result); // Debug logging
-      console.log("Email sent to:", contactData.submissionEmail); // Debug email recipient
-
       if (result.success) {
         toast.success("Thank you for your message! I'll get back to you soon.");
         // Reset form
@@ -60,12 +58,10 @@ export function ContactForm() {
           message: "",
         });
       } else {
-        console.error("Web3Forms error:", result);
         throw new Error(result.message || "Something went wrong!");
       }
     } catch (error) {
       toast.error("Failed to send message. Please try again later.");
-      console.error("Form submission error:", error);
     } finally {
       setLoading(false);
     }
@@ -80,38 +76,8 @@ export function ContactForm() {
     });
   };
 
-  // If contact data is not loaded yet, show skeleton UI
   if (!contactData) {
-    return (
-      <div className="space-y-6">
-        {/* Skeleton for the name and email fields */}
-        <div className="grid md:grid-cols-2 gap-6">
-          <div className="space-y-2">
-            <div className="h-4 w-16 bg-gray-200 dark:bg-[#222F43] rounded animate-pulse"></div>
-            <div className="h-12 w-full bg-gray-200 dark:bg-[#222F43] rounded-xl animate-pulse"></div>
-          </div>
-          <div className="space-y-2">
-            <div className="h-4 w-16 bg-gray-200 dark:bg-[#222F43] rounded animate-pulse"></div>
-            <div className="h-12 w-full bg-gray-200 dark:bg-[#222F43] rounded-xl animate-pulse"></div>
-          </div>
-        </div>
-
-        {/* Skeleton for the subject field */}
-        <div className="space-y-2">
-          <div className="h-4 w-20 bg-gray-200 dark:bg-[#222F43] rounded animate-pulse"></div>
-          <div className="h-12 w-full bg-gray-200 dark:bg-[#222F43] rounded-xl animate-pulse"></div>
-        </div>
-
-        {/* Skeleton for the message field */}
-        <div className="space-y-2">
-          <div className="h-4 w-24 bg-gray-200 dark:bg-[#222F43] rounded animate-pulse"></div>
-          <div className="h-40 w-full bg-gray-200 dark:bg-[#222F43] rounded-xl animate-pulse"></div>
-        </div>
-
-        {/* Skeleton for the submit button */}
-        <div className="h-12 w-40 bg-gray-200 dark:bg-[#222F43] rounded-full animate-pulse"></div>
-      </div>
-    );
+    return null;
   }
 
   return (

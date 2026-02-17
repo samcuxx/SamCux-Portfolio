@@ -2,10 +2,10 @@ import { ContactContent } from "@/components/Contact/ContactContent";
 import BgGlow from "@/components/ui/BgGlow";
 import { ScrollProgress } from "@/components/ui/ScrollProgress";
 import type { Metadata } from "next";
+import { fetchContactData } from "@/lib/convex-server";
 
-// Add static rendering config
-export const dynamic = 'force-static';
-export const revalidate = 3600; // Revalidate every hour
+export const dynamic = "force-static";
+export const revalidate = 3600;
 
 export const metadata: Metadata = {
   title: "Contact | SamCux - Software Engineer & Content Creator",
@@ -23,12 +23,14 @@ export const metadata: Metadata = {
   },
 };
 
-export default function Contact() {
+export default async function Contact() {
+  const contactData = await fetchContactData();
+
   return (
     <div className="font-inter relative pt-7 md:pt-24">
       <ScrollProgress />
       <BgGlow />
-      <ContactContent />
+      <ContactContent contactData={contactData} />
     </div>
   );
 }

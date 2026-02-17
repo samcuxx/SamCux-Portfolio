@@ -2,10 +2,10 @@ import { HomeContent } from "@/components/Home/HomeContent";
 import BgGlow from "@/components/ui/BgGlow";
 import { ScrollProgress } from "@/components/ui/ScrollProgress";
 import type { Metadata } from "next";
+import { fetchProjectsData } from "@/lib/convex-server";
 
-// Add static rendering config
 export const dynamic = "force-static";
-export const revalidate = 3600; // Revalidate every hour
+export const revalidate = 3600;
 
 export const metadata: Metadata = {
   title: "SamCux - Software Engineer & Content Creator",
@@ -25,12 +25,14 @@ export const metadata: Metadata = {
   },
 };
 
-export default function Home() {
+export default async function Home() {
+  const projectsData = await fetchProjectsData();
+
   return (
     <div className="flex flex-col items-center justify-center w-full font-inter relative ">
       <ScrollProgress />
       <BgGlow />
-      <HomeContent />
+      <HomeContent initialProjects={projectsData || []} />
     </div>
   );
 }

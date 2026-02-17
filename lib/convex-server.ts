@@ -61,3 +61,10 @@ export async function fetchProjectsData() {
 export async function fetchPhotosData() {
   return fetchConvexData(api.photos.getAll);
 }
+
+/**
+ * Fetch contact data
+ */
+export async function fetchContactData() {
+  return fetchConvexData(api.contact.get);
+}

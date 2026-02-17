@@ -8,13 +8,6 @@ type PhotosGridProps = {
 };
 
 export function PhotosGrid({ initialPhotos }: PhotosGridProps) {
-  // Loading state for images
-  const [imagesLoaded, setImagesLoaded] = React.useState<Record<string, boolean>>({});
-  
-  const handleImageLoaded = (id: string) => {
-    setImagesLoaded(prev => ({ ...prev, [id]: true }));
-  };
-
   const sortedPhotos = React.useMemo(() => {
     if (!initialPhotos || initialPhotos.length === 0) return [];
     return [...initialPhotos].sort((a, b) => {
@@ -53,48 +46,28 @@ export function PhotosGrid({ initialPhotos }: PhotosGridProps) {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {sortedPhotos.map((photo, index) => {
-          const isImageLoaded = imagesLoaded[photo._id] || false;
-
-          return (
-            <div
-              key={photo._id}
-              className={`group relative bg-white dark:bg-[#131C31] rounded-xl overflow-hidden
-                border ${photo.featured ? 'border-[#ffe400]' : 'border-gray-100 dark:border-[#222F43]'} hover:border-[#ffe400] 
-                dark:hover:border-[#ffe400] transition-all duration-300 animate-slideInUp`}
-              style={{ animationDelay: `${index * 0.1}s` }}
-            >
-              {photo.featured && (
-                <div className="absolute top-2 right-2 z-10 bg-[#ffe400] text-[#101010] text-xs font-medium px-2 py-1 rounded-full">
-                  Featured
-                </div>
+        {sortedPhotos.map((photo) => (
+          <div
+            key={photo._id}
+            className={`group relative bg-white dark:bg-[#131C31] rounded-xl overflow-hidden
+              border ${photo.featured ? "border-[#ffe400]" : "border-gray-100 dark:border-[#222F43]"} hover:border-[#ffe400]
+              dark:hover:border-[#ffe400] transition-all duration-300`}
+          >
+            {photo.featured && (
+              <div className="absolute top-2 right-2 z-10 bg-[#ffe400] text-[#101010] text-xs font-medium px-2 py-1 rounded-full">
+                Featured
+              </div>
+            )}
+            <div className="relative aspect-square overflow-hidden">
+              {photo.imageUrl && (
+                <OptimizedImage
+                  src={photo.imageUrl}
+                  alt={photo.title}
+                  fill
+                  sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
+                  className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-300"
+                />
               )}
-              <div className="relative aspect-square overflow-hidden">
-                {/* Skeleton loader */}
-                {!isImageLoaded && (
-                  <div className="absolute inset-0">
-                    <div className="w-full h-full bg-gray-200 dark:bg-[#1E293B]">
-                      <div className="h-full w-full bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200 dark:from-[#1E293B] dark:via-[#2A3A50] dark:to-[#1E293B] bg-[length:400%_100%] animate-shimmer" />
-                    </div>
-                  </div>
-                )}
-                
-                {photo.imageUrl && (
-                  <OptimizedImage
-                    src={photo.imageUrl}
-                    alt={photo.title}
-                    fill
-                    sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
-                    className={`object-cover w-full h-full group-hover:scale-105 transition-transform duration-300 ${
-                      isImageLoaded ? "opacity-100" : "opacity-0"
-                    }`}
-                    onLoadingComplete={() => handleImageLoaded(photo._id)}
-                    onError={() => {
-                      console.log("Image failed to load, using fallback");
-                      handleImageLoaded(photo._id);
-                    }}
-                  />
-                )}
                 <div
                   className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent 
                   opacity-0 group-hover:opacity-100 transition-opacity duration-300 
@@ -111,8 +84,7 @@ export function PhotosGrid({ initialPhotos }: PhotosGridProps) {
                 </div>
               </div>
             </div>
-          );
-        })}
+        ))}
       </div>
     </div>
   );

@@ -1,20 +1,17 @@
 import React from "react";
 import { HeroSection } from "./HeroSection";
-// import { SkillsSection } from "./SkillsSection";
-// import { LatestProjects } from "./LatestProjects";
-// import { ContactSection } from "./ContactSection";
+import { LatestProjects } from "./LatestProjects";
 
-export function HomeContent() {
+type HomeContentProps = {
+  initialProjects: any[];
+};
+
+export function HomeContent({ initialProjects }: HomeContentProps) {
   return (
     <div className="max-w-6xl mx-auto px-6 mb-20">
       <div className="space-y-24">
         <HeroSection />
-        {/* <LatestProjects /> */}
-        
-        {/* <div className="hidden md:block">
-          <SkillsSection />
-        </div> */}
-        {/* <ContactSection /> */}
+        <LatestProjects initialProjects={initialProjects} />
       </div>
     </div>
   );

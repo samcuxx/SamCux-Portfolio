@@ -52,7 +52,6 @@ export function AboutEducation({ educationData }: AboutEducationProps) {
             className="group p-4 bg-white dark:bg-[#131C31] rounded-xl border border-gray-100 
               dark:border-[#222F43] hover:border-[#ffe400] dark:hover:border-[#ffe400] 
               transition-all duration-300 animate-slideInUp"
-            style={{ animationDelay: `${index * 0.1}s` }}
           >
             <div className="flex items-center gap-2 mb-2">
               <div className="p-2 bg-[#ffe400] bg-opacity-10 rounded-lg">

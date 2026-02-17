@@ -52,7 +52,6 @@ export default function AboutExperience({
               className="relative pl-6 border-l-2 border-[#ffe400] dark:border-[#ffe400] 
                 animate-slideInUp group hover:bg-gray-50 dark:hover:bg-[#131C31] p-6 
                 rounded-xl transition-all duration-300 hover:border-l-4"
-              style={{ animationDelay: `${index * 0.1}s` }}
             >
               <div
                 className="absolute -left-[9px] top-8 w-4 h-4 rounded-full bg-[#ffe400] 

@@ -20,78 +20,52 @@ interface Project {
   featured: boolean;
 }
 
-// Create a component for featured project card to handle image loading
 function FeaturedProjectCard({
   project,
-  onClick
+  onClick,
 }: {
   project: Project;
   onClick: (project: Project) => void;
 }) {
-  const [imageLoaded, setImageLoaded] = useState(false);
   const [imageError, setImageError] = useState(false);
-
-  // Determine if the URL is a storage ID or a full URL
-  const isStorageId = project.imageUrl && !project.imageUrl.includes("://") && !project.imageUrl.startsWith("/");
-
-  // Use the optimized image URL function directly with the storage ID if applicable
-  // If it's already a URL (external link), use it as is
+  const isStorageId =
+    project.imageUrl &&
+    !project.imageUrl.includes("://") &&
+    !project.imageUrl.startsWith("/");
   const displayImageUrl = isStorageId
     ? getOptimizedImageUrl(project.imageUrl)
     : project.imageUrl;
-
-  // Check if we have a valid image URL
   const hasValidImage = Boolean(displayImageUrl) && displayImageUrl !== null;
 
   return (
     <div
       key={project._id}
       className="group relative bg-white dark:bg-[#131C31] rounded-2xl overflow-hidden
-        border border-gray-100 dark:border-[#222F43] hover:border-[#ffe400] 
-        dark:hover:border-[#ffe400] transition-all duration-300 animate-slideInUp
+        border border-gray-100 dark:border-[#222F43] hover:border-[#ffe400]
+        dark:hover:border-[#ffe400] transition-all duration-300
         shadow-sm hover:shadow-md cursor-pointer"
-      style={{ animationDelay: `${0.1}s` }}
       onClick={() => onClick(project)}
     >
       <div className="grid md:grid-cols-2 gap-6">
-        {/* Image Section - Fixed height to maintain consistent sizing */}
         <div className="relative overflow-hidden" style={{ minHeight: "250px" }}>
-          {hasValidImage ? (
-            <>
-              {/* Skeleton placeholder that maintains the space */}
-              <div
-                className={`absolute inset-0 bg-gray-200 dark:bg-[#222F43] animate-pulse rounded-l-2xl md:rounded-l-2xl md:rounded-r-none transition-opacity duration-500 ${
-                  imageLoaded || imageError ? "opacity-0" : "opacity-100"
-                }`}
-              />
-
-              {imageError ? (
-                <OptimizedImage
-                  src="/placeholder-image.jpg"
-                  alt={project.title}
-                  fill
-                  sizes="(min-width: 1024px) 50vw, 100vw"
-                  className="object-cover w-full h-full absolute inset-0 transition-opacity duration-500 opacity-100"
-                />
-              ) : (
-                <OptimizedImage
-                  src={displayImageUrl as string}
-                  alt={project.title}
-                  fill
-                  sizes="(min-width: 1024px) 50vw, 100vw"
-                  className={`object-cover w-full h-full absolute inset-0 transition-opacity duration-500 ${
-                    imageLoaded ? "opacity-100" : "opacity-0"
-                  }`}
-                  onLoadingComplete={() => setImageLoaded(true)}
-                  onError={() => {
-                    setImageError(true);
-                    setImageLoaded(true);
-                  }}
-                />
-              )}
-            </>
+          {hasValidImage && !imageError ? (
+            <OptimizedImage
+              src={displayImageUrl as string}
+              alt={project.title}
+              fill
+              sizes="(min-width: 1024px) 50vw, 100vw"
+              className="object-cover w-full h-full absolute inset-0"
+              onError={() => setImageError(true)}
+            />
+          ) : hasValidImage && imageError ? (
+            <OptimizedImage
+              src="/placeholder-image.jpg"
+              alt={project.title}
+              fill
+              sizes="(min-width: 1024px) 50vw, 100vw"
+              className="object-cover w-full h-full absolute inset-0"
+            />
           ) : (
-            // No image placeholder
             <div className="absolute inset-0 bg-gray-200 dark:bg-[#1E2A45] flex items-center justify-center rounded-l-2xl md:rounded-l-2xl md:rounded-r-none">
               <span className="text-gray-400 dark:text-[#66768f] text-sm">No image available</span>
             </div>
