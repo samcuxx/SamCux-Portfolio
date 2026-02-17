@@ -1,42 +1,11 @@
 "use client";
 
 import React from "react";
-import { ArrowRight, Github, Linkedin, Mail, Link2 } from "lucide-react";
-import MagneticLink from "../ui/MagneticLink";
+import { ArrowRight } from "lucide-react";
 import AnimatedText from "../ui/AnimatedText";
 import { MorphingText } from "../ui/MorphingText";
 import Link from "next/link";
-
-const HERO_SOCIAL_LINKS = [
-  {
-    icon: "Github",
-    url: "https://github.com/samcuxx",
-    platform: "GitHub",
-  },
-  {
-    icon: "Linkedin",
-    url: "https://linkedin.com/in/samcux",
-    platform: "LinkedIn",
-  },
-  {
-    icon: "Mail",
-    url: "mailto:samcuxx@gmail.com",
-    platform: "Email",
-  },
-] as const;
-
-const renderSocialIcon = (iconName: string) => {
-  switch (iconName) {
-    case "Github":
-      return <Github className="w-5 h-5" />;
-    case "Linkedin":
-      return <Linkedin className="w-5 h-5" />;
-    case "Mail":
-      return <Mail className="w-5 h-5" />;
-    default:
-      return <Link2 className="w-5 h-5" />;
-  }
-};
+import { HeroContactWidget } from "./HeroContactWidget";
 
 export function HeroSection() {
 
@@ -89,36 +58,12 @@ export function HeroSection() {
           through clean code and thoughtful engineering solutions.
         </p>
 
-        <div
-          className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4 animate-slideInUp"
-          style={{ animationDelay: "0.6s" }}
-        >
-          <Link
-            href="/contact"
-            className="inline-flex items-center gap-2 px-8 py-4 bg-[#ffe400] 
-              text-[#101010] rounded-full font-semibold hover:scale-105 
-              transition-transform group"
-          >
-            Let&apos;s Talk
-            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-          </Link>
-
-          <div className="flex gap-3">
-            {HERO_SOCIAL_LINKS.map((link, index) => (
-              <MagneticLink
-                key={index}
-                href={link.url}
-                className="p-3 rounded-lg bg-white dark:bg-sa-dark-foregroung border 
-                  border-gray-200 dark:border-sa-dark-border hover:border-[#ffe400]
-                  dark:hover:border-[#ffe400] transition-all duration-300
-                  hover:scale-110 group"
-                aria-label={link.platform}
-              >
-                {renderSocialIcon(link.icon)}
-              </MagneticLink>
-            ))}
-          </div>
+        {/* Contact: email + pill social bar (sameerasw-style) */}
+        <div className="pt-2 animate-slideInUp" style={{ animationDelay: "0.5s" }}>
+          <HeroContactWidget />
         </div>
+
+     
       </div>
     </div>
   );
