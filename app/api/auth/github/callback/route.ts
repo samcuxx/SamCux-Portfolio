@@ -22,7 +22,9 @@ export async function GET(request: NextRequest) {
   
   // Verify the state to prevent CSRF attacks
   if (!state || !storedState || state !== storedState) {
-    return NextResponse.redirect(new URL("/admin/login?error=invalid_state", request.url));
+    const protocol = process.env.NODE_ENV === "production" ? "https" : "http";
+    const host = request.nextUrl.host;
+    return NextResponse.redirect(new URL("/admin/login?error=invalid_state", `${protocol}://${host}`));
   }
   
   // Exchange the code for an access token
@@ -32,7 +34,9 @@ export async function GET(request: NextRequest) {
   
   if (!clientId || !clientSecret) {
     console.error("GitHub OAuth error: Client ID or Client Secret is missing");
-    return NextResponse.redirect(new URL("/admin/login?error=configuration", request.url));
+    const protocol = process.env.NODE_ENV === "production" ? "https" : "http";
+    const host = request.nextUrl.host;
+    return NextResponse.redirect(new URL("/admin/login?error=configuration", `${protocol}://${host}`));
   }
   
   try {
@@ -54,7 +58,9 @@ export async function GET(request: NextRequest) {
     
     if (tokenData.error) {
       console.error("GitHub OAuth error:", tokenData.error);
-      return NextResponse.redirect(new URL("/admin/login?error=token", request.url));
+      const protocol = process.env.NODE_ENV === "production" ? "https" : "http";
+      const host = request.nextUrl.host;
+      return NextResponse.redirect(new URL("/admin/login?error=token", `${protocol}://${host}`));
     }
     
     const accessToken = tokenData.access_token;
@@ -110,8 +116,12 @@ export async function GET(request: NextRequest) {
     
     console.log("Setting github_user cookie with data:", JSON.stringify(userDataForCookie));
     
+    // Build the redirect URL - ensure http in development, https in production
+    const protocol = process.env.NODE_ENV === "production" ? "https" : "http";
+    const redirectUrl = new URL("/admin", `${protocol}://${request.nextUrl.host}`);
+    
     // Store the user data in a cookie or session
-    const response = NextResponse.redirect(new URL("/admin", request.url));
+    const response = NextResponse.redirect(redirectUrl);
     
     // Set a cookie with the user data - ensure it's not HttpOnly for client access
     response.cookies.set("github_user", JSON.stringify(userDataForCookie), {
@@ -134,6 +144,8 @@ export async function GET(request: NextRequest) {
     return response;
   } catch (error) {
     console.error("GitHub OAuth error:", error);
-    return NextResponse.redirect(new URL("/admin/login?error=unknown", request.url));
+    const protocol = process.env.NODE_ENV === "production" ? "https" : "http";
+    const host = request.nextUrl.host;
+    return NextResponse.redirect(new URL("/admin/login?error=unknown", `${protocol}://${host}`));
   }
 } 
