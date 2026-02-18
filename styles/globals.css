@@ -2,6 +2,19 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Locomotive Scroll (smooth/inertia scrolling) */
+html.has-scroll-smooth {
+  overflow: hidden;
+}
+
+.has-scroll-smooth body {
+  overflow: hidden;
+}
+
+.has-scroll-smooth [data-scroll-container] {
+  min-height: 100vh;
+}
+
 @keyframes wave {
   0% {
     transform: rotate(0deg);

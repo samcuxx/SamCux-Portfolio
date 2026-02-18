@@ -1,6 +1,5 @@
 import { ContactContent } from "@/components/Contact/ContactContent";
 import BgGlow from "@/components/ui/BgGlow";
-import { ScrollProgress } from "@/components/ui/ScrollProgress";
 import type { Metadata } from "next";
 import { fetchContactData } from "@/lib/convex-server";
 
@@ -28,7 +27,6 @@ export default async function Contact() {
 
   return (
     <div className="font-inter relative pt-7 md:pt-24">
-      <ScrollProgress />
       <BgGlow />
       <ContactContent contactData={contactData} />
     </div>

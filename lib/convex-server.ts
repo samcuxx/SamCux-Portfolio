@@ -51,15 +51,15 @@ export async function fetchTechStackData() {
 /**
  * Fetch all Projects data
  */
-export async function fetchProjectsData() {
-  return fetchConvexData(api.projects.getAll);
+export async function fetchProjectsData(): Promise<any[] | null> {
+  return fetchConvexData<any[]>(api.projects.getAll);
 }
 
 /**
  * Fetch all Photos data
  */
-export async function fetchPhotosData() {
-  return fetchConvexData(api.photos.getAll);
+export async function fetchPhotosData(): Promise<any[] | null> {
+  return fetchConvexData<any[]>(api.photos.getAll);
 }
 
 /**

@@ -1,6 +1,5 @@
 import { HomeContent } from "@/components/Home/HomeContent";
 import BgGlow from "@/components/ui/BgGlow";
-import { ScrollProgress } from "@/components/ui/ScrollProgress";
 import type { Metadata } from "next";
 import { fetchProjectsData } from "@/lib/convex-server";
 
@@ -26,11 +25,10 @@ export const metadata: Metadata = {
 };
 
 export default async function Home() {
-  const projectsData = await fetchProjectsData();
+  const projectsData = (await fetchProjectsData()) as any[] | null;
 
   return (
     <div className="flex flex-col items-center justify-center w-full font-inter relative ">
-      <ScrollProgress />
       <BgGlow />
       <HomeContent initialProjects={projectsData || []} />
     </div>

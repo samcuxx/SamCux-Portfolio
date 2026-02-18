@@ -1,6 +1,5 @@
 import { PhotosContent } from "@/components/Photos/PhotosContent";
 import BgGlow from "@/components/ui/BgGlow";
-import { ScrollProgress } from "@/components/ui/ScrollProgress";
 import type { Metadata } from "next";
 import { fetchPhotosData } from "@/lib/convex-server";
 
@@ -24,11 +23,10 @@ export const metadata: Metadata = {
 };
 
 export default async function Photos() {
-  const photosData = await fetchPhotosData();
+  const photosData = (await fetchPhotosData()) as any[] | null;
 
   return (
     <div className="w-full font-inter relative pt-7 md:pt-24">
-      <ScrollProgress />
       <BgGlow />
       <PhotosContent initialPhotos={photosData || []} />
     </div>
