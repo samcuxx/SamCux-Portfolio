@@ -20,7 +20,7 @@ export default function FrontendLayout({
       <Navbar />
       <SmoothScrollProvider>
         <ScrollProgress />
-        <main className="min-h-[calc(100vh-64px)] pt-16">{children}</main>
+        <main className="min-h-[calc(100vh-64px)] pt-2 md:pt-16">{children}</main>
         <Footer />
       </SmoothScrollProvider>
     </>
