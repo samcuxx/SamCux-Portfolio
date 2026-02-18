@@ -2,6 +2,7 @@ import Navbar from "@/components/global/Navbar";
 import { Footer } from "@/components/global/Footer";
 import { Metadata } from "next";
 import { SmoothScrollProvider } from "@/components/ui/SmoothScrollProvider";
+import { ScrollProgress } from "@/components/ui/ScrollProgress";
 
 export const metadata: Metadata = {
   title: "SamCux",
@@ -18,6 +19,7 @@ export default function FrontendLayout({
     <>
       <Navbar />
       <SmoothScrollProvider>
+        <ScrollProgress />
         <main className="min-h-[calc(100vh-64px)] pt-16">{children}</main>
         <Footer />
       </SmoothScrollProvider>

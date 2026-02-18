@@ -2,6 +2,7 @@ import { HomeContent } from "@/components/Home/HomeContent";
 import BgGlow from "@/components/ui/BgGlow";
 import type { Metadata } from "next";
 import { fetchProjectsData } from "@/lib/convex-server";
+import { ScrollProgress } from "@/components/ui/ScrollProgress";
 
 export const dynamic = "force-static";
 export const revalidate = 3600;
@@ -31,6 +32,7 @@ export default async function Home() {
     <div className="flex flex-col items-center justify-center w-full font-inter relative ">
       <BgGlow />
       <HomeContent initialProjects={projectsData || []} />
+
     </div>
   );
 }
