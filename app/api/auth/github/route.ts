@@ -21,9 +21,21 @@ export async function GET(request: NextRequest) {
   // Generate a random state value for security
   const state = Math.random().toString(36).substring(2, 15);
   
-  // Get the origin for the callback URL
-  const origin = request.headers.get("origin") || request.nextUrl.origin;
-  const callbackUrl = `${origin}/api/auth/github/callback`;
+  // Get the callback URL - use environment variable in production, fallback to request origin in development
+  let callbackUrl: string;
+  if (process.env.NODE_ENV === "production") {
+    // In production, use the configured production URL to ensure exact match with GitHub OAuth settings
+    const productionUrl = process.env.NEXT_PUBLIC_APP_URL || process.env.NEXT_PUBLIC_SITE_URL || "https://www.samcux.com";
+    callbackUrl = `${productionUrl}/api/auth/github/callback`;
+  } else {
+    // In development, use the request origin
+    const origin = request.headers.get("origin") || request.nextUrl.origin;
+    callbackUrl = `${origin}/api/auth/github/callback`;
+  }
+  
+  // Log the callback URL for debugging
+  console.log("OAuth callback URL:", callbackUrl);
+  console.log("Production URL env:", process.env.NEXT_PUBLIC_APP_URL || process.env.NEXT_PUBLIC_SITE_URL || "not set");
   
   // Store the state in a cookie for verification when the user returns
   const response = NextResponse.redirect(
