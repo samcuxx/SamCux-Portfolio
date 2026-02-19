@@ -4,7 +4,7 @@ import MagneticLink from "../ui/MagneticLink";
 
 export function ProjectsIntro() {
   return (
-    <div className="space-y-6 animate-slideInUp">
+    <div className="space-y-6 animate-slideInUp mb-12">
       <div className="relative">
         <p className="text-gray-600 dark:text-[#66768f] leading-relaxed text-left md:text-center max-w-2xl mx-auto">
           Explore my portfolio of projects showcasing my expertise in web development,

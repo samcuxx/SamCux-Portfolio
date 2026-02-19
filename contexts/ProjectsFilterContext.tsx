@@ -1,91 +1,72 @@
-"use client"
-import React, { createContext, useState, useMemo, useEffect } from "react";
+"use client";
+import React, { createContext, useState, useMemo } from "react";
 
-const ITEMS_PER_PAGE = 9;
+type ViewMode = "list" | "grid";
 
 type ProjectsFilterContextType = {
   activeFilter: string;
   setActiveFilter: (filter: string) => void;
-  searchQuery: string;
-  setSearchQuery: (query: string) => void;
-  currentPage: number;
-  totalPages: number;
-  handlePageChange: (page: number) => void;
-  filters: string[];
+  viewMode: ViewMode;
+  setViewMode: (mode: ViewMode) => void;
+  filters: { label: string; count: number }[];
   filteredProjects: any[];
   totalProjects: number;
 };
 
-export const ProjectsFilterContext = createContext<ProjectsFilterContextType | null>(null);
+export const ProjectsFilterContext =
+  createContext<ProjectsFilterContextType | null>(null);
 
 type ProjectsFilterProviderProps = {
   children: React.ReactNode;
   initialProjects: any[];
 };
 
-export function ProjectsFilterProvider({ 
+export function ProjectsFilterProvider({
   children,
-  initialProjects = []
+  initialProjects = [],
 }: ProjectsFilterProviderProps) {
   const [activeFilter, setActiveFilter] = useState("All");
-  const [searchQuery, setSearchQuery] = useState("");
-  const [currentPage, setCurrentPage] = useState(1);
+  const [viewMode, setViewMode] = useState<ViewMode>("list");
 
-  const filters = ["All", "Web", "Mobile", "UI/UX", "Other"];
-  
+  const filters = useMemo(() => {
+    if (!initialProjects || initialProjects.length === 0)
+      return [{ label: "All", count: 0 }];
+
+    const categoryMap: Record<string, number> = {};
+    for (const project of initialProjects) {
+      const cat = project.category || "Other";
+      categoryMap[cat] = (categoryMap[cat] || 0) + 1;
+    }
+
+    return [
+      { label: "All", count: initialProjects.length },
+      ...Object.entries(categoryMap)
+        .sort(([a], [b]) => a.localeCompare(b))
+        .map(([label, count]) => ({ label, count })),
+    ];
+  }, [initialProjects]);
+
   const filteredProjects = useMemo(() => {
     if (!initialProjects || initialProjects.length === 0) return [];
 
-    return (initialProjects as any[]).filter((project) => {
-        const matchesFilter = activeFilter === "All" ? true : project.category === activeFilter;
-        const matchesSearch = searchQuery.toLowerCase().trim() === "" ? true :
-          project.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          project.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          project.tags.some((tag: string) => tag.toLowerCase().includes(searchQuery.toLowerCase()));
-        return matchesFilter && matchesSearch && !project.featured;
-      });
-  }, [activeFilter, searchQuery, initialProjects]);
+    if (activeFilter === "All") return initialProjects;
 
-  const totalPages = Math.ceil(filteredProjects.length / ITEMS_PER_PAGE);
-  
-  const paginatedProjects = useMemo(() => {
-    return filteredProjects.slice(
-      (currentPage - 1) * ITEMS_PER_PAGE,
-      currentPage * ITEMS_PER_PAGE
+    return initialProjects.filter(
+      (project) => project.category === activeFilter,
     );
-  }, [filteredProjects, currentPage]);
-
-  // Reset to first page when filter or search changes
-  useEffect(() => {
-    setCurrentPage(1);
-  }, [activeFilter, searchQuery]);
-
-  const handlePageChange = (page: number) => {
-    setCurrentPage(page);
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  };
+  }, [activeFilter, initialProjects]);
 
   const value = useMemo(
     () => ({
       activeFilter,
       setActiveFilter,
-      searchQuery,
-      setSearchQuery,
-      currentPage,
-      totalPages,
-      handlePageChange,
+      viewMode,
+      setViewMode,
       filters,
-      filteredProjects: paginatedProjects,
+      filteredProjects,
       totalProjects: filteredProjects.length,
     }),
-    [
-      activeFilter,
-      searchQuery,
-      currentPage,
-      totalPages,
-      filters,
-      paginatedProjects,
-    ]
+    [activeFilter, viewMode, filters, filteredProjects],
   );
 
   return (
@@ -93,4 +74,4 @@ export function ProjectsFilterProvider({
       {children}
     </ProjectsFilterContext.Provider>
   );
-} 
+}
